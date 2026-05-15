@@ -18,6 +18,20 @@ export default function OrionLayout({ children }: { children: React.ReactNode })
   const router = useRouter()
   const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
   const [alertCount, setAlertCount] = useState(0)
+  const [checking, setChecking] = useState(true)
+
+  useEffect(() => {
+    async function checkSession() {
+      if (pathname === '/orion/login') { setChecking(false); return }
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session) {
+        router.replace('/orion/login')
+      } else {
+        setChecking(false)
+      }
+    }
+    checkSession()
+  }, [pathname])
 
   useEffect(() => {
     async function fetchAlertCount() {
@@ -27,8 +41,8 @@ export default function OrionLayout({ children }: { children: React.ReactNode })
         .eq('acknowledged', false)
       setAlertCount(count || 0)
     }
-    fetchAlertCount()
-  }, [supabase])
+    if (!checking) fetchAlertCount()
+  }, [checking])
 
   async function handleLogout() {
     await supabase.auth.signOut()
@@ -36,6 +50,7 @@ export default function OrionLayout({ children }: { children: React.ReactNode })
   }
 
   if (pathname === '/orion/login') return <>{children}</>
+  if (checking) return <div style={{ minHeight: '100vh', background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#3DC898', letterSpacing: '0.3em', fontSize: '0.8rem' }}>ORION</div>
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: '#000', fontFamily: 'system-ui, sans-serif' }}>
