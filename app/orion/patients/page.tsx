@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { createBrowserClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@supabase/supabase-js'
 import Link from 'next/link'
 
 interface Patient {
@@ -18,7 +18,7 @@ interface Patient {
 }
 
 export default function PatientsPage() {
-  const supabase = createBrowserClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
+  const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
   const [patients, setPatients] = useState<Patient[]>([])
   const [search, setSearch] = useState('')
   const [loading, setLoading] = useState(true)

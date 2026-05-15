@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { createBrowserClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@supabase/supabase-js'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { PROTOCOL_CATALOG } from '@/lib/orion/knowledge-base'
@@ -33,7 +33,7 @@ const allProtocols = [
 export default function NewProtocol() {
   const { id } = useParams()
   const router = useRouter()
-  const supabase = createBrowserClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
+  const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
   const [step, setStep] = useState<Step>(1)
   const [selected, setSelected] = useState<typeof allProtocols[0] | null>(null)
   const [form, setForm] = useState({ dose: '', dose_unit: '', frequency: 'daily', route: '', duration: '', reason: '', notes: '', start_date: new Date().toISOString().split('T')[0], end_date: '' })
