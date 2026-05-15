@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createBrowserClient } from '@supabase/auth-helpers-nextjs'
 import Link from 'next/link'
 
 interface Protocol {
@@ -25,7 +25,7 @@ const categoryColors: Record<string, string> = {
 }
 
 export default function ProtocolsPage() {
-  const supabase = createClientComponentClient()
+  const supabase = createBrowserClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
   const [protocols, setProtocols] = useState<Protocol[]>([])
   const [filter, setFilter] = useState('all')
   const [loading, setLoading] = useState(true)
