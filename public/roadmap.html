@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Alchemist Miami — Project Roadmap</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #000; color: #F0E8D8; font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; padding: 2rem 1rem; }
+
+  .header { text-align: center; padding: 3rem 1rem 2rem; }
+  .symbol { font-size: 3.5rem; color: #C9963C; display: block; margin-bottom: 0.75rem; animation: breathe 4s ease-in-out infinite; }
+  .title { font-family: Georgia, serif; font-size: clamp(1.6rem, 4vw, 2.8rem); font-weight: 300; color: #C9963C; letter-spacing: 0.08em; margin-bottom: 0.5rem; }
+  .subtitle { font-size: 0.85rem; color: rgba(240,232,216,0.5); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 2.5rem; }
+
+  /* Progress bar */
+  .progress-wrap { max-width: 600px; margin: 0 auto 3rem; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 0.78rem; color: rgba(240,232,216,0.5); margin-bottom: 0.5rem; }
+  .progress-bar { height: 6px; background: rgba(201,150,60,0.15); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; width: 28%; background: linear-gradient(90deg, #C9963C, #E4B85A); border-radius: 3px; transition: width 1s ease; }
+
+  /* Grid */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; max-width: 1200px; margin: 0 auto 3rem; }
+
+  .phase { border-radius: 6px; padding: 1.5rem; position: relative; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; cursor: default; }
+  .phase:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,0.5); }
+  .phase-bar { position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+
+  .phase-done { background: rgba(61,200,152,0.06); border: 1px solid rgba(61,200,152,0.3); }
+  .phase-done .phase-bar { background: linear-gradient(90deg, #3DC898, #C9963C); }
+
+  .phase-now { background: rgba(201,150,60,0.08); border: 1px solid rgba(201,150,60,0.5); }
+  .phase-now .phase-bar { background: linear-gradient(90deg, #C9963C, #E4B85A); }
+
+  .phase-next { background: rgba(228,184,90,0.05); border: 1px solid rgba(228,184,90,0.3); }
+  .phase-next .phase-bar { background: linear-gradient(90deg, #E4B85A, #C9963C); }
+
+  .phase-content { background: rgba(61,200,152,0.04); border: 1px solid rgba(61,200,152,0.2); }
+  .phase-content .phase-bar { background: linear-gradient(90deg, #3DC898, #3DC898); }
+
+  .phase-legal { background: rgba(224,96,144,0.04); border: 1px solid rgba(224,96,144,0.2); }
+  .phase-legal .phase-bar { background: linear-gradient(90deg, #E06090, #C9963C); }
+
+  .phase-growth { background: rgba(201,150,60,0.04); border: 1px solid rgba(201,150,60,0.2); }
+  .phase-growth .phase-bar { background: linear-gradient(90deg, #C9963C, #3DC898); }
+
+  .phase-num { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; opacity: 0.5; margin-bottom: 0.4rem; }
+  .phase-title { font-family: Georgia, serif; font-size: 1.2rem; font-weight: 400; margin-bottom: 0.25rem; }
+  .phase-status { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1.25rem; padding: 0.2rem 0.6rem; border-radius: 2px; display: inline-block; }
+
+  .status-done { background: rgba(61,200,152,0.15); color: #3DC898; }
+  .status-now { background: rgba(201,150,60,0.2); color: #C9963C; }
+  .status-next { background: rgba(228,184,90,0.15); color: #E4B85A; }
+  .status-later { background: rgba(240,232,216,0.08); color: rgba(240,232,216,0.5); }
+
+  .items { list-style: none; }
+  .items li { font-size: 0.875rem; line-height: 1.8; color: rgba(240,232,216,0.75); display: flex; align-items: flex-start; gap: 0.5rem; }
+  .items li .dot { flex-shrink: 0; margin-top: 0.4rem; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+  .items li.done { color: rgba(61,200,152,0.8); }
+  .items li.urgent { color: rgba(201,150,60,0.9); }
+  .items li.mid { color: rgba(228,184,90,0.8); }
+
+  /* Accounts section */
+  .section-title { text-align: center; font-family: Georgia, serif; font-size: 1.5rem; font-weight: 300; color: #C9963C; margin-bottom: 0.5rem; }
+  .section-sub { text-align: center; font-size: 0.78rem; color: rgba(240,232,216,0.4); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1.5rem; }
+
+  .accounts { display: flex; flex-wrap: wrap; gap: 0.875rem; max-width: 1200px; margin: 0 auto 3rem; justify-content: center; }
+  .account { padding: 1rem 1.25rem; border-radius: 4px; min-width: 160px; text-align: center; transition: transform 0.2s; cursor: default; }
+  .account:hover { transform: translateY(-2px); }
+  .account-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+  .account-name { font-size: 0.9rem; font-weight: 500; margin-bottom: 0.2rem; }
+  .account-note { font-size: 0.72rem; color: rgba(240,232,216,0.4); }
+
+  .acc-done { background: rgba(61,200,152,0.08); border: 1px solid rgba(61,200,152,0.35); }
+  .acc-done .account-name { color: #3DC898; }
+  .acc-now { background: rgba(201,150,60,0.08); border: 1px solid rgba(201,150,60,0.4); }
+  .acc-now .account-name { color: #C9963C; }
+  .acc-mid { background: rgba(228,184,90,0.06); border: 1px solid rgba(228,184,90,0.25); }
+  .acc-mid .account-name { color: #E4B85A; }
+  .acc-later { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); }
+  .acc-later .account-name { color: rgba(240,232,216,0.6); }
+
+  /* Divider */
+  .divider { max-width: 1200px; margin: 0.5rem auto 2.5rem; border: none; border-top: 1px solid rgba(201,150,60,0.12); }
+
+  /* Footer */
+  .footer { text-align: center; padding: 2rem; font-size: 0.75rem; color: rgba(240,232,216,0.25); }
+  .footer span { color: #C9963C; }
+
+  @keyframes breathe { 0%,100%{transform:scale(1);opacity:.9} 50%{transform:scale(1.08);opacity:1} }
+
+  @media(max-width:600px) { .grid { grid-template-columns: 1fr; } .accounts { gap: 0.6rem; } .account { min-width: 140px; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="symbol">☿</span>
+  <div class="title">THE ALCHEMIST MIAMI</div>
+  <div class="subtitle">Project Roadmap · Built by Blue Ocean AI Systems</div>
+
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span>Overall Progress</span>
+      <span>28% Complete</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill"></div></div>
+  </div>
+</div>
+
+<!-- PHASES GRID -->
+<div class="grid">
+
+  <!-- Phase 1 -->
+  <div class="phase phase-done">
+    <div class="phase-bar"></div>
+    <div class="phase-num">Phase 1</div>
+    <div class="phase-title">Foundation</div>
+    <span class="phase-status status-done">✅ Complete</span>
+    <ul class="items">
+      <li class="done"><span class="dot"></span>Next.js 16 app built</li>
+      <li class="done"><span class="dot"></span>Lumina AI (Anthropic API)</li>
+      <li class="done"><span class="dot"></span>Resend emails connected</li>
+      <li class="done"><span class="dot"></span>Soul Assessment 7D</li>
+      <li class="done"><span class="dot"></span>Booking system</li>
+      <li class="done"><span class="dot"></span>Admin dashboard</li>
+    </ul>
+  </div>
+
+  <!-- Phase 2 -->
+  <div class="phase phase-now">
+    <div class="phase-bar"></div>
+    <div class="phase-num">Phase 2</div>
+    <div class="phase-title">Go Live</div>
+    <span class="phase-status status-now">🔴 Do Now</span>
+    <ul class="items">
+      <li class="urgent"><span class="dot"></span>Supabase → database for clients & bookings</li>
+      <li class="urgent"><span class="dot"></span>Vercel account → deploy to internet</li>
+      <li class="urgent"><span class="dot"></span>Buy domain thealchemist.miami (~$15)</li>
+      <li class="urgent"><span class="dot"></span>Connect domain to Vercel</li>
+      <li class="urgent"><span class="dot"></span>Verify domain in Resend → @thealchemist.miami emails</li>
+    </ul>
+  </div>
+
+  <!-- Phase 3 -->
+  <div class="phase phase-next">
+    <div class="phase-bar"></div>
+    <div class="phase-num">Phase 3</div>
+    <div class="phase-title">Monetize</div>
+    <span class="phase-status status-next">🟡 Next</span>
+    <ul class="items">
+      <li class="mid"><span class="dot"></span>Stripe account → online payments</li>
+      <li class="mid"><span class="dot"></span>First Alchemy — $199</li>
+      <li class="mid"><span class="dot"></span>21-Day Alchemy — $499</li>
+      <li class="mid"><span class="dot"></span>The Alchemist — $850/mo</li>
+      <li class="mid"><span class="dot"></span>Limitless Protocol — $2,200/mo</li>
+      <li class="mid"><span class="dot"></span>Inner Circle — $4,500/mo</li>
+      <li class="mid"><span class="dot"></span>Stripe webhooks → auto-activate memberships</li>
+    </ul>
+  </div>
+
+  <!-- Phase 4 -->
+  <div class="phase phase-content">
+    <div class="phase-bar"></div>
+    <div class="phase-num">Phase 4</div>
+    <div class="phase-title">Content</div>
+    <span class="phase-status status-later">🟢 Important</span>
+    <ul class="items">
+      <li><span class="dot"></span>Photos of Bella Vargas</li>
+      <li><span class="dot"></span>Photos of Dr. Michael J. Meighen</li>
+      <li><span class="dot"></span>Official logo of The Alchemist</li>
+      <li><span class="dot"></span>Physical address + phone number</li>
+      <li><span class="dot"></span>Instagram & social media links</li>
+      <li><span class="dot"></span>Testimonials from clients</li>
+    </ul>
+  </div>
+
+  <!-- Phase 5 -->
+  <div class="phase phase-legal">
+    <div class="phase-bar"></div>
+    <div class="phase-num">Phase 5</div>
+    <div class="phase-title">Legal & Compliance</div>
+    <span class="phase-status status-later">⚖️ Required</span>
+    <ul class="items">
+      <li><span class="dot"></span>Terms & Conditions page</li>
+      <li><span class="dot"></span>Privacy Policy page</li>
+      <li><span class="dot"></span>HIPAA compliance (medical data)</li>
+      <li><span class="dot"></span>Cookie consent banner</li>
+      <li><span class="dot"></span>Medical disclaimer</li>
+    </ul>
+  </div>
+
+  <!-- Phase 6 -->
+  <div class="phase phase-growth">
+    <div class="phase-bar"></div>
+    <div class="phase-num">Phase 6</div>
+    <div class="phase-title">Marketing & Growth</div>
+    <span class="phase-status status-later">🚀 Growth</span>
+    <ul class="items">
+      <li><span class="dot"></span>SEO optimization (meta tags, keywords)</li>
+      <li><span class="dot"></span>Google Business Profile</li>
+      <li><span class="dot"></span>Instagram for The Alchemist</li>
+      <li><span class="dot"></span>Google Analytics</li>
+      <li><span class="dot"></span>Google Calendar → sync bookings</li>
+      <li><span class="dot"></span>WhatsApp Business for Bella</li>
+      <li><span class="dot"></span>Email marketing campaigns</li>
+    </ul>
+  </div>
+
+</div>
+
+<hr class="divider">
+
+<!-- ACCOUNTS -->
+<div class="section-title">Accounts Needed</div>
+<div class="section-sub">Tools that power The Alchemist</div>
+
+<div class="accounts">
+  <div class="account acc-done">
+    <div class="account-icon">🤖</div>
+    <div class="account-name">Anthropic</div>
+    <div class="account-note">✅ Connected · Lumina AI</div>
+  </div>
+  <div class="account acc-done">
+    <div class="account-icon">📧</div>
+    <div class="account-name">Resend</div>
+    <div class="account-note">✅ Connected · Emails</div>
+  </div>
+  <div class="account acc-now">
+    <div class="account-icon">🗄️</div>
+    <div class="account-name">Supabase</div>
+    <div class="account-note">🔴 Needed · Free · supabase.com</div>
+  </div>
+  <div class="account acc-now">
+    <div class="account-icon">▲</div>
+    <div class="account-name">Vercel</div>
+    <div class="account-note">🔴 Needed · Free · vercel.com</div>
+  </div>
+  <div class="account acc-now">
+    <div class="account-icon">🌐</div>
+    <div class="account-name">Domain</div>
+    <div class="account-note">🔴 Needed · ~$15/yr · namecheap.com</div>
+  </div>
+  <div class="account acc-mid">
+    <div class="account-icon">💳</div>
+    <div class="account-name">Stripe</div>
+    <div class="account-note">🟡 Next · 2.9% fee · stripe.com</div>
+  </div>
+  <div class="account acc-later">
+    <div class="account-icon">📊</div>
+    <div class="account-name">Google Analytics</div>
+    <div class="account-note">🟢 Later · Free</div>
+  </div>
+  <div class="account acc-later">
+    <div class="account-icon">📍</div>
+    <div class="account-name">Google Business</div>
+    <div class="account-note">🟢 Later · Free</div>
+  </div>
+  <div class="account acc-later">
+    <div class="account-icon">📸</div>
+    <div class="account-name">Instagram Business</div>
+    <div class="account-note">🟢 Later · Free</div>
+  </div>
+  <div class="account acc-later">
+    <div class="account-icon">💬</div>
+    <div class="account-name">WhatsApp Business</div>
+    <div class="account-note">🟢 Later · Free</div>
+  </div>
+</div>
+
+<div class="footer">
+  ☿ THE ALCHEMIST MIAMI · Built by <span>Danae Pozo</span> · Blue Ocean AI Systems · Miami 2026
+</div>
+
+</body>
+</html>
