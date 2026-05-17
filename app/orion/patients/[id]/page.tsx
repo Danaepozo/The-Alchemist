@@ -1015,9 +1015,10 @@ export default function PatientProfile() {
                                     <div style={{ marginBottom: '0.75rem' }}>
                                       <div style={{ fontSize: '0.6rem', color: 'rgba(240,232,216,0.3)', letterSpacing: '0.15em', marginBottom: '0.4rem' }}>DEFICIENCIES IDENTIFIED</div>
                                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem' }}>
-                                        {a.deficiencies.map((d, i) => (
-                                          <span key={i} style={{ background: 'rgba(224,96,144,0.1)', border: '1px solid rgba(224,96,144,0.25)', color: '#E06090', padding: '0.2rem 0.5rem', borderRadius: 2, fontSize: '0.7rem' }}>{d}</span>
-                                        ))}
+                                        {a.deficiencies.map((d, i) => {
+                                          const label = typeof d === 'string' ? d : (d as { deficiency: string }).deficiency
+                                          return <span key={i} style={{ background: 'rgba(224,96,144,0.1)', border: '1px solid rgba(224,96,144,0.25)', color: '#E06090', padding: '0.2rem 0.5rem', borderRadius: 2, fontSize: '0.7rem' }}>{label}</span>
+                                        })}
                                       </div>
                                     </div>
                                   )}
