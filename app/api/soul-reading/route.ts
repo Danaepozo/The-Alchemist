@@ -2,77 +2,90 @@ import Anthropic from '@anthropic-ai/sdk'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { Resend } from 'resend'
+import { SOUL_READING_SYSTEM_PROMPT } from '@/lib/alchemist/soul-knowledge-base'
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
 export async function POST(req: NextRequest) {
   try {
     const { answers, name, email, lang = 'en' } = await req.json()
-
     const isSpanish = lang === 'es'
 
-    const prompt = isSpanish
-      ? `Eres el oráculo integrador de The Alchemist Miami — una fusión de la sabiduría de Bella Vargas (sanadora holística, Maestra de Reiki, especialista en Medicina Ancestral) y el Dr. Michael J. Meighen (Medicina de Precisión, Medicina Funcional, Optimización Hormonal, Terapia de Péptidos).
-
-Basándote en esta Evaluación del Alma, crea una "Lectura del Alma" profundamente personal para ${name || 'esta persona'}:
+    const userPrompt = isSpanish
+      ? `Genera una Lectura del Alma profunda y clínica para ${name || 'esta persona'}.
 
 RESPUESTAS DE LA EVALUACIÓN:
-${JSON.stringify(answers, null, 2)}
+${Object.entries(answers).map(([k, v]) => `[${k}]: ${v}`).join('\n\n')}
 
-Crea una Lectura del Alma con estas secciones. Escríbela completamente en español:
+Aplica TODOS los marcos de conocimiento relevantes que hayas recibido. Detecta patrones, heridas, dinámicas familiares, lecturas del cuerpo según biodescodificación, y el mapa chakral implícito en estas respuestas.
+
+Estructura tu lectura así (usa **Texto en Negrita** para cada título, NO encabezados con ##):
 
 **Tu Estado Actual**
-2-3 oraciones sobre lo que sus respuestas revelan holísticamente — el patrón más visible en este momento.
+Lo que sus respuestas revelan como el patrón central en este momento — el denominador común de todo lo que comparte.
 
 **Lo que Bella Ve**
-Lectura espiritual/energética — lo que Bella observaría en la energía de esta persona, patrones del sistema nervioso, cuerpo emocional e influencias ancestrales. Íntimo, preciso, visionario.
+La lectura energética y espiritual profunda — constelaciones familiares, patrones ancestrales, cuerpo emocional, chakras bloqueados. Nombra los patrones específicos con precisión.
 
 **Lo que el Dr. Meighen Ve**
-Perspectiva clínica — qué marcadores de medicina funcional podrían explicar sus síntomas físicos, qué patrones hormonales o celulares podrían estar en juego. Específico y basado en evidencia.
+La perspectiva clínica — qué marcadores funcionales o psicosomáticos probablemente están presentes, qué están diciendo los síntomas físicos según biodescodificación, qué patrones de estrés están afectando la biología.
 
-**Tu Camino Recomendado**
-Los servicios y protocolos específicos de The Alchemist que les servirían mejor, con una breve explicación del porqué. Personalizado para su perfil.
+**El Trabajo de la Sombra**
+Qué material de sombra (Jung) se detecta claramente. Qué está siendo proyectado. Qué parte del yo oculto es, paradójicamente, la fuente de su mayor poder sin descubrir.
+
+**El Sistema Familiar**
+Qué dinámicas de constelaciones familiares (Hellinger) están operando. Qué lealtades inconscientes, exclusiones o patrones de repetición son visibles.
+
+**Tu Camino de Sanación**
+Los servicios, modalidades y prácticas específicas de The Alchemist que abordarían directamente este perfil. Concreto y personalizado.
 
 **Tu Primera Alquimia**
-Una invitación personalizada para comenzar con la sesión First Alchemy ($199) — que se sienta como una invitación sagrada, no como una venta. Cálida y precisa.
+Una invitación sagrada y personalizada para comenzar con la sesión First Alchemy ($199). Cálida, precisa, que se sienta como destino.
 
 **Un Mensaje para Tu Alma**
-Una oración final poética y poderosa escrita directamente para esta persona — transformadora y profunda.
+Una frase final de transformación escrita directamente a esta persona — poderosa, poética, ganada.
 
-Escríbelo en español. Hazlo sentir como una lectura privada — íntima, precisa, sin usar encabezados con ##. Usa **texto en negrita** para los títulos de sección.`
-      : `You are the integrative oracle of The Alchemist Miami — a fusion of the wisdom of Bella Vargas (holistic healer, Reiki Master, Ancestral Medicine specialist) and Dr. Michael J. Meighen (Precision Medicine, Functional Medicine, Hormone Optimization, Peptide Therapy).
-
-Based on this Soul Assessment, create a deeply personal "Soul Reading" for ${name || 'this person'}:
+Escríbelo completamente en español. Sé específico, no genérico. Cada frase debe tener peso.`
+      : `Generate a deep, clinical Soul Reading for ${name || 'this person'}.
 
 ASSESSMENT ANSWERS:
-${JSON.stringify(answers, null, 2)}
+${Object.entries(answers).map(([k, v]) => `[${k}]: ${v}`).join('\n\n')}
 
-Create a Soul Reading with these sections. Write it entirely in English:
+Apply ALL relevant knowledge frameworks you have received. Detect patterns, wounds, family dynamics, body readings per biodescodificación, and the implicit chakra map in these answers.
+
+Structure your reading as follows (use **Bold Text** for each title, NO ## headers):
 
 **Your Current State**
-2-3 sentences about what their answers reveal holistically — the most visible pattern right now.
+What their answers reveal as the central pattern right now — the common denominator across everything they share.
 
 **Bella Sees**
-Spiritual/energetic reading — what Bella would observe in this person's energy, nervous system patterns, emotional body, and ancestral influences. Intimate, precise, visionary.
+The deep energetic and spiritual reading — family constellations, ancestral patterns, emotional body, blocked chakras. Name specific patterns with precision.
 
 **Dr. Meighen Sees**
-Clinical perspective — what functional medicine markers might explain their physical symptoms, what hormonal or cellular patterns could be at play. Specific and evidence-based.
+The clinical perspective — what functional or psychosomatic markers are likely present, what the physical symptoms are saying per biodescodificación, what stress patterns are affecting their biology.
 
-**Your Recommended Path**
-The specific services and protocols from The Alchemist that would serve them best, with a brief explanation why. Personalized to their profile.
+**Shadow Work**
+What shadow material (Jung) is clearly detectable. What is being projected. What part of the hidden self is, paradoxically, the source of their greatest undiscovered power.
+
+**The Family System**
+What family constellation dynamics (Hellinger) are operating. What unconscious loyalties, exclusions, or repetition patterns are visible.
+
+**Your Healing Path**
+The specific services, modalities, and practices from The Alchemist that would directly address this profile. Concrete and personalized.
 
 **Your First Alchemy**
-A personalized invitation to begin with The First Alchemy session ($199) — make it feel like a sacred invitation, not a sales pitch. Warm and precise.
+A sacred, personalized invitation to begin with the First Alchemy session ($199). Warm, precise, feeling like destiny.
 
 **A Message for Your Soul**
-A poetic, powerful closing sentence written directly to this person — transformational and deep.
+A final transformational sentence written directly to this person — powerful, poetic, earned.
 
-Write it entirely in English. Make it feel like a private reading — intimate and precise. Do NOT use ## headers. Use **bold text** for section titles.`
+Write it entirely in English. Be specific, not generic. Every sentence must carry weight.`
 
     const response = await client.messages.create({
       model: 'claude-sonnet-4-20250514',
-      max_tokens: 1400,
-      messages: [{ role: 'user', content: prompt }],
+      max_tokens: 2000,
+      system: SOUL_READING_SYSTEM_PROMPT,
+      messages: [{ role: 'user', content: userPrompt }],
     })
 
     const soulReading = response.content[0].type === 'text' ? response.content[0].text : ''
@@ -114,29 +127,33 @@ Write it entirely in English. Make it feel like a private reading — intimate a
           ? 'Comienza Tu Primera Alquimia — $199'
           : 'Begin Your First Alchemy — $199'
 
+        const formattedReading = soulReading
+          .replace(/\n/g, '<br>')
+          .replace(/\*\*(.*?)\*\*/g, '<strong style="color:#C9963C;letter-spacing:0.05em;">$1</strong>')
+
         await resend.emails.send({
           from: 'The Alchemist <onboarding@resend.dev>',
           to: email,
           subject: emailSubject,
           html: `
-            <div style="background:#000;color:#F0E8D8;font-family:Georgia,serif;max-width:600px;margin:0 auto;padding:2rem;">
-              <div style="text-align:center;margin-bottom:2rem;">
-                <div style="font-size:2rem;color:#C9963C;margin-bottom:0.5rem;">☿</div>
-                <h1 style="color:#C9963C;font-size:1.8rem;font-weight:300;letter-spacing:0.2em;margin:0;">THE ALCHEMIST</h1>
-                <p style="color:rgba(240,232,216,0.4);font-size:0.8rem;letter-spacing:0.15em;text-transform:uppercase;margin-top:0.5rem;">
+            <div style="background:#000;color:#F0E8D8;font-family:Georgia,serif;max-width:620px;margin:0 auto;padding:2.5rem 2rem;">
+              <div style="text-align:center;margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:1px solid rgba(201,150,60,0.2);">
+                <div style="font-size:1.8rem;color:#C9963C;margin-bottom:0.5rem;">☿</div>
+                <h1 style="color:#C9963C;font-size:1.6rem;font-weight:300;letter-spacing:0.25em;margin:0;font-family:Georgia,serif;">THE ALCHEMIST</h1>
+                <p style="color:rgba(240,232,216,0.35);font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;margin:0.5rem 0 0;">
                   ${isSpanish ? 'Lectura del Alma' : 'Soul Reading'}${name ? ` · ${name}` : ''}
                 </p>
               </div>
-              <div style="background:rgba(201,150,60,0.06);border:1px solid rgba(201,150,60,0.25);padding:2rem;border-radius:4px;white-space:pre-wrap;line-height:1.9;font-size:0.92rem;">
-                ${soulReading.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong style="color:#C9963C;">$1</strong>')}
+              <div style="background:rgba(201,150,60,0.05);border:1px solid rgba(201,150,60,0.2);padding:2rem;border-radius:4px;line-height:1.95;font-size:0.9rem;">
+                ${formattedReading}
               </div>
               <div style="text-align:center;margin-top:2.5rem;">
                 <a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://thealchemist.miami'}/booking"
-                   style="background:linear-gradient(135deg,#C9963C,#E4B85A);color:#000;padding:0.875rem 2rem;text-decoration:none;border-radius:2px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;font-size:0.82rem;display:inline-block;">
+                   style="background:linear-gradient(135deg,#C9963C,#E4B85A);color:#000;padding:0.9rem 2rem;text-decoration:none;border-radius:2px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;font-size:0.78rem;display:inline-block;">
                   ${emailBtn}
                 </a>
               </div>
-              <p style="text-align:center;margin-top:2rem;color:rgba(240,232,216,0.25);font-size:0.75rem;letter-spacing:0.08em;">
+              <p style="text-align:center;margin-top:2rem;color:rgba(240,232,216,0.2);font-size:0.72rem;letter-spacing:0.08em;">
                 The Alchemist Miami · thealchemist.miami
               </p>
             </div>
