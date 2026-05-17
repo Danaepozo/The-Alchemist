@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { createClient } from '@supabase/supabase-js'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
@@ -177,6 +177,9 @@ export default function PatientProfile() {
   const [showAddLab, setShowAddLab] = useState(false)
   const [expandedLab, setExpandedLab] = useState<string | null>(null)
   const [savingLab, setSavingLab] = useState(false)
+  const [parsingImage, setParsingImage] = useState(false)
+  const [imagePreview, setImagePreview] = useState<string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const [newLab, setNewLab] = useState<{
     panel_name: string
@@ -265,6 +268,41 @@ export default function PatientProfile() {
       })
     }
     setSavingLab(false)
+  }
+
+  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setImagePreview(URL.createObjectURL(file))
+    setParsingImage(true)
+    setShowAddLab(true)
+
+    const formData = new FormData()
+    formData.append('image', file)
+
+    try {
+      const res = await fetch('/api/orion/labs/parse', { method: 'POST', body: formData })
+      const data = await res.json()
+      if (data.error) throw new Error(data.error)
+
+      setNewLab({
+        panel_name: data.panel_name || '',
+        test_date: data.test_date || new Date().toISOString().split('T')[0],
+        notes: data.notes || '',
+        lab_values: (data.lab_values || []).map((v: LabValue) => ({
+          marker: v.marker || '',
+          value: v.value || '',
+          unit: v.unit || '',
+          reference_range: v.reference_range || '',
+          flag: v.flag || '',
+        })),
+      })
+    } catch {
+      alert('Error reading the image. Try a clearer photo or enter values manually.')
+    } finally {
+      setParsingImage(false)
+    }
   }
 
   async function generateBriefing() {
@@ -478,23 +516,85 @@ export default function PatientProfile() {
           {/* LABS TAB */}
           {activeTab === 'labs' && (
             <div>
-              <button
-                onClick={() => setShowAddLab(!showAddLab)}
-                style={{
-                  width: '100%',
-                  background: 'rgba(61,200,152,0.08)',
-                  border: '1px dashed rgba(61,200,152,0.3)',
-                  borderRadius: 4,
-                  padding: '0.6rem',
-                  color: '#3DC898',
-                  fontSize: '0.75rem',
-                  cursor: 'pointer',
-                  letterSpacing: '0.1em',
+              {/* Upload buttons */}
+              <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  capture="environment"
+                  onChange={handleImageUpload}
+                  style={{ display: 'none' }}
+                />
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={parsingImage}
+                  style={{
+                    flex: 1,
+                    background: parsingImage ? 'rgba(201,150,60,0.15)' : 'rgba(201,150,60,0.1)',
+                    border: '1px solid rgba(201,150,60,0.3)',
+                    borderRadius: 4,
+                    padding: '0.6rem',
+                    color: '#C9963C',
+                    fontSize: '0.72rem',
+                    cursor: 'pointer',
+                    letterSpacing: '0.08em',
+                  }}
+                >
+                  {parsingImage ? '⊕ Reading...' : '📷 SCAN LAB PHOTO'}
+                </button>
+                <button
+                  onClick={() => {
+                    setShowAddLab(!showAddLab)
+                    setImagePreview(null)
+                    if (!showAddLab) setNewLab({ panel_name: '', test_date: new Date().toISOString().split('T')[0], notes: '', lab_values: [{ marker: '', value: '', unit: '', reference_range: '', flag: '' }] })
+                  }}
+                  style={{
+                    flex: 1,
+                    background: 'rgba(61,200,152,0.08)',
+                    border: '1px dashed rgba(61,200,152,0.3)',
+                    borderRadius: 4,
+                    padding: '0.6rem',
+                    color: '#3DC898',
+                    fontSize: '0.72rem',
+                    cursor: 'pointer',
+                    letterSpacing: '0.08em',
+                  }}
+                >
+                  {showAddLab ? '✕ Cancel' : '+ MANUAL'}
+                </button>
+              </div>
+
+              {/* Parsing status */}
+              {parsingImage && (
+                <div style={{
+                  background: 'rgba(201,150,60,0.06)',
+                  border: '1px solid rgba(201,150,60,0.2)',
+                  borderRadius: 6,
+                  padding: '1rem',
                   marginBottom: '1rem',
-                }}
-              >
-                {showAddLab ? '✕ Cancel' : '+ ADD LAB RESULTS'}
-              </button>
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.75rem',
+                }}>
+                  {imagePreview && <img src={imagePreview} alt="lab" style={{ width: 60, height: 60, objectFit: 'cover', borderRadius: 4, border: '1px solid rgba(201,150,60,0.3)' }} />}
+                  <div>
+                    <div style={{ fontSize: '0.75rem', color: '#C9963C', marginBottom: '0.25rem' }}>ORION reading lab results...</div>
+                    <div style={{ fontSize: '0.68rem', color: 'rgba(240,232,216,0.4)' }}>Extracting markers, values, and flags</div>
+                  </div>
+                </div>
+              )}
+
+              {/* Image preview after parsing */}
+              {imagePreview && !parsingImage && showAddLab && (
+                <div style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.75rem', background: 'rgba(61,200,152,0.04)', border: '1px solid rgba(61,200,152,0.15)', borderRadius: 6 }}>
+                  <img src={imagePreview} alt="lab" style={{ width: 52, height: 52, objectFit: 'cover', borderRadius: 4, border: '1px solid rgba(61,200,152,0.3)' }} />
+                  <div>
+                    <div style={{ fontSize: '0.72rem', color: '#3DC898' }}>✓ Lab results extracted</div>
+                    <div style={{ fontSize: '0.65rem', color: 'rgba(240,232,216,0.4)', marginTop: '0.15rem' }}>Review values below and save</div>
+                  </div>
+                </div>
+              )}
 
               {/* ADD LAB FORM */}
               {showAddLab && (
