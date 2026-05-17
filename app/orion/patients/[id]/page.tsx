@@ -56,17 +56,36 @@ interface LabAnalysisFinding {
   flag: string
   significance: string
   recommendation: string
+  functional_optimal?: string
+  hallmark_connection?: string
+  intervention?: { priority: number; action: string; dose: string; duration: string; monitoring: string }
+}
+
+interface LabAnalysisPattern {
+  pattern_name: string
+  confidence: string
+  evidence: string
+  clinical_significance: string
+  connection_to_symptoms?: string
 }
 
 interface LabAnalysis {
   summary: string
+  overall_score: string
+  biological_age_signal?: string
+  functional_vs_conventional?: string
   findings: LabAnalysisFinding[]
-  deficiencies: string[]
-  patterns: string
+  clinical_patterns?: LabAnalysisPattern[]
+  deficiencies: string[] | Array<{ deficiency: string; current_value: string; functional_target: string; consequences: string; intervention: string }>
+  patterns?: string
+  cancer_prevention_assessment?: { risk_level: string; key_risk_factors: string[]; protective_factors: string[]; recommendations: string[] }
+  priority_action_plan?: Array<{ priority: number; action: string; rationale: string; specific_protocol: string; expected_timeline: string }>
   suggested_protocols: string[]
   alerts: { severity: string; title: string; message: string }[]
-  follow_up_tests: string[]
-  overall_score: string
+  follow_up_tests?: string[]
+  follow_up_testing?: Array<{ test: string; rationale: string; urgency: string }>
+  patient_education_points?: string[]
+  longevity_interventions?: string[]
 }
 
 interface Lab {
@@ -865,11 +884,43 @@ export default function PatientProfile() {
                                     <span style={{ fontSize: '0.68rem', fontWeight: 700, color: scoreColor, background: `${scoreColor}15`, padding: '0.15rem 0.5rem', borderRadius: 2 }}>{a.overall_score}</span>
                                   </div>
 
+                                  {/* Biological age signal */}
+                                  {a.biological_age_signal && (
+                                    <div style={{ marginBottom: '0.75rem', padding: '0.5rem 0.75rem', background: 'rgba(154,124,232,0.08)', border: '1px solid rgba(154,124,232,0.2)', borderRadius: 4, fontSize: '0.72rem', color: '#9A7CE8' }}>
+                                      ⧖ {a.biological_age_signal}
+                                    </div>
+                                  )}
+
                                   {/* Summary */}
                                   <p style={{ color: 'rgba(240,232,216,0.75)', lineHeight: 1.7, marginBottom: '0.75rem' }}>{a.summary}</p>
 
-                                  {/* Patterns */}
-                                  {a.patterns && (
+                                  {/* Functional vs Conventional */}
+                                  {a.functional_vs_conventional && (
+                                    <div style={{ marginBottom: '0.75rem', padding: '0.6rem', background: 'rgba(201,150,60,0.06)', border: '1px solid rgba(201,150,60,0.2)', borderRadius: 4 }}>
+                                      <div style={{ fontSize: '0.6rem', color: '#C9963C', letterSpacing: '0.15em', marginBottom: '0.3rem' }}>⚑ FUNCTIONAL VS. CONVENTIONAL</div>
+                                      <div style={{ color: 'rgba(240,232,216,0.65)', lineHeight: 1.6, fontSize: '0.72rem' }}>{a.functional_vs_conventional}</div>
+                                    </div>
+                                  )}
+
+                                  {/* Clinical Patterns */}
+                                  {a.clinical_patterns && a.clinical_patterns.length > 0 && (
+                                    <div style={{ marginBottom: '0.75rem' }}>
+                                      <div style={{ fontSize: '0.6rem', color: '#E4B85A', letterSpacing: '0.15em', marginBottom: '0.4rem' }}>CLINICAL PATTERNS DETECTED</div>
+                                      {a.clinical_patterns.map((p, i) => (
+                                        <div key={i} style={{ marginBottom: '0.5rem', padding: '0.6rem', background: 'rgba(228,184,90,0.06)', border: '1px solid rgba(228,184,90,0.15)', borderRadius: 4 }}>
+                                          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
+                                            <span style={{ fontSize: '0.75rem', fontWeight: 600, color: '#E4B85A' }}>{p.pattern_name}</span>
+                                            <span style={{ fontSize: '0.65rem', color: p.confidence === 'High' ? '#E06090' : p.confidence === 'Moderate' ? '#E4B85A' : 'rgba(240,232,216,0.4)' }}>{p.confidence}</span>
+                                          </div>
+                                          <div style={{ fontSize: '0.7rem', color: 'rgba(240,232,216,0.55)', lineHeight: 1.5 }}>{p.clinical_significance}</div>
+                                          {p.evidence && <div style={{ fontSize: '0.66rem', color: 'rgba(240,232,216,0.35)', marginTop: '0.2rem' }}>Evidence: {p.evidence}</div>}
+                                        </div>
+                                      ))}
+                                    </div>
+                                  )}
+
+                                  {/* Legacy patterns field */}
+                                  {a.patterns && !a.clinical_patterns && (
                                     <div style={{ marginBottom: '0.75rem', padding: '0.6rem', background: 'rgba(228,184,90,0.06)', border: '1px solid rgba(228,184,90,0.15)', borderRadius: 4 }}>
                                       <div style={{ fontSize: '0.6rem', color: '#E4B85A', letterSpacing: '0.15em', marginBottom: '0.3rem' }}>CLINICAL PATTERN</div>
                                       <div style={{ color: 'rgba(240,232,216,0.65)', lineHeight: 1.6 }}>{a.patterns}</div>
@@ -917,13 +968,61 @@ export default function PatientProfile() {
                                     </div>
                                   )}
 
-                                  {/* Follow-up Tests */}
-                                  {a.follow_up_tests?.length > 0 && (
-                                    <div>
-                                      <div style={{ fontSize: '0.6rem', color: 'rgba(240,232,216,0.3)', letterSpacing: '0.15em', marginBottom: '0.4rem' }}>FOLLOW-UP TESTS RECOMMENDED</div>
-                                      <div style={{ color: 'rgba(240,232,216,0.45)', lineHeight: 1.8 }}>
-                                        {a.follow_up_tests.map((t, i) => <div key={i}>· {t}</div>)}
+                                  {/* Priority Action Plan */}
+                                  {a.priority_action_plan && a.priority_action_plan.length > 0 && (
+                                    <div style={{ marginBottom: '0.75rem' }}>
+                                      <div style={{ fontSize: '0.6rem', color: '#3DC898', letterSpacing: '0.15em', marginBottom: '0.4rem' }}>PRIORITY ACTION PLAN</div>
+                                      {a.priority_action_plan.slice(0, 5).map((p, i) => (
+                                        <div key={i} style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.4rem', alignItems: 'flex-start' }}>
+                                          <span style={{ minWidth: 18, height: 18, borderRadius: '50%', background: 'rgba(61,200,152,0.2)', color: '#3DC898', fontSize: '0.6rem', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, flexShrink: 0, marginTop: 2 }}>{p.priority}</span>
+                                          <div>
+                                            <div style={{ fontSize: '0.72rem', color: '#F0E8D8', fontWeight: 500 }}>{p.action}</div>
+                                            {p.specific_protocol && <div style={{ fontSize: '0.67rem', color: '#C9963C', marginTop: '0.1rem' }}>{p.specific_protocol}</div>}
+                                            {p.expected_timeline && <div style={{ fontSize: '0.65rem', color: 'rgba(240,232,216,0.3)', marginTop: '0.1rem' }}>{p.expected_timeline}</div>}
+                                          </div>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  )}
+
+                                  {/* Cancer Prevention */}
+                                  {a.cancer_prevention_assessment && (
+                                    <div style={{ marginBottom: '0.75rem', padding: '0.6rem', background: 'rgba(224,96,144,0.05)', border: '1px solid rgba(224,96,144,0.15)', borderRadius: 4 }}>
+                                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
+                                        <div style={{ fontSize: '0.6rem', color: '#E06090', letterSpacing: '0.15em' }}>CANCER PREVENTION ASSESSMENT</div>
+                                        <span style={{ fontSize: '0.65rem', color: a.cancer_prevention_assessment.risk_level === 'Low' ? '#3DC898' : a.cancer_prevention_assessment.risk_level === 'Moderate' ? '#E4B85A' : '#E06090', fontWeight: 600 }}>{a.cancer_prevention_assessment.risk_level} Risk</span>
                                       </div>
+                                      {a.cancer_prevention_assessment.key_risk_factors?.length > 0 && (
+                                        <div style={{ fontSize: '0.68rem', color: 'rgba(240,232,216,0.5)', marginBottom: '0.3rem' }}>Risk factors: {a.cancer_prevention_assessment.key_risk_factors.join(' · ')}</div>
+                                      )}
+                                      {a.cancer_prevention_assessment.recommendations?.map((r, i) => (
+                                        <div key={i} style={{ fontSize: '0.68rem', color: 'rgba(240,232,216,0.55)', lineHeight: 1.5 }}>→ {r}</div>
+                                      ))}
+                                    </div>
+                                  )}
+
+                                  {/* Follow-up Tests */}
+                                  {(a.follow_up_testing || a.follow_up_tests) && (
+                                    <div style={{ marginBottom: '0.75rem' }}>
+                                      <div style={{ fontSize: '0.6rem', color: 'rgba(240,232,216,0.3)', letterSpacing: '0.15em', marginBottom: '0.4rem' }}>FOLLOW-UP TESTING</div>
+                                      {a.follow_up_testing ? a.follow_up_testing.map((t, i) => (
+                                        <div key={i} style={{ display: 'flex', gap: '0.4rem', alignItems: 'flex-start', marginBottom: '0.3rem' }}>
+                                          <span style={{ fontSize: '0.6rem', padding: '0.1rem 0.35rem', borderRadius: 2, background: t.urgency?.includes('URGENT') ? 'rgba(224,96,144,0.15)' : 'rgba(228,184,90,0.1)', color: t.urgency?.includes('URGENT') ? '#E06090' : '#E4B85A', flexShrink: 0 }}>{t.urgency?.split(' ')[0]}</span>
+                                          <div style={{ fontSize: '0.68rem', color: 'rgba(240,232,216,0.5)' }}><strong style={{ color: 'rgba(240,232,216,0.7)' }}>{t.test}</strong>{t.rationale ? ` — ${t.rationale}` : ''}</div>
+                                        </div>
+                                      )) : a.follow_up_tests?.map((t, i) => (
+                                        <div key={i} style={{ color: 'rgba(240,232,216,0.45)', fontSize: '0.68rem', lineHeight: 1.8 }}>· {t}</div>
+                                      ))}
+                                    </div>
+                                  )}
+
+                                  {/* Patient Education */}
+                                  {a.patient_education_points && a.patient_education_points.length > 0 && (
+                                    <div>
+                                      <div style={{ fontSize: '0.6rem', color: 'rgba(240,232,216,0.3)', letterSpacing: '0.15em', marginBottom: '0.4rem' }}>PATIENT EDUCATION POINTS</div>
+                                      {a.patient_education_points.map((p, i) => (
+                                        <div key={i} style={{ fontSize: '0.68rem', color: 'rgba(240,232,216,0.45)', lineHeight: 1.7 }}>• {p}</div>
+                                      ))}
                                     </div>
                                   )}
                                 </div>
