@@ -11,6 +11,7 @@ const navItems = [
   { href: '/orion/protocols', label: 'Protocols', icon: '◈' },
   { href: '/orion/alerts', label: 'Alerts', icon: '◉' },
   { href: '/orion/sessions', label: "Today's Sessions", icon: '◷' },
+  { href: '/orion/reference', label: 'Reference Guide', icon: '◇' },
 ]
 
 export default function OrionLayout({ children }: { children: React.ReactNode }) {
