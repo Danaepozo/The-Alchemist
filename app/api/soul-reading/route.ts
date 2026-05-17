@@ -8,84 +8,128 @@ const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
 export async function POST(req: NextRequest) {
   try {
-    const { answers, name, email, lang = 'en' } = await req.json()
+    const { answers, tags, name, email, lang = 'en' } = await req.json()
     const isSpanish = lang === 'es'
 
-    const userPrompt = isSpanish
-      ? `Genera una Lectura del Alma profunda y clínica para ${name || 'esta persona'}.
+    // Detect addiction patterns from tags
+    const addictionTags = (tags as string[]).filter((t: string) => t.startsWith('addiction_'))
+    const hasAddictions = addictionTags.length > 0
+    const addictionTypes = addictionTags.map((t: string) => t.replace('addiction_', ''))
 
-RESPUESTAS DE LA EVALUACIÓN:
-${Object.entries(answers).map(([k, v]) => `[${k}]: ${v}`).join('\n\n')}
+    const prompt = isSpanish
+      ? `Eres el analista del alma de The Alchemist Miami — el más preciso, compasivo y brutalmente honesto del mundo.
 
-Aplica TODOS los marcos de conocimiento relevantes que hayas recibido. Detecta patrones, heridas, dinámicas familiares, lecturas del cuerpo según biodescodificación, y el mapa chakral implícito en estas respuestas.
+Tienes acceso al siguiente perfil de ${name || 'esta persona'} basado en sus respuestas:
 
-Estructura tu lectura así (usa **Texto en Negrita** para cada título, NO encabezados con ##):
+RESPUESTAS:
+${answers}
 
-**Tu Estado Actual**
-Lo que sus respuestas revelan como el patrón central en este momento — el denominador común de todo lo que comparte.
+PERFIL PSICOLÓGICO DETECTADO (interno — no revelar las etiquetas):
+${(tags as string[]).join(', ')}
 
-**Lo que Bella Ve**
-La lectura energética y espiritual profunda — constelaciones familiares, patrones ancestrales, cuerpo emocional, chakras bloqueados. Nombra los patrones específicos con precisión.
+${hasAddictions ? `PATRONES DE ADICCIÓN DETECTADOS: ${addictionTypes.join(', ')} — incorpora esto en la lectura con precisión y compasión.` : ''}
 
-**Lo que el Dr. Meighen Ve**
-La perspectiva clínica — qué marcadores funcionales o psicosomáticos probablemente están presentes, qué están diciendo los síntomas físicos según biodescodificación, qué patrones de estrés están afectando la biología.
+Genera una Lectura del Alma que parezca que conoces a esta persona de toda la vida. Debes escribir como el más brillante psicoanalista que jamás ha existido — que ve todo, que no juzga nada, y que tiene el valor de decir la verdad con amor.
 
-**El Trabajo de la Sombra**
-Qué material de sombra (Jung) se detecta claramente. Qué está siendo proyectado. Qué parte del yo oculto es, paradójicamente, la fuente de su mayor poder sin descubrir.
+REGLAS ABSOLUTAS:
+- NUNCA menciones nombres de frameworks, teorías o autores (sin "constelaciones familiares", sin "sombra", sin "Jung", sin "apego ansioso", sin "biodescodificación")
+- Escribe como si simplemente VES lo que está pasando — no como si lo diagnosticas
+- Usa segunda persona íntima ("Tú llevas...", "Lo que sientes es...", "El patrón que vive en ti...")
+- Sé específico/a — no genérico. Nombra el patrón real.
+- Que cada frase toque el alma — que se reconozcan a sí mismos en cada línea
+- No uses bullets ni listas — párrafos fluidos como una conversación profunda
+- Usa **texto en negrita** para los títulos de sección — sin ##
 
-**El Sistema Familiar**
-Qué dinámicas de constelaciones familiares (Hellinger) están operando. Qué lealtades inconscientes, exclusiones o patrones de repetición son visibles.
+Estructura (títulos poderosos, inesperados, nunca clínicos):
 
-**Tu Camino de Sanación**
-Los servicios, modalidades y prácticas específicas de The Alchemist que abordarían directamente este perfil. Concreto y personalizado.
+**Lo que realmente cargas**
+El patrón central que se ve en TODO lo que respondieron. Lo que viven sin nombrarlo.
 
-**Tu Primera Alquimia**
-Una invitación sagrada y personalizada para comenzar con la sesión First Alchemy ($199). Cálida, precisa, que se sienta como destino.
+**Lo que tu cuerpo lleva diciendo**
+Lectura de los síntomas físicos como mensajes — sin jerga médica. Conectar el síntoma con la emoción no dicha.
 
-**Un Mensaje para Tu Alma**
-Una frase final de transformación escrita directamente a esta persona — poderosa, poética, ganada.
+**Lo que aprendiste que era el amor**
+La herida de apego y cómo moldea todas sus relaciones adultas. Nombrar el ciclo sin nombrarlo como ciclo.
 
-Escríbelo completamente en español. Sé específico, no genérico. Cada frase debe tener peso.`
-      : `Generate a deep, clinical Soul Reading for ${name || 'this person'}.
+**Lo que haces cuando duele**
+${hasAddictions ? `Nombrar directamente los patrones de adicción/escape (${addictionTypes.join(', ')}) con compasión total — el por qué detrás del qué.` : 'Los mecanismos de defensa y formas de escape — con compasión, no juicio.'}
 
-ASSESSMENT ANSWERS:
-${Object.entries(answers).map(([k, v]) => `[${k}]: ${v}`).join('\n\n')}
+**Lo que viene de antes de ti**
+Los patrones que heredaron — sin mencionar constelaciones. Simplemente: "Hay algo en tu familia que..."
 
-Apply ALL relevant knowledge frameworks you have received. Detect patterns, wounds, family dynamics, body readings per biodescodificación, and the implicit chakra map in these answers.
+**Lo que más necesitas y no te permites pedir**
+La necesidad más profunda debajo de todo — con frases que los hagan llorar de reconocimiento.
 
-Structure your reading as follows (use **Bold Text** for each title, NO ## headers):
+**Lo que eres capaz de ser**
+La versión sanada — el potencial real que ven en sus respuestas. No positivo por defecto — ganado.
 
-**Your Current State**
-What their answers reveal as the central pattern right now — the common denominator across everything they share.
+**Lo que The Alchemist puede hacer por ti**
+Una invitación específica y personalizada — qué servicios, qué trabajo, qué primera sesión. Sin sonar a ventas.
 
-**Bella Sees**
-The deep energetic and spiritual reading — family constellations, ancestral patterns, emotional body, blocked chakras. Name specific patterns with precision.
+**Un mensaje para tu alma**
+Una sola oración final. La más poderosa del documento. Que se la tatúen en el corazón.
 
-**Dr. Meighen Sees**
-The clinical perspective — what functional or psychosomatic markers are likely present, what the physical symptoms are saying per biodescodificación, what stress patterns are affecting their biology.
+Escríbelo completamente en español. Longitud: profundo, no largo. Cada párrafo debe ganar su lugar.`
 
-**Shadow Work**
-What shadow material (Jung) is clearly detectable. What is being projected. What part of the hidden self is, paradoxically, the source of their greatest undiscovered power.
+      : `You are The Alchemist Miami's soul analyst — the most precise, compassionate, and brutally honest profiler in the world.
 
-**The Family System**
-What family constellation dynamics (Hellinger) are operating. What unconscious loyalties, exclusions, or repetition patterns are visible.
+You have access to the following profile of ${name || 'this person'} based on their responses:
 
-**Your Healing Path**
-The specific services, modalities, and practices from The Alchemist that would directly address this profile. Concrete and personalized.
+ANSWERS:
+${answers}
 
-**Your First Alchemy**
-A sacred, personalized invitation to begin with the First Alchemy session ($199). Warm, precise, feeling like destiny.
+DETECTED PSYCHOLOGICAL PROFILE (internal — never reveal these labels):
+${(tags as string[]).join(', ')}
+
+${hasAddictions ? `DETECTED ADDICTION/ESCAPE PATTERNS: ${addictionTypes.join(', ')} — incorporate this into the reading with precision and full compassion.` : ''}
+
+Generate a Soul Reading that feels like you have known this person their entire life. Write as the most brilliant soul analyst who has ever existed — one who sees everything, judges nothing, and has the courage to speak the truth with love.
+
+ABSOLUTE RULES:
+- NEVER mention framework names, theories, or authors (no "family constellations," no "shadow," no "Jung," no "anxious attachment," no "biodescodification")
+- Write as if you simply SEE what is happening — not as if you're diagnosing it
+- Use intimate second person ("You carry...", "What you feel is...", "The pattern that lives in you...")
+- Be specific — not generic. Name the actual pattern.
+- Make every sentence touch the soul — they should recognize themselves in every line
+- No bullets or lists — flowing paragraphs like a deep conversation
+- Use **bold text** for section titles — no ##
+
+Structure (powerful, unexpected section titles — never clinical):
+
+**What You're Actually Carrying**
+The central pattern that shows up across everything they answered. What they've been living without naming it.
+
+**What Your Body Has Been Saying**
+Reading the physical symptoms as messages — no medical jargon. Connect symptom to unspoken emotion.
+
+**What You Learned That Love Was**
+The attachment wound and how it shapes every adult relationship. Name the cycle without calling it a cycle.
+
+**What You Do When It Hurts**
+${hasAddictions ? `Directly name the addiction/escape patterns (${addictionTypes.join(', ')}) with total compassion — the why behind the what.` : 'The defense mechanisms and escape routes — with compassion, not judgment.'}
+
+**What Came Before You**
+The inherited patterns — without naming frameworks. Simply: "There is something in your family that..."
+
+**What You Need Most and Won't Let Yourself Ask For**
+The deepest need underneath everything — with sentences that make them cry with recognition.
+
+**What You Are Capable Of**
+The healed version — the real potential visible in their answers. Not positive by default — earned.
+
+**What The Alchemist Can Do For You**
+A specific, personalized invitation — which services, which work, which first session. No sales tone.
 
 **A Message for Your Soul**
-A final transformational sentence written directly to this person — powerful, poetic, earned.
+One final sentence. The most powerful in the document. The one they'll carry for years.
 
-Write it entirely in English. Be specific, not generic. Every sentence must carry weight.`
+Write entirely in English. Length: deep, not long. Every paragraph must earn its place.`
 
     const response = await client.messages.create({
       model: 'claude-sonnet-4-20250514',
-      max_tokens: 2000,
+      max_tokens: 2200,
       system: SOUL_READING_SYSTEM_PROMPT,
-      messages: [{ role: 'user', content: userPrompt }],
+      messages: [{ role: 'user', content: prompt }],
     })
 
     const soulReading = response.content[0].type === 'text' ? response.content[0].text : ''
@@ -93,75 +137,47 @@ Write it entirely in English. Be specific, not generic. Every sentence must carr
     // Save to Supabase
     if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
       try {
-        const supabase = createClient(
-          process.env.NEXT_PUBLIC_SUPABASE_URL,
-          process.env.SUPABASE_SERVICE_ROLE_KEY
-        )
+        const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
         let clientId: string | undefined
         if (email) {
           const { data: clientData } = await supabase
             .from('clients')
             .upsert({ name: name || 'Anonymous', email }, { onConflict: 'email' })
-            .select('id')
-            .single()
+            .select('id').single()
           clientId = clientData?.id
         }
-        await supabase.from('assessments').insert({
-          client_id: clientId,
-          answers,
-          soul_reading: soulReading,
-        })
-      } catch (dbError) {
-        console.error('DB save error (non-fatal):', dbError)
-      }
+        await supabase.from('assessments').insert({ client_id: clientId, answers: { formatted: answers, tags }, soul_reading: soulReading })
+      } catch (e) { console.error('DB error (non-fatal):', e) }
     }
 
     // Send email
     if (process.env.RESEND_API_KEY && email) {
       try {
         const resend = new Resend(process.env.RESEND_API_KEY)
-        const emailSubject = isSpanish
-          ? '✨ Tu Lectura del Alma — The Alchemist Miami'
-          : '✨ Your Soul Reading — The Alchemist Miami'
-        const emailBtn = isSpanish
-          ? 'Comienza Tu Primera Alquimia — $199'
-          : 'Begin Your First Alchemy — $199'
-
-        const formattedReading = soulReading
+        const formatted = soulReading
           .replace(/\n/g, '<br>')
-          .replace(/\*\*(.*?)\*\*/g, '<strong style="color:#C9963C;letter-spacing:0.05em;">$1</strong>')
+          .replace(/\*\*(.*?)\*\*/g, '<strong style="color:#C9963C;">$1</strong>')
 
         await resend.emails.send({
           from: 'The Alchemist <onboarding@resend.dev>',
           to: email,
-          subject: emailSubject,
-          html: `
-            <div style="background:#000;color:#F0E8D8;font-family:Georgia,serif;max-width:620px;margin:0 auto;padding:2.5rem 2rem;">
-              <div style="text-align:center;margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:1px solid rgba(201,150,60,0.2);">
-                <div style="font-size:1.8rem;color:#C9963C;margin-bottom:0.5rem;">☿</div>
-                <h1 style="color:#C9963C;font-size:1.6rem;font-weight:300;letter-spacing:0.25em;margin:0;font-family:Georgia,serif;">THE ALCHEMIST</h1>
-                <p style="color:rgba(240,232,216,0.35);font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;margin:0.5rem 0 0;">
-                  ${isSpanish ? 'Lectura del Alma' : 'Soul Reading'}${name ? ` · ${name}` : ''}
-                </p>
-              </div>
-              <div style="background:rgba(201,150,60,0.05);border:1px solid rgba(201,150,60,0.2);padding:2rem;border-radius:4px;line-height:1.95;font-size:0.9rem;">
-                ${formattedReading}
-              </div>
-              <div style="text-align:center;margin-top:2.5rem;">
-                <a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://thealchemist.miami'}/booking"
-                   style="background:linear-gradient(135deg,#C9963C,#E4B85A);color:#000;padding:0.9rem 2rem;text-decoration:none;border-radius:2px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;font-size:0.78rem;display:inline-block;">
-                  ${emailBtn}
-                </a>
-              </div>
-              <p style="text-align:center;margin-top:2rem;color:rgba(240,232,216,0.2);font-size:0.72rem;letter-spacing:0.08em;">
-                The Alchemist Miami · thealchemist.miami
-              </p>
+          subject: isSpanish ? '✨ Tu Lectura del Alma — The Alchemist Miami' : '✨ Your Soul Reading — The Alchemist Miami',
+          html: `<div style="background:#000;color:#F0E8D8;font-family:Georgia,serif;max-width:620px;margin:0 auto;padding:2.5rem 2rem;">
+            <div style="text-align:center;margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:1px solid rgba(201,150,60,0.2);">
+              <div style="font-size:1.8rem;color:#C9963C;">☿</div>
+              <h1 style="color:#C9963C;font-size:1.5rem;font-weight:300;letter-spacing:0.25em;margin:0.5rem 0 0;font-family:Georgia,serif;">THE ALCHEMIST</h1>
+              <p style="color:rgba(240,232,216,0.3);font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;margin:0.5rem 0 0;">${isSpanish ? 'Lectura del Alma' : 'Soul Reading'}${name ? ` · ${name}` : ''}</p>
             </div>
-          `,
+            <div style="background:rgba(201,150,60,0.04);border:1px solid rgba(201,150,60,0.18);padding:2rem;border-radius:4px;line-height:2;font-size:0.9rem;">${formatted}</div>
+            <div style="text-align:center;margin-top:2.5rem;">
+              <a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://thealchemist.miami'}/booking" style="background:linear-gradient(135deg,#C9963C,#E4B85A);color:#000;padding:0.9rem 2rem;text-decoration:none;border-radius:2px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;font-size:0.78rem;display:inline-block;">
+                ${isSpanish ? 'Comienza Tu Primera Alquimia — $199' : 'Begin Your First Alchemy — $199'}
+              </a>
+            </div>
+            <p style="text-align:center;margin-top:2rem;color:rgba(240,232,216,0.2);font-size:0.72rem;letter-spacing:0.08em;">The Alchemist Miami · thealchemist.miami</p>
+          </div>`,
         })
-      } catch (emailError) {
-        console.error('Email send error (non-fatal):', emailError)
-      }
+      } catch (e) { console.error('Email error (non-fatal):', e) }
     }
 
     return NextResponse.json({ soulReading })
