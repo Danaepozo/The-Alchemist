@@ -50,6 +50,25 @@ interface LabValue {
   flag: 'H' | 'L' | 'N' | ''
 }
 
+interface LabAnalysisFinding {
+  marker: string
+  value: string
+  flag: string
+  significance: string
+  recommendation: string
+}
+
+interface LabAnalysis {
+  summary: string
+  findings: LabAnalysisFinding[]
+  deficiencies: string[]
+  patterns: string
+  suggested_protocols: string[]
+  alerts: { severity: string; title: string; message: string }[]
+  follow_up_tests: string[]
+  overall_score: string
+}
+
 interface Lab {
   id: string
   panel_name: string
@@ -57,6 +76,7 @@ interface Lab {
   lab_values: LabValue[]
   notes: string
   ordered_by: string
+  ai_analysis?: string
 }
 
 const categoryColors: Record<string, string> = {
@@ -179,6 +199,7 @@ export default function PatientProfile() {
   const [savingLab, setSavingLab] = useState(false)
   const [parsingImage, setParsingImage] = useState(false)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
+  const [analyzingLab, setAnalyzingLab] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const [newLab, setNewLab] = useState<{
@@ -260,14 +281,39 @@ export default function PatientProfile() {
       setLabs(prev => [data, ...prev])
       setExpandedLab(data.id)
       setShowAddLab(false)
+      setImagePreview(null)
       setNewLab({
         panel_name: '',
         test_date: new Date().toISOString().split('T')[0],
         notes: '',
         lab_values: [{ marker: '', value: '', unit: '', reference_range: '', flag: '' }],
       })
+      setSavingLab(false)
+      // Auto-trigger ORION analysis
+      triggerAnalysis(data.id)
+    } else {
+      setSavingLab(false)
     }
-    setSavingLab(false)
+  }
+
+  async function triggerAnalysis(labId: string) {
+    setAnalyzingLab(labId)
+    try {
+      const res = await fetch('/api/orion/labs/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ lab_id: labId, patient_id: id }),
+      })
+      const result = await res.json()
+      if (result.analysis) {
+        setLabs(prev => prev.map(l =>
+          l.id === labId ? { ...l, ai_analysis: JSON.stringify(result.analysis) } : l
+        ))
+      }
+    } catch {
+      // Analysis failed silently — can retry manually
+    }
+    setAnalyzingLab(null)
   }
 
   async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -752,6 +798,16 @@ export default function PatientProfile() {
                             {lab.lab_values?.some(v => v.flag === 'H' || v.flag === 'L') && (
                               <span style={{ marginLeft: '0.5rem', color: '#E06090' }}>⚠ abnormal</span>
                             )}
+                            {analyzingLab === lab.id && (
+                              <span style={{ marginLeft: '0.5rem', color: '#3DC898' }}>⊕ analyzing...</span>
+                            )}
+                            {lab.ai_analysis && analyzingLab !== lab.id && (() => {
+                              try {
+                                const a: LabAnalysis = JSON.parse(lab.ai_analysis)
+                                const scoreColor = a.overall_score === 'Optimal' ? '#3DC898' : a.overall_score === 'Good' ? '#3DC898' : a.overall_score === 'Suboptimal' ? '#E4B85A' : a.overall_score === 'Concerning' ? '#FF8C00' : '#ff4444'
+                                return <span style={{ marginLeft: '0.5rem', color: scoreColor, fontWeight: 600 }}>● {a.overall_score}</span>
+                              } catch { return null }
+                            })()}
                           </div>
                         </div>
                         <span style={{ color: 'rgba(240,232,216,0.3)', fontSize: '0.8rem' }}>
@@ -787,6 +843,102 @@ export default function PatientProfile() {
                             <div style={{ marginTop: '0.75rem', fontSize: '0.72rem', color: 'rgba(240,232,216,0.4)', fontStyle: 'italic' }}>
                               {lab.notes}
                             </div>
+                          )}
+
+                          {/* ORION Analysis */}
+                          {analyzingLab === lab.id && (
+                            <div style={{ marginTop: '1rem', padding: '0.75rem', background: 'rgba(61,200,152,0.05)', border: '1px solid rgba(61,200,152,0.15)', borderRadius: 4, fontSize: '0.72rem', color: '#3DC898', letterSpacing: '0.1em' }}>
+                              ⊕ ORION analyzing lab results...
+                            </div>
+                          )}
+
+                          {lab.ai_analysis && analyzingLab !== lab.id && (() => {
+                            try {
+                              const a: LabAnalysis = JSON.parse(lab.ai_analysis)
+                              const scoreColors: Record<string, string> = { Optimal: '#3DC898', Good: '#3DC898', Suboptimal: '#E4B85A', Concerning: '#FF8C00', Critical: '#ff4444' }
+                              const scoreColor = scoreColors[a.overall_score] || '#E4B85A'
+                              return (
+                                <div style={{ marginTop: '1rem', background: 'rgba(61,200,152,0.04)', border: '1px solid rgba(61,200,152,0.15)', borderRadius: 6, padding: '1rem', fontSize: '0.75rem' }}>
+                                  {/* Header */}
+                                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+                                    <span style={{ fontSize: '0.62rem', letterSpacing: '0.2em', color: '#3DC898', textTransform: 'uppercase' }}>ORION Analysis</span>
+                                    <span style={{ fontSize: '0.68rem', fontWeight: 700, color: scoreColor, background: `${scoreColor}15`, padding: '0.15rem 0.5rem', borderRadius: 2 }}>{a.overall_score}</span>
+                                  </div>
+
+                                  {/* Summary */}
+                                  <p style={{ color: 'rgba(240,232,216,0.75)', lineHeight: 1.7, marginBottom: '0.75rem' }}>{a.summary}</p>
+
+                                  {/* Patterns */}
+                                  {a.patterns && (
+                                    <div style={{ marginBottom: '0.75rem', padding: '0.6rem', background: 'rgba(228,184,90,0.06)', border: '1px solid rgba(228,184,90,0.15)', borderRadius: 4 }}>
+                                      <div style={{ fontSize: '0.6rem', color: '#E4B85A', letterSpacing: '0.15em', marginBottom: '0.3rem' }}>CLINICAL PATTERN</div>
+                                      <div style={{ color: 'rgba(240,232,216,0.65)', lineHeight: 1.6 }}>{a.patterns}</div>
+                                    </div>
+                                  )}
+
+                                  {/* Key Findings */}
+                                  {a.findings?.length > 0 && (
+                                    <div style={{ marginBottom: '0.75rem' }}>
+                                      <div style={{ fontSize: '0.6rem', color: 'rgba(240,232,216,0.3)', letterSpacing: '0.15em', marginBottom: '0.4rem' }}>KEY FINDINGS</div>
+                                      {a.findings.map((f, i) => (
+                                        <div key={i} style={{ padding: '0.5rem', borderLeft: `2px solid ${f.flag === 'H' ? '#E06090' : f.flag === 'L' ? '#E4B85A' : '#3DC898'}`, marginBottom: '0.4rem', paddingLeft: '0.6rem' }}>
+                                          <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', marginBottom: '0.2rem' }}>
+                                            <span style={{ fontWeight: 600, color: f.flag === 'H' ? '#E06090' : f.flag === 'L' ? '#E4B85A' : '#3DC898' }}>{f.marker}</span>
+                                            <span style={{ color: 'rgba(240,232,216,0.5)' }}>{f.value}</span>
+                                          </div>
+                                          <div style={{ color: 'rgba(240,232,216,0.55)', lineHeight: 1.5 }}>{f.significance}</div>
+                                          {f.recommendation && <div style={{ color: '#3DC898', marginTop: '0.2rem', fontSize: '0.7rem' }}>→ {f.recommendation}</div>}
+                                        </div>
+                                      ))}
+                                    </div>
+                                  )}
+
+                                  {/* Deficiencies */}
+                                  {a.deficiencies?.length > 0 && (
+                                    <div style={{ marginBottom: '0.75rem' }}>
+                                      <div style={{ fontSize: '0.6rem', color: 'rgba(240,232,216,0.3)', letterSpacing: '0.15em', marginBottom: '0.4rem' }}>DEFICIENCIES IDENTIFIED</div>
+                                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem' }}>
+                                        {a.deficiencies.map((d, i) => (
+                                          <span key={i} style={{ background: 'rgba(224,96,144,0.1)', border: '1px solid rgba(224,96,144,0.25)', color: '#E06090', padding: '0.2rem 0.5rem', borderRadius: 2, fontSize: '0.7rem' }}>{d}</span>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  )}
+
+                                  {/* Suggested Protocols */}
+                                  {a.suggested_protocols?.length > 0 && (
+                                    <div style={{ marginBottom: '0.75rem' }}>
+                                      <div style={{ fontSize: '0.6rem', color: 'rgba(240,232,216,0.3)', letterSpacing: '0.15em', marginBottom: '0.4rem' }}>SUGGESTED PROTOCOLS</div>
+                                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem' }}>
+                                        {a.suggested_protocols.map((p, i) => (
+                                          <span key={i} style={{ background: 'rgba(201,150,60,0.1)', border: '1px solid rgba(201,150,60,0.25)', color: '#C9963C', padding: '0.2rem 0.5rem', borderRadius: 2, fontSize: '0.7rem' }}>{p}</span>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  )}
+
+                                  {/* Follow-up Tests */}
+                                  {a.follow_up_tests?.length > 0 && (
+                                    <div>
+                                      <div style={{ fontSize: '0.6rem', color: 'rgba(240,232,216,0.3)', letterSpacing: '0.15em', marginBottom: '0.4rem' }}>FOLLOW-UP TESTS RECOMMENDED</div>
+                                      <div style={{ color: 'rgba(240,232,216,0.45)', lineHeight: 1.8 }}>
+                                        {a.follow_up_tests.map((t, i) => <div key={i}>· {t}</div>)}
+                                      </div>
+                                    </div>
+                                  )}
+                                </div>
+                              )
+                            } catch { return null }
+                          })()}
+
+                          {/* Manual re-analyze button */}
+                          {!lab.ai_analysis && analyzingLab !== lab.id && (
+                            <button
+                              onClick={() => triggerAnalysis(lab.id)}
+                              style={{ marginTop: '0.75rem', width: '100%', background: 'rgba(61,200,152,0.08)', border: '1px dashed rgba(61,200,152,0.25)', borderRadius: 4, padding: '0.5rem', color: '#3DC898', fontSize: '0.7rem', cursor: 'pointer', letterSpacing: '0.1em' }}
+                            >
+                              ⊕ ORION ANALYZE
+                            </button>
                           )}
                         </div>
                       )}
