@@ -88,6 +88,19 @@ interface LabAnalysis {
   longevity_interventions?: string[]
 }
 
+interface CollaborativeProtocol {
+  final_assessment: string
+  clinical_consensus: string
+  doctor_additions: string
+  confirmed_patterns: Array<{ pattern: string; status: string; doctor_comment: string }>
+  treatment_protocols: Array<{ priority: number; name: string; indication: string; dose: string; duration: string; monitoring: string; expected_outcome: string }>
+  lifestyle_prescription: Array<{ intervention: string; dose: string; rationale: string }>
+  nutrition_protocol: string
+  retest_schedule: Array<{ test: string; timeframe: string; target: string }>
+  patient_summary: string
+  doctor_signature_notes: string
+}
+
 interface Lab {
   id: string
   panel_name: string
@@ -219,6 +232,10 @@ export default function PatientProfile() {
   const [parsingImage, setParsingImage] = useState(false)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [analyzingLab, setAnalyzingLab] = useState<string | null>(null)
+  const [doctorNotes, setDoctorNotes] = useState<Record<string, string>>({})
+  const [collaborating, setCollaborating] = useState<string | null>(null)
+  const [collabResult, setCollabResult] = useState<Record<string, CollaborativeProtocol>>({})
+  const [showCollab, setShowCollab] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const [newLab, setNewLab] = useState<{
@@ -333,6 +350,32 @@ export default function PatientProfile() {
       // Analysis failed silently — can retry manually
     }
     setAnalyzingLab(null)
+  }
+
+  async function generateCollaborativeProtocol(labId: string) {
+    setCollaborating(labId)
+    try {
+      const res = await fetch('/api/orion/labs/collaborate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ lab_id: labId, patient_id: id, doctor_notes: doctorNotes[labId] || '' }),
+      })
+      const result = await res.json()
+      if (result.collaborative) {
+        setCollabResult(prev => ({ ...prev, [labId]: result.collaborative }))
+        setLabs(prev => prev.map(l => {
+          if (l.id !== labId) return l
+          try {
+            const a = JSON.parse(l.ai_analysis || '{}')
+            a.doctor_collaboration = result.collaborative
+            return { ...l, ai_analysis: JSON.stringify(a) }
+          } catch { return l }
+        }))
+      }
+    } catch {
+      // silent fail
+    }
+    setCollaborating(null)
   }
 
   async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -1051,6 +1094,161 @@ export default function PatientProfile() {
                                 </div>
                               )
                             } catch { return null }
+                          })()}
+
+                          {/* DOCTOR + ORION COLLABORATION */}
+                          {lab.ai_analysis && analyzingLab !== lab.id && (() => {
+                            const isOpen = showCollab === lab.id
+                            const isGenerating = collaborating === lab.id
+                            let existingCollab: CollaborativeProtocol | null = null
+                            try {
+                              const parsed = JSON.parse(lab.ai_analysis)
+                              if (parsed.doctor_collaboration) existingCollab = parsed.doctor_collaboration
+                            } catch {}
+                            const collab = collabResult[lab.id] || existingCollab
+
+                            return (
+                              <div style={{ marginTop: '0.75rem', border: '1px solid rgba(154,124,232,0.2)', borderRadius: 6, overflow: 'hidden' }}>
+                                <button
+                                  onClick={() => setShowCollab(isOpen ? null : lab.id)}
+                                  style={{ width: '100%', background: isOpen ? 'rgba(154,124,232,0.08)' : 'rgba(154,124,232,0.04)', border: 'none', padding: '0.65rem 0.875rem', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                                >
+                                  <div style={{ textAlign: 'left' }}>
+                                    <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#9A7CE8', letterSpacing: '0.1em' }}>⚕ COLLABORATE WITH ORION</div>
+                                    <div style={{ fontSize: '0.6rem', color: 'rgba(154,124,232,0.5)', marginTop: '0.15rem' }}>{collab ? 'Final protocol generated ✓' : 'Add your clinical input → generate final protocol'}</div>
+                                  </div>
+                                  <span style={{ color: 'rgba(154,124,232,0.4)', fontSize: '0.7rem' }}>{isOpen ? '▲' : '▼'}</span>
+                                </button>
+
+                                {isOpen && (
+                                  <div style={{ padding: '0.875rem' }}>
+                                    {/* ORION's questions */}
+                                    {(() => {
+                                      try {
+                                        const a: LabAnalysis & { orion_questions?: string[] } = JSON.parse(lab.ai_analysis || '{}')
+                                        if (a.orion_questions && a.orion_questions.length > 0) {
+                                          return (
+                                            <div style={{ marginBottom: '0.75rem' }}>
+                                              <div style={{ fontSize: '0.6rem', letterSpacing: '0.15em', color: '#9A7CE8', marginBottom: '0.5rem' }}>ORION ASKS DR. MEIGHEN</div>
+                                              {a.orion_questions.map((q, i) => (
+                                                <div key={i} style={{ padding: '0.4rem 0.6rem', marginBottom: '0.3rem', background: 'rgba(154,124,232,0.06)', border: '1px solid rgba(154,124,232,0.12)', borderRadius: 4, fontSize: '0.68rem', color: 'rgba(240,232,216,0.6)', lineHeight: 1.5 }}>
+                                                  <span style={{ color: '#9A7CE8', fontWeight: 700 }}>Q{i+1}</span> {q}
+                                                </div>
+                                              ))}
+                                            </div>
+                                          )
+                                        }
+                                      } catch {}
+                                      return null
+                                    })()}
+
+                                    {/* Doctor input */}
+                                    <div style={{ marginBottom: '0.75rem' }}>
+                                      <div style={{ fontSize: '0.6rem', letterSpacing: '0.15em', color: 'rgba(240,232,216,0.3)', marginBottom: '0.4rem' }}>DR. MEIGHEN — CLINICAL INPUT</div>
+                                      <textarea
+                                        value={doctorNotes[lab.id] || ''}
+                                        onChange={e => setDoctorNotes(prev => ({ ...prev, [lab.id]: e.target.value }))}
+                                        rows={5}
+                                        placeholder="Answer ORION's questions above. Add clinical observations, patient history the AI doesn't have, symptom context, override any findings you disagree with, or add nuance from your clinical exam..."
+                                        style={{ width: '100%', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(154,124,232,0.25)', borderRadius: 4, padding: '0.6rem', color: '#F0E8D8', fontSize: '0.72rem', lineHeight: 1.6, resize: 'vertical', outline: 'none', boxSizing: 'border-box' }}
+                                      />
+                                    </div>
+
+                                    <button
+                                      onClick={() => generateCollaborativeProtocol(lab.id)}
+                                      disabled={isGenerating}
+                                      style={{ width: '100%', background: isGenerating ? 'rgba(154,124,232,0.2)' : 'rgba(154,124,232,0.15)', border: '1px solid rgba(154,124,232,0.4)', borderRadius: 4, padding: '0.6rem', color: '#9A7CE8', fontSize: '0.72rem', fontWeight: 700, cursor: isGenerating ? 'not-allowed' : 'pointer', letterSpacing: '0.1em', marginBottom: '0.75rem' }}
+                                    >
+                                      {isGenerating ? '⊕ ORION processing...' : '⚕ GENERATE FINAL PROTOCOL'}
+                                    </button>
+
+                                    {/* Collaborative protocol result */}
+                                    {collab && (
+                                      <div style={{ background: 'rgba(154,124,232,0.05)', border: '1px solid rgba(154,124,232,0.2)', borderRadius: 6, padding: '0.875rem' }}>
+                                        <div style={{ fontSize: '0.62rem', letterSpacing: '0.2em', color: '#9A7CE8', marginBottom: '0.75rem' }}>COLLABORATIVE PROTOCOL — DR. MEIGHEN + ORION</div>
+
+                                        {/* Consensus */}
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.6rem' }}>
+                                          <span style={{ fontSize: '0.65rem', color: 'rgba(240,232,216,0.4)' }}>Clinical Consensus</span>
+                                          <span style={{ fontSize: '0.65rem', fontWeight: 700, color: collab.clinical_consensus === 'High' ? '#3DC898' : collab.clinical_consensus === 'Moderate' ? '#E4B85A' : '#E06090' }}>{collab.clinical_consensus}</span>
+                                        </div>
+
+                                        {/* Final assessment */}
+                                        <div style={{ marginBottom: '0.75rem', padding: '0.6rem', background: 'rgba(154,124,232,0.08)', borderRadius: 4 }}>
+                                          <div style={{ fontSize: '0.6rem', color: '#9A7CE8', letterSpacing: '0.12em', marginBottom: '0.3rem' }}>FINAL ASSESSMENT</div>
+                                          <div style={{ fontSize: '0.72rem', color: 'rgba(240,232,216,0.8)', lineHeight: 1.6 }}>{collab.final_assessment}</div>
+                                        </div>
+
+                                        {/* Doctor additions */}
+                                        {collab.doctor_additions && collab.doctor_additions !== 'Analysis confirmed' && (
+                                          <div style={{ marginBottom: '0.75rem', padding: '0.5rem 0.6rem', background: 'rgba(61,200,152,0.06)', border: '1px solid rgba(61,200,152,0.15)', borderRadius: 4 }}>
+                                            <div style={{ fontSize: '0.6rem', color: '#3DC898', letterSpacing: '0.12em', marginBottom: '0.25rem' }}>DOCTOR ADDED</div>
+                                            <div style={{ fontSize: '0.68rem', color: 'rgba(240,232,216,0.6)', lineHeight: 1.5 }}>{collab.doctor_additions}</div>
+                                          </div>
+                                        )}
+
+                                        {/* Treatment protocols */}
+                                        {collab.treatment_protocols?.length > 0 && (
+                                          <div style={{ marginBottom: '0.75rem' }}>
+                                            <div style={{ fontSize: '0.6rem', color: '#C9963C', letterSpacing: '0.15em', marginBottom: '0.4rem' }}>TREATMENT PROTOCOLS</div>
+                                            {collab.treatment_protocols.map((p, i) => (
+                                              <div key={i} style={{ marginBottom: '0.5rem', padding: '0.6rem', background: 'rgba(201,150,60,0.05)', border: '1px solid rgba(201,150,60,0.15)', borderRadius: 4 }}>
+                                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
+                                                  <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#C9963C' }}>{p.priority}. {p.name}</span>
+                                                </div>
+                                                <div style={{ fontSize: '0.68rem', color: '#F0E8D8', fontWeight: 500, marginBottom: '0.15rem' }}>{p.dose}</div>
+                                                <div style={{ fontSize: '0.65rem', color: 'rgba(240,232,216,0.45)', lineHeight: 1.5 }}>{p.indication}</div>
+                                                {p.duration && <div style={{ fontSize: '0.62rem', color: 'rgba(240,232,216,0.3)', marginTop: '0.15rem' }}>Duration: {p.duration}</div>}
+                                                {p.monitoring && <div style={{ fontSize: '0.62rem', color: '#3DC898', marginTop: '0.1rem' }}>Monitor: {p.monitoring}</div>}
+                                              </div>
+                                            ))}
+                                          </div>
+                                        )}
+
+                                        {/* Nutrition */}
+                                        {collab.nutrition_protocol && (
+                                          <div style={{ marginBottom: '0.75rem', padding: '0.6rem', background: 'rgba(61,200,152,0.05)', border: '1px solid rgba(61,200,152,0.12)', borderRadius: 4 }}>
+                                            <div style={{ fontSize: '0.6rem', color: '#3DC898', letterSpacing: '0.12em', marginBottom: '0.3rem' }}>NUTRITION PROTOCOL</div>
+                                            <div style={{ fontSize: '0.68rem', color: 'rgba(240,232,216,0.65)', lineHeight: 1.6 }}>{collab.nutrition_protocol}</div>
+                                          </div>
+                                        )}
+
+                                        {/* Lifestyle */}
+                                        {collab.lifestyle_prescription?.length > 0 && (
+                                          <div style={{ marginBottom: '0.75rem' }}>
+                                            <div style={{ fontSize: '0.6rem', color: 'rgba(240,232,216,0.3)', letterSpacing: '0.15em', marginBottom: '0.35rem' }}>LIFESTYLE PRESCRIPTION</div>
+                                            {collab.lifestyle_prescription.map((l, i) => (
+                                              <div key={i} style={{ fontSize: '0.68rem', color: 'rgba(240,232,216,0.55)', lineHeight: 1.7 }}>• <strong style={{ color: 'rgba(240,232,216,0.75)' }}>{l.intervention}</strong>{l.dose ? ` — ${l.dose}` : ''}</div>
+                                            ))}
+                                          </div>
+                                        )}
+
+                                        {/* Retest schedule */}
+                                        {collab.retest_schedule?.length > 0 && (
+                                          <div style={{ marginBottom: '0.75rem' }}>
+                                            <div style={{ fontSize: '0.6rem', color: 'rgba(240,232,216,0.3)', letterSpacing: '0.15em', marginBottom: '0.35rem' }}>RETEST SCHEDULE</div>
+                                            {collab.retest_schedule.map((r, i) => (
+                                              <div key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.65rem', padding: '0.2rem 0', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                                                <span style={{ color: 'rgba(240,232,216,0.6)' }}>{r.test}</span>
+                                                <span style={{ color: '#9A7CE8' }}>{r.timeframe}</span>
+                                              </div>
+                                            ))}
+                                          </div>
+                                        )}
+
+                                        {/* Patient summary */}
+                                        {collab.patient_summary && (
+                                          <div style={{ padding: '0.6rem', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 4 }}>
+                                            <div style={{ fontSize: '0.6rem', color: 'rgba(240,232,216,0.3)', letterSpacing: '0.12em', marginBottom: '0.3rem' }}>PATIENT SUMMARY (to share)</div>
+                                            <div style={{ fontSize: '0.68rem', color: 'rgba(240,232,216,0.6)', lineHeight: 1.7 }}>{collab.patient_summary}</div>
+                                          </div>
+                                        )}
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            )
                           })()}
 
                           {/* Manual re-analyze button */}

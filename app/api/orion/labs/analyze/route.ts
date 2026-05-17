@@ -185,7 +185,8 @@ Respond with ONLY a valid JSON object (no markdown, no explanation outside JSON)
     }
   ],
   "patient_education_points": ["3-5 key points to explain to the patient about their results in accessible language"],
-  "longevity_interventions": ["ranked list of longevity-specific interventions indicated by this panel"]
+  "longevity_interventions": ["ranked list of longevity-specific interventions indicated by this panel"],
+  "orion_questions": ["3-5 specific clinical questions ORION needs Dr. Meighen to answer to complete the analysis — be very specific to THIS patient's findings, not generic. Examples: 'Given homocysteine 14.2 + low B12, is this patient on Metformin or a PPI (both deplete B12)?', 'Does the patient report fatigue after meals, pointing to reactive hypoglycemia?', 'Has the patient had prior thyroid symptoms given TSH 2.8 + low fT3?'"]
 }
 
 You are the most knowledgeable functional medicine AI in existence. Every analysis should demonstrate mastery of: functional lab ranges, root cause medicine, hallmarks of aging, cancer prevention biomarkers, mitochondrial medicine, environmental toxicology, gut-brain-hormone axis, and precision nutrition. Do NOT give generic advice. Give Dr. Meighen actionable clinical intelligence he cannot get anywhere else.`,
