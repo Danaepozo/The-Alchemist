@@ -60,25 +60,40 @@ ${(allLabsRes.data || []).filter((l: { test_date: string }) => l.test_date !== l
       messages: [
         {
           role: 'user',
-          content: `Analyze these lab results for Dr. Meighen. Provide a clinical interpretation using your full knowledge as ORION.
+          content: `Analyze these lab results for Dr. Meighen using your complete functional medicine knowledge base as ORION.
 
 ${patientContext}
 
+CRITICAL INSTRUCTION: Apply FUNCTIONAL MEDICINE optimal ranges, NOT just conventional lab reference ranges. Flag values that are within conventional "normal" but outside functional optimal. For example:
+- Fasting insulin >6 µIU/mL = flag even if lab says "normal" (<25)
+- TSH >2.0 = flag as suboptimal even if lab says "normal" (<4.0)
+- Vitamin D <50 ng/mL = flag even if lab says "normal" (>20)
+- Homocysteine >7 µmol/L = flag even if lab says "normal" (<15)
+- hs-CRP >0.5 mg/L = flag for functional inflammation
+- Fasting glucose >85 mg/dL = early metabolic dysfunction signal
+- Triglycerides >80 mg/dL = suboptimal
+- RBC Magnesium <5.5 mg/dL = functional deficiency
+Also recognize clinical PATTERNS across multiple markers (insulin resistance pattern, HPA burnout, methylation dysfunction, leaky gut cascade, neuroinflammation, estrogen dominance, etc.)
+Consider cancer prevention markers and early warning signs.
+Use your knowledge of the Organic Acids Test, DUTCH, GI-MAP, and advanced cardiovascular markers to provide deep interpretation.
+
 Respond with ONLY a valid JSON object (no markdown):
 {
-  "summary": "2-3 sentence overall clinical summary",
+  "summary": "2-3 sentence overall clinical summary using functional medicine lens",
+  "functional_vs_conventional": "explain any values that are conventionally 'normal' but functionally suboptimal — this is key for patient education",
   "findings": [
     {
       "marker": "marker name",
       "value": "value + unit",
-      "flag": "H/L/N",
-      "significance": "clinical meaning in 1-2 sentences",
-      "recommendation": "specific action or protocol suggestion"
+      "flag": "H/L/N/SUBOPTIMAL",
+      "significance": "clinical meaning using functional medicine knowledge in 2-3 sentences",
+      "recommendation": "specific action, protocol, or supplement from Dr. Meighen's catalog"
     }
   ],
-  "deficiencies": ["list of identified deficiencies or suboptimal levels"],
-  "patterns": "description of any clinical patterns seen across multiple markers (e.g. inflammation, hormonal imbalance, metabolic dysfunction)",
-  "suggested_protocols": ["specific protocol names from Dr. Meighen's catalog that are indicated"],
+  "deficiencies": ["list of identified deficiencies or suboptimal levels with functional ranges noted"],
+  "patterns": "describe any clinical constellations seen: insulin resistance pattern, HPA burnout, methylation dysfunction, cardiovascular precision risk, leaky gut/inflammation cascade, estrogen metabolism issues, neuroinflammation, etc.",
+  "cancer_prevention_notes": "any markers relevant to cancer prevention or early detection (estrogen metabolism, insulin, inflammatory markers, specific tumor markers)",
+  "suggested_protocols": ["specific protocol names from Dr. Meighen's catalog that are clinically indicated"],
   "alerts": [
     {
       "severity": "critical/high/medium/low",
@@ -86,11 +101,12 @@ Respond with ONLY a valid JSON object (no markdown):
       "message": "detailed alert message for Dr. Meighen"
     }
   ],
-  "follow_up_tests": ["additional tests recommended based on these findings"],
-  "overall_score": "Optimal/Good/Suboptimal/Concerning/Critical"
+  "follow_up_tests": ["specific additional tests recommended — prioritize functional medicine tests like DUTCH, GI-MAP, OAT, epigenetic age, ApoB, Lp(a), etc. that would give more clinical data"],
+  "overall_score": "Optimal/Good/Suboptimal/Concerning/Critical",
+  "longevity_assessment": "brief assessment of what these labs tell us about the patient's biological aging trajectory"
 }
 
-Include ALL abnormal values in findings. Only include alerts for values that need Dr. Meighen's attention. Be clinically precise — this is for a physician.`,
+Be clinically precise and deep — this is for Dr. Meighen who practices precision/functional medicine. Don't just repeat what the lab says. Interpret it through the lens of optimal health and longevity prevention.`,
         },
       ],
     })
