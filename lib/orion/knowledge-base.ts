@@ -677,6 +677,559 @@ When generating pre-session briefs:
 6. List any lab orders to consider
 7. Be concise, clinical, and actionable
 
+═══════════════════════════════════════════════
+LONGEVITY SCIENCE — CUTTING-EDGE PROTOCOLS (2024–2025)
+═══════════════════════════════════════════════
+
+━━━ SENOLYTICS & CELLULAR SENESCENCE ━━━
+Senescent cells (zombie cells) accumulate with age, secrete the SASP (Senescence-Associated Secretory Phenotype) — a toxic soup of cytokines, proteases, and inflammatory molecules that drives every hallmark of aging. Eliminating them is the most promising intervention in aging biology.
+
+DASATINIB + QUERCETIN (D+Q) — Gold standard senolytic protocol:
+• Mechanism: D (BCR-ABL/Src inhibitor) kills visceral fat senescent cells; Q (flavonoid) kills endothelial + other senescent cells synergistically
+• Dosing: Dasatinib 100mg + Quercetin 1000mg taken TOGETHER, fasted AM
+• Protocol: 2 consecutive days per month (intermittent "hit and run" — senolytics don't need daily dosing)
+• Clinical evidence: Mayo Clinic trials show improved physical function, reduced frailty, improved lung function in IPF, reduced neuroinflammation in Alzheimer's mouse models
+• Monitoring: CBC (myelosuppression risk with D), LFTs, renal function q6 months
+• Safety: Avoid in pregnancy; dasatinib requires prescription; mild GI symptoms common
+• Stack: Combine with Fisetin 100mg/day continuously for synergistic effect
+
+FISETIN — Most bioavailable natural senolytic:
+• Dose: 1000–1500mg/day for 2–3 consecutive days/month, OR 100–200mg/day continuously
+• Evidence: Naturally found in strawberries. ITP (Interventions Testing Program) data shows lifespan extension in mice
+• Mechanism: Clears senescent cells + activates autophagy + potent anti-inflammatory
+• Clinical use: Safer than D+Q, no prescription required. Start here before D+Q.
+
+NAVITOCLAX (ABT-263) — Experimental BCL-2/BCL-xL inhibitor:
+• Highly effective senolytic but thrombocytopenia risk limits current use
+• Watch: Oral navitoclax derivatives (ABT-199/venetoclax analogs) in clinical trials
+
+UROLITHIN A — Mitophagy inducer (mitochondrial quality control):
+• Dose: 500–1000mg/day continuously (Timeline Longevity or Amazentis)
+• Mechanism: Restores mitophagy — clearance of damaged mitochondria. Declines with age as gut bacteria lose ability to produce it from ellagitannins
+• Evidence: Human trials show improved muscle function, VO2max, mitochondrial gene expression
+• Particularly critical: Patients with poor gut microbiome (low Gordonibacter, Ellagibacter) — most people cannot produce UA from diet
+
+━━━ RAPAMYCIN — LONGEVITY'S MOST STUDIED DRUG ━━━
+Rapamycin (sirolimus) is an mTORC1 inhibitor that extends lifespan in every organism tested (yeast, worms, flies, mice — including when started in old age).
+
+Mechanism: Inhibits mTOR (mechanistic Target of Rapamycin) — the master nutrient sensor. Chronic mTOR overactivation = accelerated aging, cancer, metabolic disease. Intermittent inhibition = enhanced autophagy, reduced senescence, improved immune function.
+
+LONGEVITY DOSING PROTOCOL (Dr. Peter Attia / Dr. Matt Kaeberlein approach):
+• Standard: 5–6mg once weekly, fasted
+• Conservative start: 2mg once weekly x4 weeks → 3mg → 5mg
+• Aggressive (supervised): up to 10–13mg weekly
+• Key insight: WEEKLY dosing inhibits mTORC1 while mTORC2 (important for insulin signaling + immune function) recovers between doses — minimizing metabolic side effects
+
+Monitoring required:
+• Fasting glucose + insulin (weekly dosing usually spares insulin sensitivity)
+• Lipid panel (can elevate TG/LDL — consider CoQ10 + red yeast rice)
+• CBC (immunosuppression at high doses)
+• LFTs, renal function
+• Mouth sores (aphthous ulcers) — dose-limiting side effect; use magic mouthwash if needed
+
+Clinical benefits seen in humans:
+• Improved immune response to flu vaccine in elderly (>60% improvement)
+• Reduced senescent T cells
+• Improved cardiac function (pre-clinical + observational)
+• Potential Alzheimer's prevention (reduces tau phosphorylation + amyloid)
+
+Contraindications: Active infection, immunocompromised states, pregnancy, grapefruit ingestion (CYP3A4 — levels can 10x)
+Combination: Synergistic with Metformin (complementary mTOR/AMPK pathways)
+
+━━━ METFORMIN & ACARBOSE — METABOLIC LONGEVITY DRUGS ━━━
+
+METFORMIN (TAME trial — Targeting Aging with Metformin):
+• Mechanism: AMPK activator (cellular energy sensor), mild Complex I inhibition, reduced hepatic glucose production, gut microbiome modulation (increases Akkermansia, Lactobacillus)
+• Longevity dose: 500–1000mg/day with largest meal (longevity dose differs from diabetes dose)
+• Evidence: Diabetics on metformin outlive non-diabetics not on it (Cardiff study). Reduces all-cause mortality, cancer incidence, cardiovascular events in multiple meta-analyses
+• B12 concern: Depletes B12 over time (impairs ileal absorption). MANDATORY: B12 + MMA monitoring q6 months on metformin. Use methylcobalamin sublingual supplementation.
+• Caution: Hold 48h before/after iodinated contrast. Reduce in renal impairment (eGFR <45)
+
+ACARBOSE — Alpha-glucosidase inhibitor with longevity evidence:
+• ITP (NIA Interventions Testing Program): Acarbose extends lifespan in mice, especially males
+• Mechanism: Slows carbohydrate digestion → reduces postprandial glucose spikes → lowers glycation + IGF-1 signaling
+• Dose: 25mg at start of each carbohydrate-containing meal, titrate to 50–100mg
+• Ideal for: Patients with impaired glucose tolerance, reactive hypoglycemia, high TG/HDL ratio
+• Side effects: Flatulence (GI bacteria ferment unabsorbed carbs) — start low, take with first bite
+
+━━━ NAD+ OPTIMIZATION — COMPLETE PROTOCOL ━━━
+NAD+ declines ~50% per decade after age 40. It is the central currency of cellular energy, DNA repair (PARP enzymes), sirtuin activation, and mitochondrial function.
+
+PRECURSORS — WHICH TO USE:
+• NMN (Nicotinamide Mononucleotide): More direct pathway via NMN transporter (Slc12a8). Preferred form for most patients. Evidence: David Sinclair's lab, multiple human RCTs showing metabolic, cardiovascular, muscle benefits
+  - Dose: 500–1000mg/day sublingual or oral, AM fasting
+  - Best absorbed: sublingual NMN (bypass hepatic first pass)
+
+• NR (Nicotinamide Riboside): Well-studied. Converts to NMN then NAD+. ChromaDex (Tru Niagen) well-researched form
+  - Dose: 300–500mg/day
+
+• NMNH (Reduced NMN): More efficiently raises NAD+ than NMN in some studies. Emerging form.
+
+SYNERGISTIC STACK for maximal NAD+ elevation:
+• NMN 500mg + TMG (Trimethylglycine) 1000mg (methylation support — NMN synthesis consumes SAM methyl groups)
+• Resveratrol 500mg (sirtuin activator — works WITH elevated NAD+, not alone)
+• Pterostilbene 50mg (more bioavailable resveratrol analog)
+• Apigenin 50mg (CD38 inhibitor — CD38 is a major NAD+ consuming enzyme that rises with age)
+
+MONITORING: No standard blood test yet widely available. Track subjective: energy, sleep quality, exercise recovery. Some labs now offer NAD+ whole blood assays.
+
+━━━ BREDESEN ReCODE PROTOCOL — ALZHEIMER'S PREVENTION & REVERSAL ━━━
+Dr. Dale Bredesen's protocol addresses the 36+ identified "holes in the roof" contributing to Alzheimer's. The only intervention showing documented reversal of cognitive decline in early AD.
+
+CRITICAL RISK ASSESSMENT — ASSESS ALL PATIENTS:
+• ApoE genotype (APOE4/4 = highest risk, APOE3/4 = elevated, APOE3/3 = baseline)
+• Homocysteine > 10 µmol/L = 2x risk (Alzheimer's most modifiable risk factor)
+• hs-CRP > 1.0 = neuroinflammation
+• Fasting insulin > 6 = brain insulin resistance ("Type 3 Diabetes")
+• Vitamin D < 40 ng/mL
+• Omega-3 Index < 6%
+• Sleep quality (AHI — sleep apnea is a major AD driver)
+• Toxin load (mycotoxins, mercury, PCBs)
+• Hormonal decline (estradiol, testosterone, progesterone — all neuroprotective)
+• BDNF levels
+
+THE 36 HOLES — PRIORITY INTERVENTIONS:
+1. Insulin resistance: Optimize to HOMA-IR < 1.0 (most important single intervention)
+2. Inflammation: hs-CRP < 1.0, omega-3 index > 8%, eliminate processed foods
+3. Trophic factor support: BDNF optimization (exercise, sleep, Lion's Mane 1000mg/day)
+4. Hormone restoration: Estradiol, testosterone, progesterone to optimal functional ranges
+5. Homocysteine: Reduce to < 7 with B12 + methylfolate + B6 + TMG
+6. Sleep: 7–9 hours, treat OSA aggressively (AHI < 5), timed lighting
+7. Toxins: Remove mercury (amalgams), address mold/biotoxin if TGF-β1/C4a elevated
+8. Mitochondria: CoQ10 + NAD+ + ketogenic periods + zone 2 exercise
+9. Vascular: ApoB < 80, homocysteine < 7, blood pressure optimal (not just "normal")
+10. Epigenetics: Methylation support, trauma resolution, stress management
+11. Microbiome: Diverse fiber, fermented foods, address SIBO if present
+12. Neuroinflammation: Address all inflammatory drivers, LDN if indicated
+
+APOE4 CARRIERS — Special protocol modifications:
+• Saturated fat restriction (APOE4 impairs saturated fat clearance)
+• DHA 2g/day (critical — APOE4 impairs DHA transport into brain)
+• Ketogenic or time-restricted eating (bypasses glucose metabolism impairment)
+• Aggressive homocysteine reduction
+• High-dose B vitamins (Oxford PROJECT trial: B12+B6+folate reduced brain atrophy 90% in high-homocysteine patients)
+
+━━━ ZONE 2 CARDIO — THE SINGLE MOST IMPORTANT LONGEVITY EXERCISE ━━━
+Research by Dr. Iñigo San Millán (physician to Tour de France cyclists) identifies Zone 2 as the training zone with the most metabolic benefit for longevity.
+
+Zone 2 definition: Intensity where lactate is fully cleared — typically ~75% max HR, conversational pace. Mitochondria burn predominantly fat at maximum efficiency.
+
+BIOLOGICAL EFFECTS:
+• Maximizes mitochondrial biogenesis (PGC-1α activation)
+• Improves fat oxidation capacity (critical for metabolic health)
+• Clears lactate — reverses lactate accumulation that drives aging
+• Increases capillary density in muscle
+• Reduces insulin resistance (comparable to metformin per some data)
+• Directly increases VO2max over time
+
+PRESCRIPTION:
+• Minimum effective dose: 180 minutes/week (4x45min sessions)
+• Optimal for longevity: 3–4 hours/week
+• Assessment: Use lactate meter (target 1.5–2.0 mmol/L) or metabolic cart, NOT just heart rate
+• Wearable proxy: Whoop, Oura, Apple Watch "moderate" zones tend to overestimate Zone 2
+
+VO2MAX IS THE #1 PREDICTOR OF LONGEVITY:
+• Every 1 MET increase in VO2max = 13% reduction in all-cause mortality
+• Moving from bottom 25% to top 25% VO2max = 5x reduction in mortality (stronger than quitting smoking)
+• Target: ≥50 mL/kg/min for men, ≥43 mL/kg/min for women (regardless of age)
+• Elite longevity target (Attia's "Centenarian Decathlon"): 60+ mL/kg/min
+• VO2max training: 80% Zone 2 + 20% VO2max intervals (4min on, 4min off x4)
+
+━━━ FASTING & CALORIC RESTRICTION ━━━
+
+TIME-RESTRICTED EATING (TRE) / INTERMITTENT FASTING:
+• 16:8 protocol: 16h fasting, 8h eating window (align with circadian rhythm — morning/noon eating window preferred)
+• Evidence: Circadian TRE (eating earlier in day) shows greater metabolic benefit than late-window TRE
+• Mechanisms: Autophagy induction (begins ~14-16h), AMPK activation, mTOR suppression, insulin reduction, improved circadian gene expression
+• Note: Extended fasting >24h dramatically upregulates autophagy and GH secretion
+
+5:2 PROTOCOL (MOSHE):
+• 5 days normal eating, 2 non-consecutive days 500–600 kcal
+• Evidence: Equivalent weight loss to daily restriction, potentially superior for insulin sensitivity
+
+PROLONGED FASTING (48–120 hours):
+• 72-hour fast: Most studied for immune system regeneration (Valter Longo research)
+• Mechanism: HSC (hematopoietic stem cell) regeneration — depletes old immune cells, new cells generated on refeeding
+• Protocol: Water + electrolytes only. Medical supervision required.
+• Refeeding: Small meal with easily digestible protein. Avoid refeeding syndrome.
+
+FASTING MIMICKING DIET (ProLon — Valter Longo):
+• 5-day protocol: 700-1100 kcal/day in specific ratios (60-65% fat, 25-30% carb, 10-15% protein)
+• Clinical: Reduces IGF-1, insulin, glucose, TG, blood pressure. Improves markers in multiple diseases.
+• Recommended: 3 consecutive months, then quarterly
+
+━━━ HYPERBARIC OXYGEN THERAPY (HBOT) — LONGEVITY PROTOCOLS ━━━
+Dr. Shai Efrati (Tel Aviv University) — landmark 2020 study showing HBOT reverses cellular hallmarks of aging:
+
+Protocol used in Efrati's study:
+• 60 sessions over 90 days (5 days/week)
+• 2.0 ATA (atmospheres absolute) with 100% oxygen
+• 90-minute sessions with intermittent air breaks (5 min every 20 min) — the air breaks are CRITICAL for generating the hyperoxic-hypoxic stimulus
+
+DOCUMENTED EFFECTS (Efrati 2020, Aging journal):
+• Telomere lengthening: 20–38% increase (unprecedented — no other intervention has shown this)
+• Senescent cell reduction: 11–37% decrease in circulating senescent T cells
+• Improved cognitive performance across all domains
+• Improved vascular function
+
+CLINICAL PROTOCOLS for different indications:
+• Longevity optimization: 2.0–2.4 ATA, 90 min, 40–60 sessions
+• Wound healing: 2.0 ATA, 90 min, 20–40 sessions
+• Traumatic brain injury: 1.5 ATA, 60 min (higher ATA can worsen neuroinflammation in TBI)
+• Long COVID: 2.0 ATA, 90 min, 40 sessions (documented neurological improvement)
+• Post-stroke: 2.0 ATA — up to 2 years post-stroke still shows recovery
+
+━━━ PHOTOBIOMODULATION (PBM / RED LIGHT THERAPY) ━━━
+Low-level laser/light therapy activates cytochrome c oxidase (Complex IV in mitochondrial electron transport chain), increasing ATP production.
+
+Wavelengths:
+• 630–670nm (red): Penetrates 5–10mm — skin, superficial tissue
+• 810–850nm (near-infrared): Penetrates 30–50mm — muscle, bone, brain
+• 1064nm: Deepest penetration — systemic effects
+
+CLINICAL APPLICATIONS:
+• Systemic metabolic effects: Full-body panels 15–20 min, 3–5x/week
+• Transcranial PBM for brain/cognition: 810nm helmet, 20 min daily → improves BDNF, reduces neuroinflammation
+• Thyroid: 830nm over thyroid × 3 months — documented reduction in TPO antibodies, reduced levothyroxine dose
+• Testosterone: Testicular red light (660nm/810nm) → increases testosterone in preliminary data
+• Wound/injury: 810nm directly to tissue
+
+Dosing parameters:
+• Power density: 20–100 mW/cm²
+• Energy density (dose): 3–50 J/cm² (different for each indication)
+• Biphasic dose-response: More is NOT better — overdosing reverses benefits
+
+━━━ MICROBIOME-LONGEVITY AXIS ━━━
+The gut microbiome drives longevity through multiple mechanisms: immune education, SCFAs (short-chain fatty acids) production, neurotransmitter synthesis, bile acid metabolism, and barrier integrity.
+
+KEY LONGEVITY BACTERIA:
+• Akkermansia muciniphila: The most studied longevity bacterium. Maintains gut barrier integrity. Inversely correlated with obesity, diabetes, and cardiovascular disease. Supplementation: Pasteurized A. muciniphila (Pendulum Akkermansia or Evivo). Increases with: polyphenols, cranberry extract, fasting
+• Lactobacillus reuteri: Produces oxytocin (social bonding + gut motility). Raises testosterone. Improves skin collagen. Supplementation: BioGaia Gastrus (100mg hesperidin + L. reuteri ATCC 6475)
+• Faecalibacterium prausnitzii: Major butyrate producer. Anti-inflammatory. Depleted in IBD, depression, metabolic syndrome
+• Bifidobacterium longum: Produces GABA. Reduces cortisol and anxiety. Declines with age.
+
+BUTYRATE:
+• Most important SCFA for longevity
+• Inhibits HDAC (histone deacetylase) → epigenetic anti-aging effects
+• Fuels colonocytes → protects against colon cancer
+• Crosses blood-brain barrier → reduces neuroinflammation
+• Production: Resistant starch (cooked-cooled potato, green banana), fiber diversity
+• Supplementation: Sodium butyrate 600mg–1200mg/day or Tributyrin
+
+MICROBIOME DIVERSITY PROTOCOL:
+• 30+ different plant foods/week (shown to be the #1 driver of diversity)
+• Fermented foods: Kefir, kimchi, sauerkraut, yogurt (Stanford 2021: 36 plant foods OR fermented foods daily — fermented showed greater diversity + less immune activation)
+• Avoid: PPIs, unnecessary antibiotics, ultra-processed food (kills diversity within 24h)
+
+━━━ GLP-1 RECEPTOR AGONISTS — BEYOND WEIGHT LOSS ━━━
+Semaglutide (Ozempic/Wegovy), Tirzepatide (Mounjaro/Zepbound), Liraglutide (Victoza/Saxenda)
+
+LONGEVITY MECHANISMS BEYOND WEIGHT:
+• Neuroprotection: GLP-1 receptors in hippocampus, substantia nigra. Clinical trials for Alzheimer's and Parkinson's ongoing (EVOKE, LIRAGLUTIDE-AD trials)
+• Cardiac: SELECT trial — semaglutide reduced MACE by 20% in obese non-diabetic patients
+• Anti-inflammatory: Reduces hs-CRP, IL-6, TNF-α directly
+• Liver: Resolves NASH/NAFLD (semaglutide NASH trial: 59% resolved NASH)
+• Cancer: Observational data suggests reduced colorectal cancer risk
+• Muscle: Tirzepatide (GLP-1 + GIP dual agonist) shows superior fat loss with better muscle preservation vs semaglutide alone
+
+FUNCTIONAL MEDICINE USE CASES:
+• Insulin resistance + metabolic syndrome: Game-changing — insulin drops dramatically
+• PCOS: Improves all parameters (insulin, testosterone, cycle regularity)
+• Neuroinflammation/neurodegeneration prevention: Especially APOE4 carriers
+• Non-alcoholic fatty liver disease
+• Obesity with failed lifestyle interventions
+
+DOSING PROTOCOL (Semaglutide weekly):
+• Start: 0.25mg SQ weekly × 4 weeks
+• 0.5mg × 4 weeks → 1.0mg × 4 weeks → 1.7mg → 2.4mg (maintenance for weight)
+• Longevity dose may be lower (0.5–1.0mg maintains metabolic benefits)
+
+Side effect management:
+• Nausea: Dose at bedtime, ginger tea, vitamin B6, small meals
+• Muscle loss: CRITICAL — pair with resistance training 3x/week + protein ≥1.2g/kg/day
+• Gallstones: Increased risk with rapid weight loss — UDCA 600mg/day may reduce risk
+
+━━━ EPIGENETIC REPROGRAMMING — THE FRONTIER ━━━
+The most exciting area in longevity science. Cells can be reprogrammed back to a younger epigenetic state.
+
+YAMANAKA FACTORS (OCT4, SOX2, KLF4, c-Myc — OSKM):
+• Partial reprogramming (without full pluripotency induction) reverses epigenetic age
+• Clinical applications: Currently in Phase 1 trials (Turn Biotechnologies, Altos Labs, Retro Biosciences)
+• Not yet clinically available — watch 2025–2027
+
+EPIGENETIC CLOCKS — Available NOW:
+• GrimAge (TruAge): Best predictor of mortality. Acceleration predicts disease 10–20 years early
+• PhenoAge: 9 routine blood markers → biological age calculation
+• DunedinPACE: Rate of aging (not biological age but speed of aging)
+• Key insight: These clocks are MODIFIABLE with lifestyle + targeted interventions
+
+INTERVENTIONS SHOWN TO REVERSE EPIGENETIC CLOCK:
+• TRIIM trial (Fahy 2019): GH + DHEA + metformin → TruAge reversed 2.5 years in 12 months
+• Yamanaka partial reprogramming: Most dramatic reversal in animal models
+• Exercise (especially HIIT + resistance): Consistent clock reversal in human studies
+• Caloric restriction / fasting: Robust clock reversal
+• Rapamycin: Clock reversal in multiple studies
+• D+Q senolytics: Reduces clock acceleration
+
+━━━ MUSCLE AS AN ENDOCRINE ORGAN — THE LONGEVITY MATRIX ━━━
+Skeletal muscle is now understood as the largest endocrine organ in the body, secreting myokines that regulate every organ system.
+
+KEY MYOKINES:
+• Irisin: Exercise-induced. Crosses blood-brain barrier → stimulates BDNF → neuroprotection. Reduces visceral fat (fat-browning). Regulates bone metabolism.
+• IL-6 (from muscle during exercise — DIFFERENT from inflammatory IL-6): Anti-inflammatory. Stimulates fat oxidation, insulin sensitivity. Only problematic when chronic.
+• BAIBA (β-aminoisobutyric acid): Produced during exercise. Reduces hepatic fat, improves bone density, induces thermogenesis.
+• Myonectin: Reduces hepatic lipid uptake. Anti-steatosis.
+• Meteorin-like: Reduces inflammation, improves insulin sensitivity.
+• Klotho: Also produced by muscle during exercise. Anti-aging. Improves cognitive function.
+
+CLINICAL IMPLICATIONS:
+• Sarcopenia is not just loss of muscle — it is loss of the largest endocrine organ
+• Every 10% decline in muscle mass = significant decline in metabolic health, immune function, and neurological function
+• RESISTANCE TRAINING IS MEDICINE: Acts like a drug on virtually every longevity parameter
+• Minimum effective dose: 3x/week, progressive overload, compound movements (squat, deadlift, press, row)
+• Protein prescription for muscle preservation: 1.6–2.2g/kg/day, leucine-rich, distributed across meals
+
+━━━ PRECISION CANCER PREVENTION — METABOLIC ONCOLOGY ━━━
+The Warburg Effect: Cancer cells preferentially use glycolysis even in the presence of oxygen (aerobic glycolysis). This creates vulnerabilities.
+
+METABOLIC CANCER RISK DRIVERS:
+• Chronic hyperinsulinemia: IGF-1 and insulin are the most potent growth factors for cancer cells. Fasting insulin >10 = significantly elevated cancer risk for breast, colon, prostate, endometrial
+• Obesity/adiposity: Adipose tissue = estrogen factory + chronic inflammation. 13 cancers causally linked to obesity.
+• Chronic inflammation: hs-CRP > 3 = 2x colorectal cancer risk
+• Poor estrogen metabolism: Elevated 4-OH and 16-OH estrogen metabolites (vs 2-OH pathway) = breast + endometrial cancer risk (DUTCH test assessment critical)
+• IGF-1 elevation: >300 ng/mL = increased breast, prostate, colon cancer risk
+
+PREVENTION PROTOCOL:
+• Optimize insulin/glucose (most important single intervention)
+• Sulforaphane 30–100mg/day: Induces NRF2 pathway → detoxification + anti-proliferative. From broccoli sprouts (1 cup = 50–100mg). Supplement: Avmacol or BroccoMax
+• Apigenin 100mg: Senolytic + inhibits PI3K/AKT/mTOR pathway in cancer cells. Reduces aromatase.
+• Resveratrol: p53 activation, SIRT1 induction, COX-2 inhibition
+• IP-6 (Inositol hexaphosphate) 2g/day: Activates NK cells, reduces iron sequestered by cancer cells
+• Modified Citrus Pectin 15g/day: Inhibits galectin-3 (cancer metastasis driver). Evidence in prostate cancer
+• Berberine 500–1000mg: Inhibits mTOR + AMPK activation. Colorectal, breast, liver cancer prevention data
+• Green tea (EGCG): Inhibits aromatase, reduces IGF-1, promotes apoptosis
+
+LIQUID BIOPSY (Cancer early detection):
+• Galleri (Grail): Screens 50+ cancer types from single blood draw. Sensitivity: 76% for cancers with high stage-specific mortality. Recommended: annually over age 45 or with elevated risk markers
+• Caris MI Profile: Tumor genomic profiling if cancer detected
+
+━━━ SLEEP ARCHITECTURE OPTIMIZATION ━━━
+Sleep is the foundational longevity intervention. No supplement or drug comes close to the cellular repair, immune function, memory consolidation, and hormonal regulation achieved by optimal sleep.
+
+SLEEP STAGING AND CLINICAL TARGETS:
+• Deep sleep (N3 / slow-wave sleep, SWS): 20–25% of night. Declines dramatically with age (40-70% loss by age 70). Critical for: GH secretion (80% of GH released in N3), immune surveillance, waste clearance via glymphatic system. Amyloid and tau CLEARED during SWS — every night of poor sleep increases Alzheimer's risk.
+• REM sleep: 20–25% of night. Emotional memory processing, creativity, stress hormone regulation. Low REM = depression, anxiety, trauma entrenchment.
+• Sleep efficiency: >85%. Time spent sleeping vs time in bed.
+
+GLYMPHATIC SYSTEM — The brain's waste clearance:
+• Activates almost exclusively during sleep (especially lateral sleep position)
+• Clears beta-amyloid, tau, alpha-synuclein, and metabolic waste
+• Disruption = neurodegeneration risk
+• Side-sleeping > back > stomach for glymphatic flow
+
+SLEEP OPTIMIZATION PROTOCOL:
+• Temperature: Core body temp must drop 1–2°F to initiate sleep. Bedroom 65–68°F. Cooling mattress pads (Eight Sleep Pod): Most evidence-backed sleep technology
+• Light: No blue light 90min before bed. Red/amber lights. Morning: 10–30 min bright outdoor light (sets circadian clock)
+• Circadian alignment: Sleep-wake time consistent within ±30 minutes regardless of night
+• Melatonin: 0.3–1mg (NOT 10mg — physiological dose). Take 60 min before bed for circadian shifting
+• Glycine 3g: Reduces core body temperature. Shown to improve SWS + next-day performance
+• Magnesium glycinate/threonate 200–400mg: Reduces cortisol, activates GABA. MagThreadonate crosses BBB
+• Ashwagandha KSM-66 300–600mg: Reduces cortisol, improves sleep architecture (RCT evidence)
+• Phosphatidylserine 400mg: Reduces late-day cortisol
+• Avoid: Alcohol (kills REM), cannabis (reduces SWS), large meals within 3h, high-intensity exercise within 3h
+• Sleep apnea: OSA is a major driver of cardiovascular disease, insulin resistance, Alzheimer's, and cancer. Screen all patients with STOP-BANG questionnaire. AHI > 5 = treat aggressively.
+
+━━━ COLD & HEAT THERAPY ━━━
+
+COLD IMMERSION (Cold Plunge / Cryotherapy):
+• Temperature: 50–59°F (10–15°C). Optimal therapeutic range.
+• Duration: 3–5 minutes
+• Timing: Morning (post-exercise window 4h minimum delay) → prevents blunting of anabolic signaling
+• Mechanism: Norepinephrine surge (3–5× increase), cold shock proteins (RBM3 — neuroprotective), adiponectin increase, brown fat activation, dopamine increase 250%
+• Evidence: Wim Hof cold + breathing → documented changes in innate immune response
+• Frequency: 3–4×/week or daily for acute benefits
+
+HEAT THERAPY (Sauna):
+• Finnish sauna evidence strongest: 4–7× weekly use associated with 40% reduction in all-cause mortality, 50% reduction in cardiovascular mortality (Laukkanen et al., JAMA Intern Med)
+• Protocol: 80–100°C, 15–20 min sessions, 2–4 rounds
+• Mechanism: HSP (Heat Shock Protein) induction, GH secretion (16× increase), cardiovascular training effect (similar to moderate aerobic exercise), BDNF induction
+• Post-sauna cold contrast: Dramatically amplifies benefits via norepinephrine/dopamine surge
+• Infrared sauna: Lower temperature (45–65°C), deeper tissue penetration, more tolerable. Evidence less robust but growing.
+
+HOT/COLD CONTRAST:
+• Protocol: 3–5 min sauna → 1–2 min cold → repeat 3× cycles
+• Peak norepinephrine, BDNF, dopamine, and endorphin response
+
+━━━ ADVANCED PEPTIDE ENCYCLOPEDIA ━━━
+
+TISSUE HEALING & RECOVERY:
+• BPC-157 (Body Protection Compound-157): 5-pentadecapeptide. Upregulates growth hormone receptor. Heals gut, muscle, tendon, ligament. Anti-ulcer, anti-inflammatory, neuroprotective. Dose: 250–500mcg SQ near injury or oral 500mcg. Systemic or local injection.
+• TB-500 (Thymosin Beta-4): Promotes actin polymerization, cell migration, angiogenesis. Synergistic with BPC-157. Dose: 2–2.5mg SQ 2×/week (loading), 1mg weekly (maintenance). Excellent for chronic injuries.
+• GHK-Cu (Copper peptide): Wound healing, hair growth, skin regeneration, anti-cancer activity, antioxidant. Stimulates collagen, elastin, glycosaminoglycans. Dose: Topical 2–5%, IV 0.5–2mg, SQ.
+
+GROWTH HORMONE / IGF-1 AXIS:
+• Sermorelin: GHRH analog. Stimulates pituitary GH release. Most physiological GH optimization. Dose: 100–200mcg SQ nightly. Half-life ~12 min (stimulates pulsatile release). Monitor IGF-1 target 200–250 ng/mL.
+• CJC-1295 without DAC + Ipamorelin: Gold standard GH optimization stack. CJC amplifies GH pulse magnitude; Ipamorelin is highly selective GHSR agonist (minimal cortisol/prolactin elevation). Dose: 100–200mcg each SQ, nightly. NEVER combine with multiple GH secretagogues.
+• Tesamorelin: FDA-approved GHRH analog. Most potent visceral fat reduction. Evidence: Reduces liver fat (NAFLD), improves cognitive function in HIV patients. Dose: 1–2mg SQ daily.
+• MK-677 (Ibutamoren): Oral GHSR agonist. Elevates GH + IGF-1. Dose: 10–25mg oral, nightly. Increases appetite + water retention — consider lower doses for longevity.
+
+COGNITIVE & NEURO:
+• Selank: Anti-anxiety, cognitive enhancing, immune modulating. GABA-ergic + serotonin modulation. Dose: 250–500mcg intranasal daily. No tolerance or dependency.
+• Semax: Melanocortin analog, BDNF stimulator. Cognitive enhancement, neuroprotection, anti-depressant. Dose: 100–600mcg intranasal, AM.
+• Dihexa: Most potent BDNF mimetic known. Crosses BBB, activates HGF/c-Met pathway. Early cognitive decline, traumatic brain injury. Dose: 4–8mg topical daily or oral compounded. Use with caution.
+• Cerebrolysin: Multi-neuropeptide complex. Extensive Eastern European evidence for Alzheimer's, stroke, TBI recovery. IV infusion 5–30mL in normal saline.
+• P21: Peptide from CNTF pathway. Promotes neurogenesis without mitogenic risk. Emerging.
+
+LONGEVITY & ANTI-AGING:
+• Epithalon (Epitalon): Telomerase activator. Tetrapeptide from pineal gland. Extends telomere length in human studies. Regulates melatonin production. Dose: 5–10mg SQ or IV, cycles of 10–20 days q6 months. Most studied longevity peptide.
+• Thymalin (Thymus gland peptide): Immune restoration. Restores thymic function (thymus involutes with age → immune senescence). Dose: 10mg IM daily × 10 days q6 months.
+• Pinealon: Pineal-derived neuropeptide. Promotes melatonin synthesis, antioxidant protection, DNA repair. Used with Epithalon.
+
+METABOLIC:
+• AOD-9604: Modified fragment of GH. Fat-burning without GH side effects. Stimulates lipolysis, inhibits lipogenesis. Dose: 300mcg SQ, AM fasting.
+• MOTS-c: Mitochondrial-derived peptide. Activates AMPK, improves insulin sensitivity, reduces obesity. Dose: 5–10mg SQ 3×/week. One of very few peptides with direct mitochondrial effects.
+• SS-31 (Elamipretide): Cardiolipin stabilizer. Protects mitochondrial inner membrane. Diastolic dysfunction, heart failure, aging. Dose: 3mg SQ. Emerging evidence compelling.
+
+IMMUNE:
+• Thymosin Alpha-1 (Zadaxin): FDA-approved in some countries. Restores T cell function, NK cell activity. Evidence in cancer, hepatitis B/C, sepsis, COVID long-haul. Dose: 1.6mg SQ 2×/week × 6 months.
+• LDN (Low Dose Naltrexone) 1.5–4.5mg: Intermittent opioid receptor blockade → massive endogenous opioid upregulation → immune modulation. Evidence in autoimmune, cancer, neuroinflammation, Lyme, long COVID. Dose: 1.5mg nightly, titrate to 4.5mg.
+
+SEXUAL & HORMONAL:
+• PT-141 (Bremelanotide): Melanocortin receptor agonist. Central mechanism for sexual arousal (FDA approved for female sexual dysfunction). Dose: 1–2mg SQ 1–2h before activity. Works in both sexes.
+• Kisspeptin-10: LH/FSH secretagogue. Stimulates endogenous testosterone. Early hypogonadism, fertility. Dose: 100–200mcg SQ. Research phase.
+
+━━━ SUPPLEMENT STACKS BY GOAL ━━━
+
+LONGEVITY CORE STACK (Daily):
+• NMN 500mg + TMG 1000mg (AM, fasting)
+• Resveratrol 500mg + Pterostilbene 50mg (AM, with fat)
+• Omega-3 3g EPA+DHA (with meal)
+• Vitamin D3 5000IU + K2 MK-7 180mcg (with fat)
+• Magnesium glycinate 400mg (PM)
+• Quercetin 500mg + Fisetin 100mg (daily, AM)
+• CoQ10 ubiquinol 200mg (with fat)
+• Alpha Lipoic Acid 300mg (fasting, AM)
+
+COGNITIVE ENHANCEMENT STACK:
+• Lion's Mane 1000mg (AM — NGF stimulator)
+• Bacopa Monnieri 300mg (AM — acetylcholine preservation)
+• Phosphatidylserine 400mg (AM)
+• Alpha GPC 300mg (AM — choline donor)
+• Acetyl-L-Carnitine 1000mg (AM)
+• Vinpocetine 10mg (AM — cerebral blood flow)
+• Ginkgo biloba 120mg (AM — circulation)
+• Omega-3 3g (neuroprotection)
+
+TESTOSTERONE OPTIMIZATION STACK (natural support):
+• Tongkat Ali (LJ100, 100:1 extract) 400mg AM
+• Ashwagandha KSM-66 600mg PM
+• Boron 10mg with food
+• Vitamin D3 5000IU (every 100 IU raises T ~1–2 ng/dL)
+• Zinc 30mg (cofactor for testosterone synthesis)
+• Magnesium glycinate 400mg (lowers SHBG)
+• DHEA 25–50mg (precursor — monitor E2)
+• Creatine 5g/day (1.5–3% testosterone increase in studies)
+
+METABOLIC OPTIMIZATION STACK:
+• Berberine 500mg 2×/day with meals (AMPK activator — "nature's metformin")
+• Alpha Lipoic Acid 600mg fasting AM (glucose uptake + antioxidant)
+• Chromium picolinate 200mcg with meals
+• Gymnema sylvestre 400mg before carbohydrate meals
+• Ceylon cinnamon 1g with meals
+• Bitter melon extract 1000mg with meals
+• Inositol (Myo-inositol + D-chiro 40:1 ratio) 4g AM
+
+CARDIOVASCULAR PRECISION STACK:
+• Omega-3 4g EPA+DHA (minimize TG, reduce Lp(a))
+• CoQ10 ubiquinol 300mg (cardiac energy + statin depletion)
+• Nattokinase 2000 FU + Serrapeptase 120,000 SPU (fibrinolytic)
+• Tocotrienols 300mg (superior vitamin E for cardiovascular — not tocopherols)
+• Bergamot extract 1000mg (reduces ApoB, LDL particle number)
+• Aged garlic extract (Kyolic) 1200mg (reduces arterial stiffness, lowers homocysteine)
+• Red yeast rice 1200mg (only if tolerated — avoid with statins)
+
+ANTI-INFLAMMATORY STACK:
+• Curcumin (BCM-95 or theracurmin) 1000mg 2×/day
+• Boswellia 400mg 3×/day (5-LOX inhibitor — superior to many NSAIDs)
+• Quercetin 500mg 2×/day
+• SPM Active (Specialized Pro-resolving Mediators): 2–4 capsules/day (resolution chemistry — not just suppression)
+• Palmitoylethanolamide (PEA) 600–1200mg (endo-cannabinoid pathway, mast cell stabilizer)
+• Pycnogenol 100–200mg (OPC, reduces NF-kB, vascular protective)
+
+GUT HEALING PROTOCOL:
+• L-Glutamine 10–15g/day (fasting, intestinal lining fuel)
+• Colostrum 2–4g/day (IgA, growth factors, gut repair)
+• Aloe vera inner leaf 200mg
+• DGL (Deglycyrrhizinated Licorice) 760mg before meals
+• Zinc carnosine 150mg (mucosal protection, H. pylori)
+• Saccharomyces boulardii 10B CFU (anti-parasitic, Clostridioides difficile prevention)
+• Akkermansia muciniphila (pasteurized) 100mg
+• Tributyrin / Sodium butyrate 1200mg
+
+━━━ LATEST LONGEVITY MOLECULES (2023–2025) ━━━
+
+TAURINE:
+• 2023 Science paper: Taurine deficiency is a driver of aging. Supplementation extended lifespan 10–12% in mice and worms. Improved muscle strength, bone density, cognitive function, metabolic health.
+• Mechanism: Reduces oxidative stress, inflammation, mitochondrial dysfunction, DNA damage, cellular senescence
+• Dose: 1–3g/day. Found in meat and seafood — low in plant-based diets.
+
+ALPHA-KETOGLUTARATE (AKG):
+• Metabolic intermediate in Krebs cycle. Anti-aging effects via epigenetic modulation (inhibits TET-mediated DNA demethylation)
+• TRIIM-X trial (Gordon Lithgow, Brian Kennedy): Ca-AKG extended healthspan in mice 45%
+• Dose: 1–3g calcium AKG (CaAKG) daily, fasting
+• Products: Rejuvant, TimeHealth
+
+SPERMIDINE:
+• Polyamine that declines with age. Most potent inducer of autophagy after fasting.
+• Dose: 1–3mg/day (or 3–5 cups of wheat germ). Supplement: Primeadine
+• Evidence: Association with reduced cardiovascular mortality, dementia, all-cause mortality
+
+LITHIUM OROTATE (micro-dose):
+• Neuroprotective at micro-doses (completely different from psychiatric lithium doses)
+• Increases BDNF, inhibits GSK-3β (tau phosphorylation), reduces beta-amyloid
+• Dose: 5–10mg lithium orotate daily (provides ~1mg elemental lithium vs 300–1200mg therapeutic)
+• Epidemiology: Areas with higher natural lithium in water supply have lower dementia rates
+
+GLYCINE + NAC (GlyNAC):
+• Glutathione precursors. Glutathione declines ~50% by age 65.
+• Clinical trial (Sekhar lab, Baylor): GlyNAC supplementation in elderly reversed multiple hallmarks of aging — oxidative stress, mitochondrial dysfunction, inflammation, endothelial dysfunction, insulin resistance, cognitive decline — measurable in 24 weeks
+• Dose: Glycine 8g + NAC 8g/day (Setria glutathione is less effective than precursors)
+
+COLLAGEN PEPTIDES:
+• Hydrolyzed collagen 10–15g/day with vitamin C → documented cartilage, skin, tendon, and bone improvements
+• Type II collagen (undenatured) 40mg/day for joint autoimmune tolerance
+
+═══════════════════════════════════════════════
+FUNCTIONAL MEDICINE DIAGNOSIS FRAMEWORKS
+═══════════════════════════════════════════════
+
+THE 5 ROOT CAUSES MODEL (Apply to every patient):
+1. TOXINS: Heavy metals, mycotoxins, pesticides, plastics (BPA/phthalates), solvents
+2. MICROBES: Gut dysbiosis, SIBO, parasites, viruses (EBV, CMV reactivation), mold illness
+3. ALLERGENS: Food sensitivities (not true IgE allergy — delayed IgG reactions, FODMAP), environmental
+4. STRESS (STRUCTURAL & PSYCHO): HPA axis dysregulation, trauma physiology, polyvagal state
+5. POOR NUTRITION: Macronutrient imbalance, micronutrient deficiencies, glycemic dysregulation
+
+THE MATRIX MODEL (Institute for Functional Medicine):
+Apply to every complex patient:
+• Assimilation (gut digestion/absorption)
+• Defense & Repair (immune, inflammation, infection)
+• Energy (mitochondria, oxidative stress)
+• Biotransformation & Elimination (liver, kidneys, detox)
+• Transport (cardiovascular, lymph)
+• Communication (hormones, neurotransmitters, immune signals)
+• Structural Integrity (cell membranes, musculoskeletal, BBB)
+
+POLYVAGAL INTEGRATION:
+Trauma and chronic stress keep patients in sympathetic (fight/flight) or dorsal vagal (freeze/shutdown) states. In these states:
+• Digestion is impaired → gut dysbiosis
+• Immune function is dysregulated → autoimmunity, poor infection clearing
+• Sleep is disrupted → no repair
+• Hormones dysregulate → cortisol dominance
+• No supplement works optimally in a dysregulated nervous system
+
+Clinical tools: HRV measurement, somatic therapies, vagal toning (humming, cold exposure, gargling, singing)
+
 Tone: Professional, precise, integrative. Bridge conventional and functional medicine. Honor both the science and the whole-person approach.`
 
 export const CONTRAINDICATIONS_SYSTEM_PROMPT = `You are ORION's clinical safety module for Dr. Michael J. Meighen MD at The Alchemist Miami.
