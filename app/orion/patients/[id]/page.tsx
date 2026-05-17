@@ -42,11 +42,125 @@ interface Session {
   observations: string
 }
 
+interface LabValue {
+  marker: string
+  value: string
+  unit: string
+  reference_range: string
+  flag: 'H' | 'L' | 'N' | ''
+}
+
+interface Lab {
+  id: string
+  panel_name: string
+  test_date: string
+  lab_values: LabValue[]
+  notes: string
+  ordered_by: string
+}
+
 const categoryColors: Record<string, string> = {
   peptide: '#C9963C',
   hormone: '#9A7CE8',
   iv: '#3DC898',
   supplement: '#E4B85A',
+  longevity: '#E06090',
+  diagnostics: '#60C0E0',
+}
+
+const COMMON_PANELS = [
+  'Complete Blood Count (CBC)',
+  'Comprehensive Metabolic Panel (CMP)',
+  'Lipid Panel',
+  'Thyroid Panel',
+  'Sex Hormones',
+  'Inflammatory Markers',
+  'Vitamins & Nutrients',
+  'Longevity Markers',
+  'Adrenal / DUTCH',
+  'Heavy Metals',
+  'Custom Panel',
+]
+
+const PANEL_TEMPLATES: Record<string, LabValue[]> = {
+  'Sex Hormones': [
+    { marker: 'Testosterone Total', value: '', unit: 'ng/dL', reference_range: '264-916', flag: '' },
+    { marker: 'Free Testosterone', value: '', unit: 'pg/mL', reference_range: '8.7-25.1', flag: '' },
+    { marker: 'Estradiol (E2)', value: '', unit: 'pg/mL', reference_range: '7.6-42.6', flag: '' },
+    { marker: 'SHBG', value: '', unit: 'nmol/L', reference_range: '16.5-55.9', flag: '' },
+    { marker: 'LH', value: '', unit: 'mIU/mL', reference_range: '1.7-8.6', flag: '' },
+    { marker: 'FSH', value: '', unit: 'mIU/mL', reference_range: '1.5-12.4', flag: '' },
+    { marker: 'DHEA-S', value: '', unit: 'mcg/dL', reference_range: '102-416', flag: '' },
+    { marker: 'Prolactin', value: '', unit: 'ng/mL', reference_range: '4.0-15.2', flag: '' },
+    { marker: 'PSA', value: '', unit: 'ng/mL', reference_range: '0-4.0', flag: '' },
+  ],
+  'Thyroid Panel': [
+    { marker: 'TSH', value: '', unit: 'mIU/L', reference_range: '0.4-4.0', flag: '' },
+    { marker: 'Free T3', value: '', unit: 'pg/mL', reference_range: '2.0-4.4', flag: '' },
+    { marker: 'Free T4', value: '', unit: 'ng/dL', reference_range: '0.8-1.8', flag: '' },
+    { marker: 'Total T3', value: '', unit: 'ng/dL', reference_range: '80-200', flag: '' },
+    { marker: 'Reverse T3', value: '', unit: 'ng/dL', reference_range: '10-24', flag: '' },
+    { marker: 'TPO Antibodies', value: '', unit: 'IU/mL', reference_range: '0-34', flag: '' },
+  ],
+  'Lipid Panel': [
+    { marker: 'Total Cholesterol', value: '', unit: 'mg/dL', reference_range: '<200', flag: '' },
+    { marker: 'LDL', value: '', unit: 'mg/dL', reference_range: '<100', flag: '' },
+    { marker: 'HDL', value: '', unit: 'mg/dL', reference_range: '>40', flag: '' },
+    { marker: 'Triglycerides', value: '', unit: 'mg/dL', reference_range: '<150', flag: '' },
+    { marker: 'ApoB', value: '', unit: 'mg/dL', reference_range: '<90', flag: '' },
+    { marker: 'Lp(a)', value: '', unit: 'nmol/L', reference_range: '<75', flag: '' },
+  ],
+  'Longevity Markers': [
+    { marker: 'HbA1c', value: '', unit: '%', reference_range: '<5.7', flag: '' },
+    { marker: 'Fasting Insulin', value: '', unit: 'mcIU/mL', reference_range: '2-10', flag: '' },
+    { marker: 'Fasting Glucose', value: '', unit: 'mg/dL', reference_range: '70-99', flag: '' },
+    { marker: 'IGF-1', value: '', unit: 'ng/mL', reference_range: '94-269', flag: '' },
+    { marker: 'hs-CRP', value: '', unit: 'mg/L', reference_range: '<1.0', flag: '' },
+    { marker: 'Homocysteine', value: '', unit: 'mcmol/L', reference_range: '5-15', flag: '' },
+    { marker: 'ApoB', value: '', unit: 'mg/dL', reference_range: '<90', flag: '' },
+    { marker: 'Omega-3 Index', value: '', unit: '%', reference_range: '>8', flag: '' },
+  ],
+  'Vitamins & Nutrients': [
+    { marker: 'Vitamin D (25-OH)', value: '', unit: 'ng/mL', reference_range: '40-80', flag: '' },
+    { marker: 'Vitamin B12', value: '', unit: 'pg/mL', reference_range: '200-900', flag: '' },
+    { marker: 'Folate', value: '', unit: 'ng/mL', reference_range: '>5.4', flag: '' },
+    { marker: 'Ferritin', value: '', unit: 'ng/mL', reference_range: '20-250', flag: '' },
+    { marker: 'Iron', value: '', unit: 'mcg/dL', reference_range: '60-170', flag: '' },
+    { marker: 'Magnesium (RBC)', value: '', unit: 'mg/dL', reference_range: '4.2-6.8', flag: '' },
+    { marker: 'Zinc', value: '', unit: 'mcg/dL', reference_range: '60-130', flag: '' },
+  ],
+  'Inflammatory Markers': [
+    { marker: 'hs-CRP', value: '', unit: 'mg/L', reference_range: '<1.0', flag: '' },
+    { marker: 'Homocysteine', value: '', unit: 'mcmol/L', reference_range: '5-15', flag: '' },
+    { marker: 'ESR', value: '', unit: 'mm/hr', reference_range: '0-20', flag: '' },
+    { marker: 'Fibrinogen', value: '', unit: 'mg/dL', reference_range: '200-400', flag: '' },
+    { marker: 'IL-6', value: '', unit: 'pg/mL', reference_range: '<7', flag: '' },
+    { marker: 'TNF-alpha', value: '', unit: 'pg/mL', reference_range: '<8.1', flag: '' },
+  ],
+  'Complete Blood Count (CBC)': [
+    { marker: 'WBC', value: '', unit: 'K/uL', reference_range: '4.5-11.0', flag: '' },
+    { marker: 'RBC', value: '', unit: 'M/uL', reference_range: '4.5-5.9', flag: '' },
+    { marker: 'Hemoglobin', value: '', unit: 'g/dL', reference_range: '13.5-17.5', flag: '' },
+    { marker: 'Hematocrit', value: '', unit: '%', reference_range: '41-53', flag: '' },
+    { marker: 'Platelets', value: '', unit: 'K/uL', reference_range: '150-400', flag: '' },
+    { marker: 'MCV', value: '', unit: 'fL', reference_range: '80-100', flag: '' },
+  ],
+  'Comprehensive Metabolic Panel (CMP)': [
+    { marker: 'Glucose', value: '', unit: 'mg/dL', reference_range: '70-99', flag: '' },
+    { marker: 'BUN', value: '', unit: 'mg/dL', reference_range: '7-25', flag: '' },
+    { marker: 'Creatinine', value: '', unit: 'mg/dL', reference_range: '0.7-1.3', flag: '' },
+    { marker: 'eGFR', value: '', unit: 'mL/min', reference_range: '>60', flag: '' },
+    { marker: 'ALT', value: '', unit: 'U/L', reference_range: '7-56', flag: '' },
+    { marker: 'AST', value: '', unit: 'U/L', reference_range: '10-40', flag: '' },
+    { marker: 'Sodium', value: '', unit: 'mEq/L', reference_range: '136-145', flag: '' },
+    { marker: 'Potassium', value: '', unit: 'mEq/L', reference_range: '3.5-5.1', flag: '' },
+  ],
+}
+
+function flagColor(flag: string) {
+  if (flag === 'H') return '#E06090'
+  if (flag === 'L') return '#E4B85A'
+  return '#3DC898'
 }
 
 export default function PatientProfile() {
@@ -55,25 +169,103 @@ export default function PatientProfile() {
   const [patient, setPatient] = useState<Patient | null>(null)
   const [protocols, setProtocols] = useState<Protocol[]>([])
   const [sessions, setSessions] = useState<Session[]>([])
-  const [activeTab, setActiveTab] = useState<'sessions' | 'notes'>('sessions')
+  const [labs, setLabs] = useState<Lab[]>([])
+  const [activeTab, setActiveTab] = useState<'sessions' | 'notes' | 'labs'>('labs')
   const [loading, setLoading] = useState(true)
   const [briefing, setBriefing] = useState('')
   const [briefingLoading, setBriefingLoading] = useState(false)
+  const [showAddLab, setShowAddLab] = useState(false)
+  const [expandedLab, setExpandedLab] = useState<string | null>(null)
+  const [savingLab, setSavingLab] = useState(false)
+
+  const [newLab, setNewLab] = useState<{
+    panel_name: string
+    test_date: string
+    notes: string
+    lab_values: LabValue[]
+  }>({
+    panel_name: '',
+    test_date: new Date().toISOString().split('T')[0],
+    notes: '',
+    lab_values: [{ marker: '', value: '', unit: '', reference_range: '', flag: '' }],
+  })
 
   useEffect(() => {
     async function load() {
-      const [patientRes, protocolsRes, sessionsRes] = await Promise.all([
+      const [patientRes, protocolsRes, sessionsRes, labsRes] = await Promise.all([
         supabase.from('orion_patients').select('*').eq('id', id).single(),
         supabase.from('orion_protocols').select('*').eq('patient_id', id).eq('status', 'active').order('start_date', { ascending: false }),
         supabase.from('orion_sessions').select('*').eq('patient_id', id).order('session_date', { ascending: false }).limit(10),
+        supabase.from('orion_labs').select('*').eq('patient_id', id).order('test_date', { ascending: false }),
       ])
       setPatient(patientRes.data)
       setProtocols(protocolsRes.data || [])
       setSessions(sessionsRes.data || [])
+      setLabs(labsRes.data || [])
       setLoading(false)
     }
     load()
   }, [supabase, id])
+
+  function handlePanelSelect(panelName: string) {
+    const template = PANEL_TEMPLATES[panelName]
+    setNewLab(prev => ({
+      ...prev,
+      panel_name: panelName,
+      lab_values: template
+        ? template.map(v => ({ ...v }))
+        : [{ marker: '', value: '', unit: '', reference_range: '', flag: '' }],
+    }))
+  }
+
+  function updateLabValue(index: number, field: keyof LabValue, value: string) {
+    setNewLab(prev => {
+      const updated = [...prev.lab_values]
+      updated[index] = { ...updated[index], [field]: value }
+      return { ...prev, lab_values: updated }
+    })
+  }
+
+  function addMarkerRow() {
+    setNewLab(prev => ({
+      ...prev,
+      lab_values: [...prev.lab_values, { marker: '', value: '', unit: '', reference_range: '', flag: '' }],
+    }))
+  }
+
+  function removeMarkerRow(index: number) {
+    setNewLab(prev => ({
+      ...prev,
+      lab_values: prev.lab_values.filter((_, i) => i !== index),
+    }))
+  }
+
+  async function saveLab() {
+    if (!newLab.panel_name || !newLab.test_date) return
+    setSavingLab(true)
+    const filled = newLab.lab_values.filter(v => v.marker && v.value)
+    const { data, error } = await supabase.from('orion_labs').insert({
+      patient_id: id,
+      panel_name: newLab.panel_name,
+      test_date: newLab.test_date,
+      lab_values: filled,
+      notes: newLab.notes,
+      ordered_by: 'Dr. Michael J. Meighen',
+    }).select().single()
+
+    if (!error && data) {
+      setLabs(prev => [data, ...prev])
+      setExpandedLab(data.id)
+      setShowAddLab(false)
+      setNewLab({
+        panel_name: '',
+        test_date: new Date().toISOString().split('T')[0],
+        notes: '',
+        lab_values: [{ marker: '', value: '', unit: '', reference_range: '', flag: '' }],
+      })
+    }
+    setSavingLab(false)
+  }
 
   async function generateBriefing() {
     setBriefingLoading(true)
@@ -97,17 +289,15 @@ export default function PatientProfile() {
 
   return (
     <div style={{ padding: '2rem', maxWidth: 1200 }}>
-      {/* Back */}
       <Link href="/orion/patients" style={{ fontSize: '0.75rem', color: 'rgba(240,232,216,0.4)', textDecoration: 'none', letterSpacing: '0.1em' }}>
         ← Back to Patients
       </Link>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr 280px', gap: '1.5rem', marginTop: '1.5rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr 320px', gap: '1.5rem', marginTop: '1.5rem' }}>
 
         {/* LEFT — Profile */}
         <div>
           <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(61,200,152,0.12)', borderRadius: 6, padding: '1.5rem', marginBottom: '1rem' }}>
-            {/* Avatar */}
             <div style={{
               width: 64, height: 64, borderRadius: '50%',
               background: 'rgba(61,200,152,0.12)',
@@ -129,7 +319,6 @@ export default function PatientProfile() {
             </div>
           </div>
 
-          {/* Allergies */}
           {patient.allergies?.length > 0 && (
             <div style={{ marginBottom: '1rem' }}>
               <div style={{ fontSize: '0.65rem', letterSpacing: '0.2em', color: 'rgba(240,232,216,0.3)', textTransform: 'uppercase', marginBottom: '0.5rem' }}>Allergies</div>
@@ -141,7 +330,6 @@ export default function PatientProfile() {
             </div>
           )}
 
-          {/* Conditions */}
           {patient.conditions?.length > 0 && (
             <div style={{ marginBottom: '1rem' }}>
               <div style={{ fontSize: '0.65rem', letterSpacing: '0.2em', color: 'rgba(240,232,216,0.3)', textTransform: 'uppercase', marginBottom: '0.5rem' }}>Conditions</div>
@@ -153,7 +341,6 @@ export default function PatientProfile() {
             </div>
           )}
 
-          {/* Medications */}
           {patient.medications?.length > 0 && (
             <div style={{ marginBottom: '1rem' }}>
               <div style={{ fontSize: '0.65rem', letterSpacing: '0.2em', color: 'rgba(240,232,216,0.3)', textTransform: 'uppercase', marginBottom: '0.5rem' }}>External Medications</div>
@@ -165,7 +352,6 @@ export default function PatientProfile() {
             </div>
           )}
 
-          {/* Actions */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '1.5rem' }}>
             <button onClick={generateBriefing} disabled={briefingLoading} style={{
               background: briefingLoading ? 'rgba(61,200,152,0.2)' : 'rgba(61,200,152,0.1)',
@@ -238,25 +424,20 @@ export default function PatientProfile() {
                       <span style={{ fontSize: '0.65rem', color: 'rgba(61,200,152,0.7)', background: 'rgba(61,200,152,0.1)', padding: '0.2rem 0.5rem', borderRadius: 2 }}>Active</span>
                     </div>
 
-                    <div style={{ display: 'flex', gap: '1.5rem', fontSize: '0.78rem', color: 'rgba(240,232,216,0.5)', marginBottom: '0.75rem' }}>
+                    <div style={{ display: 'flex', gap: '1.5rem', fontSize: '0.78rem', color: 'rgba(240,232,216,0.5)', marginBottom: '0.5rem' }}>
                       <span>{protocol.dose} {protocol.dose_unit}</span>
                       <span>{protocol.frequency}</span>
                       {protocol.route && <span>{protocol.route}</span>}
                     </div>
 
                     {daysRemaining !== null && (
-                      <div style={{ marginBottom: '0.75rem' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.7rem', color: 'rgba(240,232,216,0.3)', marginBottom: '0.35rem' }}>
-                          <span>Cycle Progress</span>
-                          <span style={{ color: daysRemaining <= 7 ? '#E06090' : 'rgba(240,232,216,0.4)' }}>
-                            {daysRemaining <= 0 ? 'Cycle ended' : `${daysRemaining} days remaining`}
-                          </span>
-                        </div>
+                      <div style={{ fontSize: '0.7rem', color: daysRemaining <= 7 ? '#E06090' : 'rgba(240,232,216,0.3)' }}>
+                        {daysRemaining <= 0 ? 'Cycle ended' : `${daysRemaining} days remaining`}
                       </div>
                     )}
 
                     {protocol.reason_started && (
-                      <div style={{ fontSize: '0.72rem', color: 'rgba(240,232,216,0.35)', fontStyle: 'italic' }}>
+                      <div style={{ fontSize: '0.72rem', color: 'rgba(240,232,216,0.35)', fontStyle: 'italic', marginTop: '0.5rem' }}>
                         Reason: {protocol.reason_started}
                       </div>
                     )}
@@ -265,12 +446,21 @@ export default function PatientProfile() {
               })}
             </div>
           )}
+
+          {/* ORION Brief result */}
+          {briefing && (
+            <div style={{ marginTop: '1.5rem', background: 'rgba(61,200,152,0.05)', border: '1px solid rgba(61,200,152,0.2)', borderRadius: 6, padding: '1.25rem' }}>
+              <div style={{ fontSize: '0.65rem', letterSpacing: '0.2em', color: '#3DC898', marginBottom: '0.75rem', textTransform: 'uppercase' }}>ORION Brief</div>
+              <div style={{ fontSize: '0.78rem', color: 'rgba(240,232,216,0.7)', lineHeight: 1.8, whiteSpace: 'pre-wrap' }}>{briefing}</div>
+            </div>
+          )}
         </div>
 
-        {/* RIGHT — History */}
+        {/* RIGHT — Labs / Sessions / Notes */}
         <div>
+          {/* Tabs */}
           <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
-            {(['sessions', 'notes'] as const).map(tab => (
+            {(['labs', 'sessions', 'notes'] as const).map(tab => (
               <button key={tab} onClick={() => setActiveTab(tab)} style={{
                 background: activeTab === tab ? 'rgba(61,200,152,0.1)' : 'transparent',
                 border: `1px solid ${activeTab === tab ? 'rgba(61,200,152,0.3)' : 'rgba(255,255,255,0.08)'}`,
@@ -279,12 +469,235 @@ export default function PatientProfile() {
                 color: activeTab === tab ? '#3DC898' : 'rgba(240,232,216,0.4)',
                 fontSize: '0.72rem',
                 cursor: 'pointer',
-                letterSpacing: '0.1em',
+                letterSpacing: '0.08em',
                 textTransform: 'capitalize',
-              }}>{tab}</button>
+              }}>{tab === 'labs' ? `Labs (${labs.length})` : tab}</button>
             ))}
           </div>
 
+          {/* LABS TAB */}
+          {activeTab === 'labs' && (
+            <div>
+              <button
+                onClick={() => setShowAddLab(!showAddLab)}
+                style={{
+                  width: '100%',
+                  background: 'rgba(61,200,152,0.08)',
+                  border: '1px dashed rgba(61,200,152,0.3)',
+                  borderRadius: 4,
+                  padding: '0.6rem',
+                  color: '#3DC898',
+                  fontSize: '0.75rem',
+                  cursor: 'pointer',
+                  letterSpacing: '0.1em',
+                  marginBottom: '1rem',
+                }}
+              >
+                {showAddLab ? '✕ Cancel' : '+ ADD LAB RESULTS'}
+              </button>
+
+              {/* ADD LAB FORM */}
+              {showAddLab && (
+                <div style={{
+                  background: 'rgba(61,200,152,0.04)',
+                  border: '1px solid rgba(61,200,152,0.2)',
+                  borderRadius: 6,
+                  padding: '1.25rem',
+                  marginBottom: '1rem',
+                }}>
+                  <div style={{ fontSize: '0.65rem', letterSpacing: '0.2em', color: '#3DC898', marginBottom: '1rem', textTransform: 'uppercase' }}>New Lab Panel</div>
+
+                  {/* Panel name */}
+                  <div style={{ marginBottom: '0.75rem' }}>
+                    <label style={{ fontSize: '0.68rem', color: 'rgba(240,232,216,0.4)', display: 'block', marginBottom: '0.35rem', letterSpacing: '0.1em' }}>PANEL</label>
+                    <select
+                      value={newLab.panel_name}
+                      onChange={e => handlePanelSelect(e.target.value)}
+                      style={{
+                        width: '100%', background: 'rgba(0,0,0,0.4)',
+                        border: '1px solid rgba(61,200,152,0.2)', borderRadius: 4,
+                        padding: '0.5rem', color: '#F0E8D8', fontSize: '0.78rem',
+                      }}
+                    >
+                      <option value="">Select panel...</option>
+                      {COMMON_PANELS.map(p => <option key={p} value={p}>{p}</option>)}
+                    </select>
+                  </div>
+
+                  {/* Date */}
+                  <div style={{ marginBottom: '1rem' }}>
+                    <label style={{ fontSize: '0.68rem', color: 'rgba(240,232,216,0.4)', display: 'block', marginBottom: '0.35rem', letterSpacing: '0.1em' }}>DATE</label>
+                    <input
+                      type="date"
+                      value={newLab.test_date}
+                      onChange={e => setNewLab(prev => ({ ...prev, test_date: e.target.value }))}
+                      style={{
+                        width: '100%', background: 'rgba(0,0,0,0.4)',
+                        border: '1px solid rgba(61,200,152,0.2)', borderRadius: 4,
+                        padding: '0.5rem', color: '#F0E8D8', fontSize: '0.78rem',
+                        boxSizing: 'border-box',
+                      }}
+                    />
+                  </div>
+
+                  {/* Markers */}
+                  <div style={{ marginBottom: '0.75rem' }}>
+                    <div style={{ fontSize: '0.68rem', color: 'rgba(240,232,216,0.4)', marginBottom: '0.5rem', letterSpacing: '0.1em' }}>MARKERS</div>
+
+                    <div style={{ display: 'flex', gap: '0.25rem', fontSize: '0.6rem', color: 'rgba(240,232,216,0.25)', marginBottom: '0.35rem', letterSpacing: '0.08em' }}>
+                      <span style={{ flex: 2 }}>MARKER</span>
+                      <span style={{ width: 50 }}>VALUE</span>
+                      <span style={{ width: 40 }}>UNIT</span>
+                      <span style={{ width: 30 }}>FLAG</span>
+                      <span style={{ width: 20 }}></span>
+                    </div>
+
+                    {newLab.lab_values.map((lv, i) => (
+                      <div key={i} style={{ display: 'flex', gap: '0.25rem', marginBottom: '0.35rem', alignItems: 'center' }}>
+                        <input
+                          value={lv.marker}
+                          onChange={e => updateLabValue(i, 'marker', e.target.value)}
+                          placeholder="Marker name"
+                          style={{ flex: 2, background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 3, padding: '0.35rem', color: '#F0E8D8', fontSize: '0.72rem' }}
+                        />
+                        <input
+                          value={lv.value}
+                          onChange={e => updateLabValue(i, 'value', e.target.value)}
+                          placeholder="0.0"
+                          style={{ width: 50, background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 3, padding: '0.35rem', color: '#F0E8D8', fontSize: '0.72rem' }}
+                        />
+                        <input
+                          value={lv.unit}
+                          onChange={e => updateLabValue(i, 'unit', e.target.value)}
+                          placeholder="unit"
+                          style={{ width: 40, background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 3, padding: '0.35rem', color: '#F0E8D8', fontSize: '0.72rem' }}
+                        />
+                        <select
+                          value={lv.flag}
+                          onChange={e => updateLabValue(i, 'flag', e.target.value)}
+                          style={{ width: 40, background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 3, padding: '0.35rem', color: lv.flag === 'H' ? '#E06090' : lv.flag === 'L' ? '#E4B85A' : '#3DC898', fontSize: '0.72rem' }}
+                        >
+                          <option value="">—</option>
+                          <option value="N">N</option>
+                          <option value="H">H</option>
+                          <option value="L">L</option>
+                        </select>
+                        <button onClick={() => removeMarkerRow(i)} style={{ width: 20, background: 'none', border: 'none', color: 'rgba(240,232,216,0.2)', cursor: 'pointer', fontSize: '0.8rem', padding: 0 }}>✕</button>
+                      </div>
+                    ))}
+
+                    <button onClick={addMarkerRow} style={{ marginTop: '0.35rem', background: 'none', border: '1px dashed rgba(255,255,255,0.1)', borderRadius: 3, padding: '0.3rem 0.75rem', color: 'rgba(240,232,216,0.3)', fontSize: '0.7rem', cursor: 'pointer', width: '100%' }}>
+                      + Add marker
+                    </button>
+                  </div>
+
+                  {/* Notes */}
+                  <div style={{ marginBottom: '1rem' }}>
+                    <label style={{ fontSize: '0.68rem', color: 'rgba(240,232,216,0.4)', display: 'block', marginBottom: '0.35rem', letterSpacing: '0.1em' }}>NOTES (optional)</label>
+                    <textarea
+                      value={newLab.notes}
+                      onChange={e => setNewLab(prev => ({ ...prev, notes: e.target.value }))}
+                      rows={2}
+                      placeholder="Clinical context, fasting status, etc."
+                      style={{
+                        width: '100%', background: 'rgba(0,0,0,0.3)',
+                        border: '1px solid rgba(255,255,255,0.08)', borderRadius: 4,
+                        padding: '0.5rem', color: '#F0E8D8', fontSize: '0.75rem',
+                        resize: 'vertical', boxSizing: 'border-box',
+                      }}
+                    />
+                  </div>
+
+                  <button onClick={saveLab} disabled={savingLab || !newLab.panel_name} style={{
+                    width: '100%',
+                    background: savingLab ? 'rgba(61,200,152,0.2)' : '#3DC898',
+                    border: 'none', borderRadius: 4,
+                    padding: '0.6rem',
+                    color: '#000', fontSize: '0.75rem',
+                    fontWeight: 700, cursor: 'pointer', letterSpacing: '0.1em',
+                  }}>
+                    {savingLab ? 'Saving...' : 'SAVE LAB RESULTS'}
+                  </button>
+                </div>
+              )}
+
+              {/* LAB HISTORY */}
+              {labs.length === 0 && !showAddLab ? (
+                <div style={{ textAlign: 'center', padding: '2rem 1rem', color: 'rgba(240,232,216,0.25)', fontSize: '0.8rem' }}>
+                  No lab results yet.<br />
+                  <span style={{ fontSize: '0.7rem' }}>Click "+ ADD LAB RESULTS" to begin.</span>
+                </div>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                  {labs.map(lab => (
+                    <div key={lab.id} style={{
+                      background: 'rgba(255,255,255,0.02)',
+                      border: '1px solid rgba(61,200,152,0.12)',
+                      borderRadius: 6,
+                      overflow: 'hidden',
+                    }}>
+                      <button
+                        onClick={() => setExpandedLab(expandedLab === lab.id ? null : lab.id)}
+                        style={{
+                          width: '100%', background: 'none', border: 'none',
+                          padding: '0.875rem 1rem', cursor: 'pointer',
+                          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                        }}
+                      >
+                        <div style={{ textAlign: 'left' }}>
+                          <div style={{ fontSize: '0.82rem', color: '#F0E8D8', fontWeight: 500 }}>{lab.panel_name}</div>
+                          <div style={{ fontSize: '0.68rem', color: 'rgba(240,232,216,0.35)', marginTop: '0.15rem' }}>
+                            {new Date(lab.test_date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                            {' · '}{lab.lab_values?.length || 0} markers
+                            {lab.lab_values?.some(v => v.flag === 'H' || v.flag === 'L') && (
+                              <span style={{ marginLeft: '0.5rem', color: '#E06090' }}>⚠ abnormal</span>
+                            )}
+                          </div>
+                        </div>
+                        <span style={{ color: 'rgba(240,232,216,0.3)', fontSize: '0.8rem' }}>
+                          {expandedLab === lab.id ? '▲' : '▼'}
+                        </span>
+                      </button>
+
+                      {expandedLab === lab.id && (
+                        <div style={{ padding: '0 1rem 1rem' }}>
+                          {/* Markers table */}
+                          <div style={{ display: 'grid', gridTemplateColumns: '1fr 60px 50px 30px', gap: '0.1rem', marginBottom: '0.5rem' }}>
+                            {['MARKER', 'VALUE', 'UNIT', ''].map(h => (
+                              <div key={h} style={{ fontSize: '0.58rem', color: 'rgba(240,232,216,0.2)', letterSpacing: '0.12em', padding: '0.2rem 0' }}>{h}</div>
+                            ))}
+                          </div>
+
+                          {(lab.lab_values || []).map((lv, i) => (
+                            <div key={i} style={{
+                              display: 'grid',
+                              gridTemplateColumns: '1fr 60px 50px 30px',
+                              gap: '0.1rem',
+                              padding: '0.3rem 0',
+                              borderBottom: '1px solid rgba(255,255,255,0.04)',
+                            }}>
+                              <div style={{ fontSize: '0.75rem', color: 'rgba(240,232,216,0.7)' }}>{lv.marker}</div>
+                              <div style={{ fontSize: '0.75rem', color: lv.flag ? flagColor(lv.flag) : '#F0E8D8', fontWeight: lv.flag ? 600 : 400 }}>{lv.value}</div>
+                              <div style={{ fontSize: '0.68rem', color: 'rgba(240,232,216,0.3)' }}>{lv.unit}</div>
+                              <div style={{ fontSize: '0.68rem', color: flagColor(lv.flag || 'N'), fontWeight: 600 }}>{lv.flag || ''}</div>
+                            </div>
+                          ))}
+
+                          {lab.notes && (
+                            <div style={{ marginTop: '0.75rem', fontSize: '0.72rem', color: 'rgba(240,232,216,0.4)', fontStyle: 'italic' }}>
+                              {lab.notes}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* SESSIONS TAB */}
           {activeTab === 'sessions' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               {sessions.length === 0 ? (
@@ -310,17 +723,10 @@ export default function PatientProfile() {
             </div>
           )}
 
+          {/* NOTES TAB */}
           {activeTab === 'notes' && (
             <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(240,232,216,0.06)', borderRadius: 4, padding: '1rem', fontSize: '0.8rem', color: 'rgba(240,232,216,0.6)', lineHeight: 1.7 }}>
               {patient.notes || 'No notes recorded'}
-            </div>
-          )}
-
-          {/* AI Briefing */}
-          {briefing && (
-            <div style={{ marginTop: '1.5rem', background: 'rgba(61,200,152,0.05)', border: '1px solid rgba(61,200,152,0.2)', borderRadius: 6, padding: '1.25rem' }}>
-              <div style={{ fontSize: '0.65rem', letterSpacing: '0.2em', color: '#3DC898', marginBottom: '0.75rem', textTransform: 'uppercase' }}>ORION Brief</div>
-              <div style={{ fontSize: '0.78rem', color: 'rgba(240,232,216,0.7)', lineHeight: 1.8, whiteSpace: 'pre-wrap' }}>{briefing}</div>
             </div>
           )}
         </div>
