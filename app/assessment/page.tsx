@@ -2,81 +2,13 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-
-const STEPS = [
-  {
-    title: 'Cuerpo Físico',
-    subtitle: 'Physical Body',
-    icon: '🌿',
-    color: '#3DC898',
-    questions: [
-      { id: 'physical_energy', label: '¿Cómo describirías tu energía física en este momento?', placeholder: 'Describe your current physical energy...' },
-      { id: 'physical_pain', label: '¿Tienes algún dolor, tensión o malestar físico recurrente?', placeholder: 'Any recurring pain, tension or discomfort...' },
-    ],
-  },
-  {
-    title: 'Mente',
-    subtitle: 'Mind',
-    icon: '🧠',
-    color: '#C9963C',
-    questions: [
-      { id: 'mind_thoughts', label: '¿Qué pensamientos ocupan más espacio en tu mente actualmente?', placeholder: 'What thoughts take up most space in your mind...' },
-      { id: 'mind_sleep', label: '¿Tu mente descansa cuando duermes?', placeholder: 'Does your mind rest when you sleep...' },
-    ],
-  },
-  {
-    title: 'Emociones',
-    subtitle: 'Emotions',
-    icon: '💫',
-    color: '#E06090',
-    questions: [
-      { id: 'emotions_frequent', label: '¿Qué emociones sientes con más frecuencia esta semana?', placeholder: 'What emotions have you felt most this week...' },
-      { id: 'emotions_carrying', label: '¿Hay algo que llevas cargando emocionalmente hace tiempo?', placeholder: 'Is there something you have been carrying emotionally...' },
-    ],
-  },
-  {
-    title: 'Energía Vital',
-    subtitle: 'Vital Energy',
-    icon: '⚡',
-    color: '#E4B85A',
-    questions: [
-      { id: 'energy_peak', label: '¿En qué momentos del día sientes más energía?', placeholder: 'When do you feel most energized during the day...' },
-      { id: 'energy_drain', label: '¿Qué te drena más?', placeholder: 'What drains your energy the most...' },
-    ],
-  },
-  {
-    title: 'Espíritu',
-    subtitle: 'Spirit',
-    icon: '☿',
-    color: '#C9963C',
-    questions: [
-      { id: 'spirit_purpose', label: '¿Sientes que estás viviendo alineado con tu propósito?', placeholder: 'Do you feel aligned with your purpose...' },
-      { id: 'spirit_calling', label: '¿Hay algo que tu alma está pidiendo que aún no has atendido?', placeholder: 'Is there something your soul is calling for...' },
-    ],
-  },
-  {
-    title: 'Sueño',
-    subtitle: 'Sleep',
-    icon: '🌙',
-    color: '#3DC898',
-    questions: [
-      { id: 'sleep_hours', label: '¿Cuántas horas duermes en promedio?', placeholder: 'Average hours of sleep per night...' },
-      { id: 'sleep_quality', label: '¿Te despiertas descansado?', placeholder: 'Do you wake up rested and refreshed...' },
-    ],
-  },
-  {
-    title: 'Propósito',
-    subtitle: 'Purpose',
-    icon: '🌟',
-    color: '#E4B85A',
-    questions: [
-      { id: 'purpose_future', label: '¿Qué versión de ti mismo quieres ser en 6 meses?', placeholder: 'Who do you want to be 6 months from now...' },
-      { id: 'purpose_today', label: '¿Qué te trajo a The Alchemist hoy?', placeholder: 'What brought you to The Alchemist today...' },
-    ],
-  },
-]
+import { useLanguage } from '@/components/LanguageProvider'
 
 export default function AssessmentPage() {
+  const { t, lang, toggle } = useLanguage()
+  const T = t.assessment
+  const STEPS = T.steps
+
   const [step, setStep] = useState(0)
   const [answers, setAnswers] = useState<Record<string, string>>({})
   const [name, setName] = useState('')
@@ -88,8 +20,8 @@ export default function AssessmentPage() {
   const currentStep = STEPS[step]
   const isLastStep = step === STEPS.length - 1
   const isComplete = soulReading !== ''
-
   const canProceed = currentStep?.questions.every(q => answers[q.id]?.trim())
+  const progress = ((step + 1) / STEPS.length) * 100
 
   const handleNext = async () => {
     if (!canProceed) return
@@ -107,80 +39,156 @@ export default function AssessmentPage() {
       const res = await fetch('/api/soul-reading', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ answers, name, email }),
+        body: JSON.stringify({ answers, name, email, lang }),
       })
       const data = await res.json()
       if (data.soulReading) {
         setSoulReading(data.soulReading)
       } else {
-        setError('Could not generate your reading. Please try again.')
+        setError(T.error)
       }
     } catch {
-      setError('Connection error. Please try again.')
+      setError(T.connectionError)
     } finally {
       setLoading(false)
     }
   }
 
+  // ── Result page ──────────────────────────────────────────────────────────
   if (isComplete) {
     return (
-      <div style={{ background: '#000', minHeight: '100vh', color: '#F0E8D8', padding: '2rem' }}>
-        <div style={{ maxWidth: '700px', margin: '0 auto', paddingTop: '4rem' }}>
+      <div style={{ background: '#000', minHeight: '100vh', color: '#F0E8D8' }}>
+        {/* Header */}
+        <div style={{ borderBottom: '1px solid rgba(201,150,60,0.15)', padding: '1rem 2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Link href="/" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '1.2rem', color: '#C9963C', textDecoration: 'none', letterSpacing: '0.15em' }}>
+            ☿ {t.common.brand}
+          </Link>
+          <button onClick={toggle} style={langToggleStyle}>{lang === 'en' ? 'ES' : 'EN'}</button>
+        </div>
+
+        <div style={{ maxWidth: '720px', margin: '0 auto', padding: '4rem 2rem 6rem' }}>
+          {/* Title */}
           <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <div style={{ fontSize: '3rem', color: '#C9963C', marginBottom: '1rem' }}>☿</div>
-            <h1 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 300, color: '#C9963C', marginBottom: '0.5rem' }}>
-              Your Soul Reading
+            <div style={{ fontSize: '2.5rem', color: '#C9963C', marginBottom: '1rem', letterSpacing: '0.05em' }}>☿</div>
+            <h1 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 300, color: '#C9963C', marginBottom: '0.5rem', letterSpacing: '0.05em' }}>
+              {T.result.title}
             </h1>
-            {name && <p style={{ color: 'rgba(240,232,216,0.6)', fontSize: '1rem' }}>Para {name}</p>}
+            {name && (
+              <p style={{ color: 'rgba(240,232,216,0.5)', fontSize: '1rem', letterSpacing: '0.1em' }}>
+                {T.result.subtitle} {name}
+              </p>
+            )}
+            <div style={{ width: '40px', height: '1px', background: 'rgba(201,150,60,0.4)', margin: '1.5rem auto 0' }} />
           </div>
-          <div style={{ background: 'rgba(201,150,60,0.06)', border: '1px solid rgba(201,150,60,0.3)', borderRadius: '8px', padding: '2.5rem', lineHeight: 1.9, fontSize: '0.95rem', whiteSpace: 'pre-wrap', color: 'rgba(240,232,216,0.9)', marginBottom: '2.5rem' }}>
+
+          {/* Soul Reading */}
+          <div style={{
+            background: 'rgba(201,150,60,0.04)',
+            border: '1px solid rgba(201,150,60,0.2)',
+            borderRadius: '4px',
+            padding: '2.5rem',
+            lineHeight: 2,
+            fontSize: '0.96rem',
+            whiteSpace: 'pre-wrap',
+            color: 'rgba(240,232,216,0.9)',
+            marginBottom: '3rem',
+            letterSpacing: '0.01em',
+          }}>
             {soulReading}
           </div>
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/booking" style={{ background: 'linear-gradient(135deg, #C9963C, #E4B85A)', color: '#000', padding: '1rem 2.5rem', borderRadius: '2px', textDecoration: 'none', fontSize: '0.85rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase' }}>
-              Book First Alchemy — $199
+
+          {/* CTAs */}
+          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '2rem' }}>
+            <Link href="/booking" style={{
+              background: 'linear-gradient(135deg, #C9963C, #E4B85A)',
+              color: '#000', padding: '1rem 2.5rem', borderRadius: '2px',
+              textDecoration: 'none', fontSize: '0.82rem', fontWeight: 700,
+              letterSpacing: '0.15em', textTransform: 'uppercase',
+            }}>
+              {T.result.bookCta}
             </Link>
-            <Link href="/" style={{ background: 'transparent', color: '#C9963C', padding: '1rem 2rem', border: '1px solid #C9963C', borderRadius: '2px', textDecoration: 'none', fontSize: '0.85rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-              Return Home
+            <Link href="/" style={{
+              background: 'transparent', color: '#C9963C', padding: '1rem 2rem',
+              border: '1px solid rgba(201,150,60,0.4)', borderRadius: '2px',
+              textDecoration: 'none', fontSize: '0.82rem', letterSpacing: '0.1em', textTransform: 'uppercase',
+            }}>
+              {t.common.backHome}
             </Link>
           </div>
-          {email && <p style={{ textAlign: 'center', marginTop: '1.5rem', color: 'rgba(240,232,216,0.4)', fontSize: '0.8rem' }}>✦ Your reading has been sent to {email}</p>}
+
+          {email && (
+            <p style={{ textAlign: 'center', color: 'rgba(240,232,216,0.35)', fontSize: '0.78rem', letterSpacing: '0.05em' }}>
+              {T.result.emailSent} {email}
+            </p>
+          )}
         </div>
       </div>
     )
   }
 
+  // ── Assessment form ──────────────────────────────────────────────────────
   return (
     <div style={{ background: '#000', minHeight: '100vh', color: '#F0E8D8' }}>
       {/* Header */}
-      <div style={{ borderBottom: '1px solid rgba(201,150,60,0.2)', padding: '1rem 2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Link href="/" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '1.25rem', color: '#C9963C', textDecoration: 'none' }}>☿ THE ALCHEMIST</Link>
-        <div style={{ fontSize: '0.8rem', color: 'rgba(240,232,216,0.5)' }}>Soul Assessment · Step {step + 1} of {STEPS.length}</div>
+      <div style={{ borderBottom: '1px solid rgba(201,150,60,0.15)', padding: '1rem 2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Link href="/" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '1.2rem', color: '#C9963C', textDecoration: 'none', letterSpacing: '0.15em' }}>
+          ☿ {t.common.brand}
+        </Link>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+          <span style={{ fontSize: '0.75rem', color: 'rgba(240,232,216,0.4)', letterSpacing: '0.15em' }}>
+            {T.stepLabel} {step + 1} {T.of} {STEPS.length}
+          </span>
+          <button onClick={toggle} style={langToggleStyle}>{lang === 'en' ? 'ES' : 'EN'}</button>
+        </div>
       </div>
 
       {/* Progress bar */}
-      <div style={{ height: '3px', background: 'rgba(201,150,60,0.15)' }}>
-        <div style={{ height: '100%', width: `${((step + 1) / STEPS.length) * 100}%`, background: 'linear-gradient(90deg, #C9963C, #E4B85A)', transition: 'width 0.4s ease' }} />
+      <div style={{ height: '2px', background: 'rgba(201,150,60,0.1)' }}>
+        <div style={{ height: '100%', width: `${progress}%`, background: 'linear-gradient(90deg, #C9963C, #E4B85A)', transition: 'width 0.5s ease' }} />
       </div>
 
-      <div style={{ maxWidth: '640px', margin: '0 auto', padding: '4rem 2rem' }}>
+      {/* Dimension indicator strip */}
+      <div style={{ display: 'flex', borderBottom: '1px solid rgba(201,150,60,0.08)' }}>
+        {STEPS.map((s, i) => (
+          <div key={i} style={{
+            flex: 1, height: '3px',
+            background: i < step ? s.color : i === step ? s.color : 'transparent',
+            opacity: i < step ? 0.4 : 1,
+            transition: 'background 0.3s',
+          }} />
+        ))}
+      </div>
+
+      <div style={{ maxWidth: '620px', margin: '0 auto', padding: '4rem 2rem 6rem' }}>
         {/* Step header */}
         <div style={{ marginBottom: '3rem' }}>
-          <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>{currentStep.icon}</div>
-          <div style={{ fontSize: '0.75rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: currentStep.color, marginBottom: '0.25rem' }}>
-            Dimension {step + 1}
+          <div style={{ fontSize: '1.8rem', marginBottom: '1rem', color: currentStep.color, letterSpacing: '0.1em' }}>
+            {currentStep.icon}
           </div>
-          <h2 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(1.8rem, 5vw, 2.5rem)', fontWeight: 300, color: currentStep.color }}>
+          <div style={{ fontSize: '0.7rem', letterSpacing: '0.35em', textTransform: 'uppercase', color: currentStep.color, marginBottom: '0.5rem', opacity: 0.8 }}>
+            {T.stepLabel} {step + 1}
+          </div>
+          <h2 style={{
+            fontFamily: 'Cormorant Garamond, serif',
+            fontSize: 'clamp(2rem, 6vw, 3rem)',
+            fontWeight: 300, color: currentStep.color,
+            lineHeight: 1, marginBottom: '0.4rem', letterSpacing: '0.02em',
+          }}>
             {currentStep.title}
           </h2>
-          <p style={{ color: 'rgba(240,232,216,0.4)', fontSize: '0.85rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{currentStep.subtitle}</p>
+          <p style={{ color: 'rgba(240,232,216,0.3)', fontSize: '0.8rem', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+            {currentStep.subtitle}
+          </p>
         </div>
 
         {/* Questions */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', marginBottom: '3rem' }}>
-          {currentStep.questions.map(q => (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem', marginBottom: '3rem' }}>
+          {currentStep.questions.map((q, qi) => (
             <div key={q.id}>
-              <label style={{ display: 'block', fontSize: '1rem', lineHeight: 1.6, marginBottom: '0.75rem', color: '#F0E8D8' }}>
+              <label style={{ display: 'block', fontSize: '1rem', lineHeight: 1.65, marginBottom: '0.875rem', color: 'rgba(240,232,216,0.9)', fontWeight: 300 }}>
+                <span style={{ color: currentStep.color, marginRight: '0.5rem', fontSize: '0.75rem', verticalAlign: 'middle' }}>
+                  {qi + 1}.
+                </span>
                 {q.label}
               </label>
               <textarea
@@ -189,13 +197,22 @@ export default function AssessmentPage() {
                 placeholder={q.placeholder}
                 rows={3}
                 style={{
-                  width: '100%', background: 'rgba(255,255,255,0.04)', border: `1px solid ${answers[q.id]?.trim() ? 'rgba(201,150,60,0.4)' : 'rgba(201,150,60,0.15)'}`,
-                  borderRadius: '4px', padding: '0.875rem 1rem', color: '#F0E8D8',
-                  fontSize: '0.9rem', lineHeight: 1.7, outline: 'none', resize: 'vertical',
-                  fontFamily: 'Jost, sans-serif', transition: 'border-color 0.2s',
+                  width: '100%',
+                  background: 'rgba(255,255,255,0.03)',
+                  border: `1px solid ${answers[q.id]?.trim() ? `${currentStep.color}55` : 'rgba(201,150,60,0.12)'}`,
+                  borderRadius: '3px',
+                  padding: '1rem 1.125rem',
+                  color: '#F0E8D8',
+                  fontSize: '0.9rem',
+                  lineHeight: 1.75,
+                  outline: 'none',
+                  resize: 'vertical',
+                  fontFamily: 'Jost, sans-serif',
+                  transition: 'border-color 0.2s',
+                  boxSizing: 'border-box',
                 }}
-                onFocus={e => (e.target.style.borderColor = 'rgba(201,150,60,0.6)')}
-                onBlur={e => (e.target.style.borderColor = answers[q.id]?.trim() ? 'rgba(201,150,60,0.4)' : 'rgba(201,150,60,0.15)')}
+                onFocus={e => (e.target.style.borderColor = `${currentStep.color}88`)}
+                onBlur={e => (e.target.style.borderColor = answers[q.id]?.trim() ? `${currentStep.color}55` : 'rgba(201,150,60,0.12)')}
               />
             </div>
           ))}
@@ -203,45 +220,123 @@ export default function AssessmentPage() {
 
         {/* Name/email on last step */}
         {isLastStep && (
-          <div style={{ marginBottom: '2rem', padding: '1.5rem', background: 'rgba(201,150,60,0.05)', border: '1px solid rgba(201,150,60,0.2)', borderRadius: '4px' }}>
-            <p style={{ fontSize: '0.85rem', color: 'rgba(240,232,216,0.6)', marginBottom: '1.25rem' }}>Optional: receive your Soul Reading by email</p>
-            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-              <input value={name} onChange={e => setName(e.target.value)} placeholder="Your name" style={{ flex: 1, minWidth: '150px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(201,150,60,0.2)', borderRadius: '4px', padding: '0.65rem 0.875rem', color: '#F0E8D8', fontSize: '0.88rem', outline: 'none', fontFamily: 'Jost, sans-serif' }} />
-              <input value={email} onChange={e => setEmail(e.target.value)} placeholder="your@email.com" type="email" style={{ flex: 2, minWidth: '200px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(201,150,60,0.2)', borderRadius: '4px', padding: '0.65rem 0.875rem', color: '#F0E8D8', fontSize: '0.88rem', outline: 'none', fontFamily: 'Jost, sans-serif' }} />
+          <div style={{ marginBottom: '2.5rem', padding: '1.5rem', background: 'rgba(201,150,60,0.04)', border: '1px solid rgba(201,150,60,0.15)', borderRadius: '3px' }}>
+            <p style={{ fontSize: '0.8rem', color: 'rgba(240,232,216,0.5)', marginBottom: '1.25rem', letterSpacing: '0.05em' }}>
+              {T.emailOptional}
+            </p>
+            <div style={{ display: 'flex', gap: '0.875rem', flexWrap: 'wrap' }}>
+              <input
+                value={name}
+                onChange={e => setName(e.target.value)}
+                placeholder={T.namePlaceholder}
+                style={inputStyle}
+              />
+              <input
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder={T.emailPlaceholder}
+                type="email"
+                style={{ ...inputStyle, flex: 2, minWidth: '200px' }}
+              />
             </div>
           </div>
         )}
 
-        {error && <p style={{ color: '#E06090', fontSize: '0.85rem', marginBottom: '1rem' }}>{error}</p>}
+        {error && (
+          <p style={{ color: '#E06090', fontSize: '0.85rem', marginBottom: '1.25rem', letterSpacing: '0.02em' }}>
+            {error}
+          </p>
+        )}
 
         {/* Navigation */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <button onClick={() => setStep(s => s - 1)} style={{ background: 'none', border: '1px solid rgba(201,150,60,0.3)', color: 'rgba(240,232,216,0.6)', padding: '0.75rem 1.5rem', borderRadius: '2px', cursor: 'pointer', fontSize: '0.85rem', opacity: step === 0 ? 0 : 1, pointerEvents: step === 0 ? 'none' : 'auto' }}>
-            ← Back
+          <button
+            onClick={() => setStep(s => s - 1)}
+            style={{
+              background: 'none',
+              border: '1px solid rgba(201,150,60,0.2)',
+              color: 'rgba(240,232,216,0.5)',
+              padding: '0.75rem 1.5rem',
+              borderRadius: '2px',
+              cursor: 'pointer',
+              fontSize: '0.82rem',
+              letterSpacing: '0.05em',
+              opacity: step === 0 ? 0 : 1,
+              pointerEvents: step === 0 ? 'none' : 'auto',
+              transition: 'all 0.2s',
+            }}
+          >
+            {t.common.back}
           </button>
+
           <button
             onClick={handleNext}
             disabled={!canProceed || loading}
             style={{
-              background: canProceed ? 'linear-gradient(135deg, #C9963C, #E4B85A)' : 'rgba(201,150,60,0.2)',
-              color: canProceed ? '#000' : 'rgba(240,232,216,0.3)',
-              border: 'none', padding: '0.875rem 2.5rem', borderRadius: '2px',
-              cursor: canProceed ? 'pointer' : 'default', fontSize: '0.85rem',
-              fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase',
-              transition: 'background 0.2s',
+              background: canProceed ? 'linear-gradient(135deg, #C9963C, #E4B85A)' : 'rgba(201,150,60,0.12)',
+              color: canProceed ? '#000' : 'rgba(240,232,216,0.25)',
+              border: 'none',
+              padding: '0.875rem 2.5rem',
+              borderRadius: '2px',
+              cursor: canProceed && !loading ? 'pointer' : 'default',
+              fontSize: '0.82rem',
+              fontWeight: 600,
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              transition: 'all 0.2s',
+              minWidth: '200px',
             }}
           >
-            {loading ? 'Generating your reading...' : isLastStep ? 'Reveal My Soul Reading ☿' : 'Next →'}
+            {loading ? T.generating : isLastStep ? T.submitBtn : t.common.next}
           </button>
         </div>
 
         {/* Step dots */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem', marginTop: '2.5rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem', marginTop: '3rem', alignItems: 'center' }}>
           {STEPS.map((s, i) => (
-            <div key={i} style={{ width: i === step ? '20px' : '6px', height: '6px', borderRadius: '3px', background: i <= step ? '#C9963C' : 'rgba(201,150,60,0.2)', transition: 'all 0.3s' }} />
+            <div
+              key={i}
+              onClick={() => i < step && setStep(i)}
+              style={{
+                width: i === step ? '24px' : '6px',
+                height: '6px',
+                borderRadius: '3px',
+                background: i < step ? s.color : i === step ? s.color : 'rgba(201,150,60,0.15)',
+                opacity: i < step ? 0.5 : 1,
+                transition: 'all 0.35s',
+                cursor: i < step ? 'pointer' : 'default',
+              }}
+            />
           ))}
         </div>
       </div>
     </div>
   )
+}
+
+const langToggleStyle: React.CSSProperties = {
+  background: 'none',
+  border: '1px solid rgba(201,150,60,0.3)',
+  color: 'rgba(240,232,216,0.6)',
+  padding: '0.3rem 0.75rem',
+  borderRadius: '2px',
+  cursor: 'pointer',
+  fontSize: '0.72rem',
+  fontWeight: 600,
+  letterSpacing: '0.15em',
+  transition: 'all 0.2s',
+  fontFamily: 'Jost, sans-serif',
+}
+
+const inputStyle: React.CSSProperties = {
+  flex: 1,
+  minWidth: '140px',
+  background: 'rgba(255,255,255,0.03)',
+  border: '1px solid rgba(201,150,60,0.15)',
+  borderRadius: '3px',
+  padding: '0.7rem 1rem',
+  color: '#F0E8D8',
+  fontSize: '0.88rem',
+  outline: 'none',
+  fontFamily: 'Jost, sans-serif',
 }
