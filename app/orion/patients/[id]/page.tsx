@@ -581,6 +581,29 @@ export default function PatientProfile() {
           {/* LABS TAB */}
           {activeTab === 'labs' && (
             <div>
+              {/* Lab Order link */}
+              <div style={{ marginBottom: '1rem' }}>
+                <Link
+                  href={`/orion/patients/${patient?.id}/labs/order`}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '0.75rem 1rem',
+                    background: 'rgba(61,200,152,0.05)',
+                    border: '1px solid rgba(61,200,152,0.2)',
+                    borderRadius: 6,
+                    textDecoration: 'none',
+                    color: '#3DC898',
+                    fontSize: '0.75rem',
+                    letterSpacing: '0.1em',
+                  }}
+                >
+                  <span>⊕ ORDER FUNCTIONAL LABS</span>
+                  <span style={{ fontSize: '0.65rem', color: 'rgba(61,200,152,0.5)' }}>150+ tests · print or email →</span>
+                </Link>
+              </div>
+
               {/* Upload buttons */}
               <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
                 <input
