@@ -45,12 +45,12 @@ export async function POST(req: NextRequest) {
 
       // Client confirmation
       await resend.emails.send({
-        from: 'The Alchemist Miami <onboarding@resend.dev>',
+        from: 'Alchemized BioHealing Institute <onboarding@resend.dev>',
         to: email,
-        subject: '✨ Your session is confirmed — The Alchemist Miami',
+        subject: '✨ Your session is confirmed — Alchemized BioHealing Institute',
         html: `
           <div style="background:#000;color:#F0E8D8;font-family:Georgia,serif;max-width:600px;margin:0 auto;padding:2rem;">
-            <h1 style="color:#C9963C;font-size:2rem;text-align:center;">☿ The Alchemist</h1>
+            <h1 style="color:#C9963C;font-size:1.6rem;text-align:center;letter-spacing:0.15em;">ALCHEMIZED BIOHEALING</h1>
             <h2 style="text-align:center;font-weight:300;margin-bottom:2rem;">Your Session is Confirmed</h2>
             <div style="background:rgba(201,150,60,0.08);border:1px solid rgba(201,150,60,0.3);padding:1.5rem;border-radius:4px;margin-bottom:1.5rem;">
               <p><strong style="color:#C9963C;">Name:</strong> ${name}</p>
@@ -63,7 +63,7 @@ export async function POST(req: NextRequest) {
             </div>
             <p style="color:rgba(240,232,216,0.7);line-height:1.8;">We look forward to your alchemy. If you need to reschedule, please reply to this email.</p>
             <div style="text-align:center;margin-top:2rem;">
-              <p style="color:rgba(240,232,216,0.4);font-size:0.8rem;">The Alchemist Miami · ${baseUrl}</p>
+              <p style="color:rgba(240,232,216,0.4);font-size:0.8rem;">Alchemized BioHealing Institute · ${baseUrl}</p>
             </div>
           </div>
         `,
@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
 
       if (practitionerEmail) {
         await resend.emails.send({
-          from: 'The Alchemist Bookings <onboarding@resend.dev>',
+          from: 'Alchemized BioHealing Bookings <onboarding@resend.dev>',
           to: practitionerEmail,
           subject: `New booking: ${service} — ${name}`,
           html: `

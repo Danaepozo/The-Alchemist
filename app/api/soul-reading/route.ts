@@ -6,6 +6,8 @@ import { SOUL_READING_SYSTEM_PROMPT } from '@/lib/alchemist/soul-knowledge-base'
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
+export const maxDuration = 60
+
 export async function POST(req: NextRequest) {
   try {
     const { answers, tags, name, email, lang = 'en' } = await req.json()
@@ -17,7 +19,7 @@ export async function POST(req: NextRequest) {
     const addictionTypes = addictionTags.map((t: string) => t.replace('addiction_', ''))
 
     const prompt = isSpanish
-      ? `Eres el analista del alma de The Alchemist Miami — el más preciso, compasivo y brutalmente honesto del mundo.
+      ? `Eres el analista del alma de Alchemized BioHealing Institute — el más preciso, compasivo y brutalmente honesto del mundo.
 
 Tienes acceso al siguiente perfil de ${name || 'esta persona'} basado en sus respuestas:
 
@@ -63,15 +65,15 @@ La necesidad más profunda debajo de todo — con frases que los hagan llorar de
 **Lo que eres capaz de ser**
 La versión sanada — el potencial real que ven en sus respuestas. No positivo por defecto — ganado.
 
-**Lo que The Alchemist puede hacer por ti**
-Una invitación específica y personalizada — qué servicios, qué trabajo, qué primera sesión. Sin sonar a ventas.
+**Lo que Alchemized BioHealing puede hacer por ti**
+Una invitación específica y personalizada. SIEMPRE recomienda por nombre UN paquete o membresía concreta que encaje con esta persona, eligiendo entre: el "Stress Relief & High Frequency Package" (entrada), la "Loving Myself Membership", la "Soulmates Dates Membership", la "My Sacred Family Wellness Membership", o la membresía fundadora "Inner Alchemy". Explica en una frase por qué ese es su primer paso. Sin sonar a ventas — como un siguiente paso natural.
 
 **Un mensaje para tu alma**
 Una sola oración final. La más poderosa del documento. Que se la tatúen en el corazón.
 
 Escríbelo completamente en español. Longitud: profundo, no largo. Cada párrafo debe ganar su lugar.`
 
-      : `You are The Alchemist Miami's soul analyst — the most precise, compassionate, and brutally honest profiler in the world.
+      : `You are Alchemized BioHealing Institute's soul analyst — the most precise, compassionate, and brutally honest profiler in the world.
 
 You have access to the following profile of ${name || 'this person'} based on their responses:
 
@@ -117,70 +119,95 @@ The deepest need underneath everything — with sentences that make them cry wit
 **What You Are Capable Of**
 The healed version — the real potential visible in their answers. Not positive by default — earned.
 
-**What The Alchemist Can Do For You**
-A specific, personalized invitation — which services, which work, which first session. No sales tone.
+**What Alchemized BioHealing Can Do For You**
+A specific, personalized invitation. ALWAYS recommend ONE concrete package or membership by name that fits this person, choosing from: the "Stress Relief & High Frequency Package" (entry), the "Loving Myself Membership", the "Soulmates Dates Membership", the "My Sacred Family Wellness Membership", or the "Inner Alchemy" founding membership. Say in one sentence why it is their first step. No sales tone — a natural next step.
 
 **A Message for Your Soul**
 One final sentence. The most powerful in the document. The one they'll carry for years.
 
 Write entirely in English. Length: deep, not long. Every paragraph must earn its place.`
 
-    const response = await client.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 2200,
-      system: SOUL_READING_SYSTEM_PROMPT,
-      messages: [{ role: 'user', content: prompt }],
-    })
+    const lengthNote = '\n\n[LENGTH: keep each section to 2-4 tight sentences and COMPLETE all sections through the final "A Message for Your Soul". The whole reading must stay under ~550 words so it finishes within the time limit.]'
+    const enc = (o: unknown) => new TextEncoder().encode(JSON.stringify(o) + '\n')
 
-    const soulReading = response.content[0].type === 'text' ? response.content[0].text : ''
+    const readable = new ReadableStream({
+      async start(controller) {
+        let soulReading = ''
+        try {
+          const stream = client.messages.stream({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 1700,
+            system: SOUL_READING_SYSTEM_PROMPT,
+            messages: [{ role: 'user', content: prompt + lengthNote }],
+          })
+          for await (const event of stream) {
+            if (event.type === 'content_block_delta' && (event.delta as any).type === 'text_delta') {
+              const t = (event.delta as any).text
+              soulReading += t
+              controller.enqueue(enc({ type: 'delta', text: t }))
+            } else {
+              controller.enqueue(enc({ type: 'ping' }))
+            }
+          }
 
-    // Save to Supabase
-    if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
-      try {
-        const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
-        let clientId: string | undefined
-        if (email) {
-          const { data: clientData } = await supabase
-            .from('clients')
-            .upsert({ name: name || 'Anonymous', email }, { onConflict: 'email' })
-            .select('id').single()
-          clientId = clientData?.id
-        }
-        await supabase.from('assessments').insert({ client_id: clientId, answers: { formatted: answers, tags }, soul_reading: soulReading })
-      } catch (e) { console.error('DB error (non-fatal):', e) }
-    }
+          // Persist (best-effort, after the full reading)
+          if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
+            try {
+              const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
+              let clientId: string | undefined
+              if (email) {
+                const { data: clientData } = await supabase
+                  .from('clients')
+                  .upsert({ name: name || 'Anonymous', email }, { onConflict: 'email' })
+                  .select('id').single()
+                clientId = clientData?.id
+              }
+              await supabase.from('assessments').insert({ client_id: clientId, answers: { formatted: answers, tags }, soul_reading: soulReading })
+            } catch (e) { console.error('DB error (non-fatal):', e) }
+          }
 
-    // Send email
-    if (process.env.RESEND_API_KEY && email) {
-      try {
-        const resend = new Resend(process.env.RESEND_API_KEY)
-        const formatted = soulReading
-          .replace(/\n/g, '<br>')
-          .replace(/\*\*(.*?)\*\*/g, '<strong style="color:#C9963C;">$1</strong>')
+          // Email (best-effort)
+          if (process.env.RESEND_API_KEY && email) {
+            try {
+              const resend = new Resend(process.env.RESEND_API_KEY)
+              const formatted = soulReading
+                .replace(/\n/g, '<br>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong style="color:#C9963C;">$1</strong>')
 
-        await resend.emails.send({
-          from: 'The Alchemist <onboarding@resend.dev>',
-          to: email,
-          subject: isSpanish ? '✨ Tu Lectura del Alma — The Alchemist Miami' : '✨ Your Soul Reading — The Alchemist Miami',
-          html: `<div style="background:#000;color:#F0E8D8;font-family:Georgia,serif;max-width:620px;margin:0 auto;padding:2.5rem 2rem;">
+              await resend.emails.send({
+                from: 'The Alchemist <onboarding@resend.dev>',
+                to: email,
+                subject: isSpanish ? '✨ Tu Lectura del Alma — Alchemized BioHealing Institute' : '✨ Your Soul Reading — Alchemized BioHealing Institute',
+                html: `<div style="background:#000;color:#F0E8D8;font-family:Georgia,serif;max-width:620px;margin:0 auto;padding:2.5rem 2rem;">
             <div style="text-align:center;margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:1px solid rgba(201,150,60,0.2);">
               <div style="font-size:1.8rem;color:#C9963C;">☿</div>
-              <h1 style="color:#C9963C;font-size:1.5rem;font-weight:300;letter-spacing:0.25em;margin:0.5rem 0 0;font-family:Georgia,serif;">THE ALCHEMIST</h1>
+              <h1 style="color:#C9963C;font-size:1.5rem;font-weight:300;letter-spacing:0.2em;margin:0.5rem 0 0;font-family:Georgia,serif;">ALCHEMIZED BIOHEALING</h1>
               <p style="color:rgba(240,232,216,0.3);font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;margin:0.5rem 0 0;">${isSpanish ? 'Lectura del Alma' : 'Soul Reading'}${name ? ` · ${name}` : ''}</p>
             </div>
             <div style="background:rgba(201,150,60,0.04);border:1px solid rgba(201,150,60,0.18);padding:2rem;border-radius:4px;line-height:2;font-size:0.9rem;">${formatted}</div>
             <div style="text-align:center;margin-top:2.5rem;">
               <a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://thealchemist.miami'}/booking" style="background:linear-gradient(135deg,#C9963C,#E4B85A);color:#000;padding:0.9rem 2rem;text-decoration:none;border-radius:2px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;font-size:0.78rem;display:inline-block;">
-                ${isSpanish ? 'Comienza Tu Primera Alquimia — $199' : 'Begin Your First Alchemy — $199'}
+                ${isSpanish ? 'Comienza Tu Viaje' : 'Begin Your Journey'}
               </a>
             </div>
-            <p style="text-align:center;margin-top:2rem;color:rgba(240,232,216,0.2);font-size:0.72rem;letter-spacing:0.08em;">The Alchemist Miami · thealchemist.miami</p>
+            <p style="text-align:center;margin-top:2rem;color:rgba(240,232,216,0.2);font-size:0.72rem;letter-spacing:0.08em;">Alchemized BioHealing Institute · thealchemist.miami</p>
           </div>`,
-        })
-      } catch (e) { console.error('Email error (non-fatal):', e) }
-    }
+              })
+            } catch (e) { console.error('Email error (non-fatal):', e) }
+          }
 
-    return NextResponse.json({ soulReading })
+          controller.enqueue(enc({ type: 'done' }))
+        } catch (e) {
+          console.error('Soul reading error:', e)
+          controller.enqueue(enc({ type: 'error', error: 'Failed to generate reading' }))
+        }
+        controller.close()
+      },
+    })
+
+    return new Response(readable, {
+      headers: { 'Content-Type': 'application/x-ndjson; charset=utf-8', 'Cache-Control': 'no-store', 'X-Accel-Buffering': 'no' },
+    })
   } catch (error) {
     console.error('Soul reading error:', error)
     return NextResponse.json({ error: 'Failed to generate reading' }, { status: 500 })

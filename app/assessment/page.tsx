@@ -7,6 +7,37 @@ import type { AssessmentOption } from '@/lib/i18n/types'
 
 type Answers = Record<string, string | string[]>
 
+// Clean renderer for the Soul Reading — turns **bold** section titles into elegant
+// headings and the rest into flowing paragraphs (no raw asterisks).
+function SoulReading({ text }: { text: string }) {
+  const blocks = text.split('\n').filter(l => l.trim() !== '')
+  return (
+    <>
+      {blocks.map((raw, i) => {
+        const line = raw.trim()
+        const headingMatch = line.match(/^\*\*(.+?)\*\*:?\s*(.*)$/)
+        if (headingMatch && headingMatch[2].trim() === '') {
+          return (
+            <h3 key={i} style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '1.4rem', fontWeight: 400, color: '#C9963C', margin: '2rem 0 0.6rem', letterSpacing: '0.02em' }}>
+              {headingMatch[1]}
+            </h3>
+          )
+        }
+        const parts = line.split(/(\*\*[^*]+\*\*)/g)
+        return (
+          <p key={i} style={{ margin: '0 0 1rem', lineHeight: 1.9 }}>
+            {parts.map((p, j) =>
+              p.startsWith('**') && p.endsWith('**')
+                ? <strong key={j} style={{ color: '#E4B85A', fontWeight: 600 }}>{p.slice(2, -2)}</strong>
+                : <span key={j}>{p}</span>
+            )}
+          </p>
+        )
+      })}
+    </>
+  )
+}
+
 function collectTags(answers: Answers, steps: ReturnType<typeof useLanguage>['t']['assessment']['steps']): string[] {
   const tags: string[] = []
   for (const step of steps) {
@@ -104,13 +135,33 @@ export default function AssessmentPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ answers: formattedAnswers, tags, name, email, lang }),
       })
-      const data = await res.json()
-      if (data.soulReading) {
-        setSoulReading(data.soulReading)
-        window.scrollTo({ top: 0, behavior: 'smooth' })
-      } else {
-        setError(T.error)
+      if (!res.ok || !res.body) throw new Error('failed')
+
+      const reader = res.body.getReader()
+      const decoder = new TextDecoder()
+      let buffer = ''
+      let acc = ''
+      let scrolled = false
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        buffer += decoder.decode(value, { stream: true })
+        const lines = buffer.split('\n')
+        buffer = lines.pop() || ''
+        for (const line of lines) {
+          if (!line.trim()) continue
+          let ev: any
+          try { ev = JSON.parse(line) } catch { continue }
+          if (ev.type === 'delta') {
+            acc += ev.text
+            setSoulReading(acc)
+            if (!scrolled) { window.scrollTo({ top: 0, behavior: 'smooth' }); scrolled = true }
+          } else if (ev.type === 'error') {
+            throw new Error(ev.error || 'failed')
+          }
+        }
       }
+      if (!acc) setError(T.error)
     } catch {
       setError(T.connectionError)
     } finally {
@@ -135,8 +186,8 @@ export default function AssessmentPage() {
             {name && <p style={{ color: 'rgba(240,232,216,0.4)', fontSize: '0.88rem', letterSpacing: '0.12em', textTransform: 'uppercase' }}>{T.result.subtitle} {name}</p>}
             <div style={{ width: '48px', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(201,150,60,0.4), transparent)', margin: '1.75rem auto 0' }} />
           </div>
-          <div style={{ background: 'rgba(201,150,60,0.03)', border: '1px solid rgba(201,150,60,0.15)', borderRadius: '4px', padding: '2.5rem 2.75rem', lineHeight: 2.05, fontSize: '0.95rem', whiteSpace: 'pre-wrap', color: 'rgba(240,232,216,0.88)', marginBottom: '3rem' }}>
-            {soulReading}
+          <div style={{ background: 'rgba(201,150,60,0.03)', border: '1px solid rgba(201,150,60,0.15)', borderRadius: '4px', padding: '2.5rem 2.75rem', fontSize: '0.97rem', color: 'rgba(240,232,216,0.9)', marginBottom: '3rem' }}>
+            <SoulReading text={soulReading} />
           </div>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '2rem' }}>
             <Link href="/booking" style={{ background: 'linear-gradient(135deg,#C9963C,#E4B85A)', color: '#000', padding: '1rem 2.5rem', borderRadius: '2px', textDecoration: 'none', fontSize: '0.8rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase' }}>

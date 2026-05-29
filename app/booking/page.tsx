@@ -23,6 +23,49 @@ const generateSlots = (date: string) => {
   return slots
 }
 
+function Calendar({ value, onChange, minDate }: { value: string; onChange: (d: string) => void; minDate: string }) {
+  const today = new Date(); today.setHours(0, 0, 0, 0)
+  const min = new Date(minDate + 'T00:00:00')
+  const [view, setView] = useState(() => { const d = value ? new Date(value + 'T00:00:00') : new Date(); return new Date(d.getFullYear(), d.getMonth(), 1) })
+  const y = view.getFullYear(); const m = view.getMonth()
+  const firstDay = new Date(y, m, 1).getDay()
+  const daysInMonth = new Date(y, m + 1, 0).getDate()
+  const monthName = view.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+  const fmt = (d: number) => `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`
+  const cells: (number | null)[] = [...Array(firstDay).fill(null), ...Array.from({ length: daysInMonth }, (_, i) => i + 1)]
+
+  return (
+    <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(201,150,60,0.2)', borderRadius: 8, padding: '1.25rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
+        <button type="button" onClick={() => setView(new Date(y, m - 1, 1))} style={{ background: 'none', border: 'none', color: '#C9963C', fontSize: '1.2rem', cursor: 'pointer', padding: '0 0.5rem' }}>‹</button>
+        <div style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '1.15rem', color: '#F0E8D8', letterSpacing: '0.05em' }}>{monthName}</div>
+        <button type="button" onClick={() => setView(new Date(y, m + 1, 1))} style={{ background: 'none', border: 'none', color: '#C9963C', fontSize: '1.2rem', cursor: 'pointer', padding: '0 0.5rem' }}>›</button>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '0.3rem', textAlign: 'center' }}>
+        {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => <div key={i} style={{ fontSize: '0.65rem', color: 'rgba(240,232,216,0.4)', letterSpacing: '0.1em', padding: '0.3rem 0' }}>{d}</div>)}
+        {cells.map((d, i) => {
+          if (d === null) return <div key={i} />
+          const dateStr = fmt(d)
+          const dObj = new Date(y, m, d)
+          const isWeekend = dObj.getDay() === 0 || dObj.getDay() === 6
+          const disabled = dObj < min || isWeekend
+          const selected = value === dateStr
+          return (
+            <button key={i} type="button" disabled={disabled} onClick={() => onChange(dateStr)}
+              style={{
+                aspectRatio: '1', borderRadius: '50%', border: selected ? '1px solid #C9963C' : '1px solid transparent',
+                background: selected ? 'rgba(201,150,60,0.18)' : disabled ? 'transparent' : 'rgba(255,255,255,0.03)',
+                color: selected ? '#C9963C' : disabled ? 'rgba(240,232,216,0.18)' : '#F0E8D8',
+                fontSize: '0.82rem', cursor: disabled ? 'default' : 'pointer', transition: 'all 0.15s',
+              }}>{d}</button>
+          )
+        })}
+      </div>
+      <div style={{ fontSize: '0.68rem', color: 'rgba(240,232,216,0.35)', marginTop: '0.75rem', textAlign: 'center' }}>Weekends unavailable · choose a weekday</div>
+    </div>
+  )
+}
+
 export default function BookingPage() {
   const [selectedService, setSelectedService] = useState('')
   const [practitioner, setPractitioner] = useState('')
@@ -94,7 +137,7 @@ export default function BookingPage() {
     <div style={{ background: '#000', minHeight: '100vh', color: '#F0E8D8' }}>
       {/* Header */}
       <div style={{ borderBottom: '1px solid rgba(201,150,60,0.2)', padding: '1rem 2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Link href="/" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '1.25rem', color: '#C9963C', textDecoration: 'none' }}>☿ THE ALCHEMIST</Link>
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}><img src="/logo-alchemized.png" alt="Alchemized BioHealing Institute" style={{ height: '38px', width: 'auto' }} /></Link>
         <div style={{ fontSize: '0.8rem', color: 'rgba(240,232,216,0.5)' }}>Book a Session</div>
       </div>
 
@@ -133,30 +176,30 @@ export default function BookingPage() {
           </div>
         </div>
 
-        {/* Date and time */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '2rem' }}>
-          <div>
-            <label style={{ display: 'block', fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C9963C', marginBottom: '0.75rem' }}>Date</label>
-            <input type="date" value={date} onChange={e => { setDate(e.target.value); setTime('') }} min={minDate}
-              style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(201,150,60,0.2)', borderRadius: '4px', padding: '0.75rem', color: '#F0E8D8', fontSize: '0.9rem', outline: 'none', fontFamily: 'Jost, sans-serif', colorScheme: 'dark' }} />
-          </div>
-          <div>
-            <label style={{ display: 'block', fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C9963C', marginBottom: '0.75rem' }}>Time</label>
-            {date && availableSlots.length === 0 ? (
-              <p style={{ color: '#E06090', fontSize: '0.85rem', marginTop: '0.75rem' }}>No slots on weekends. Please select a weekday.</p>
+        {/* Date — interactive calendar */}
+        <div style={{ marginBottom: '2rem' }}>
+          <label style={{ display: 'block', fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C9963C', marginBottom: '1rem' }}>Choose a date</label>
+          <Calendar value={date} onChange={d => { setDate(d); setTime('') }} minDate={minDate} />
+        </div>
+
+        {/* Time slots */}
+        {date && (
+          <div style={{ marginBottom: '2rem' }}>
+            <label style={{ display: 'block', fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C9963C', marginBottom: '1rem' }}>Choose a time</label>
+            {availableSlots.length === 0 ? (
+              <p style={{ color: '#E06090', fontSize: '0.85rem' }}>No slots on weekends. Please select a weekday.</p>
             ) : (
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.6rem' }}>
                 {availableSlots.map(slot => (
                   <button key={slot} onClick={() => setTime(slot)}
-                    style={{ padding: '0.4rem 0.75rem', border: `1px solid ${time === slot ? '#C9963C' : 'rgba(201,150,60,0.2)'}`, background: time === slot ? 'rgba(201,150,60,0.1)' : 'transparent', borderRadius: '2px', cursor: 'pointer', color: time === slot ? '#C9963C' : 'rgba(240,232,216,0.7)', fontSize: '0.8rem', transition: 'all 0.2s' }}>
+                    style={{ padding: '0.6rem 1.1rem', border: `1px solid ${time === slot ? '#C9963C' : 'rgba(201,150,60,0.2)'}`, background: time === slot ? 'rgba(201,150,60,0.12)' : 'rgba(255,255,255,0.02)', borderRadius: '4px', cursor: 'pointer', color: time === slot ? '#C9963C' : 'rgba(240,232,216,0.7)', fontSize: '0.85rem', transition: 'all 0.2s' }}>
                     {slot}
                   </button>
                 ))}
-                {!date && <p style={{ color: 'rgba(240,232,216,0.3)', fontSize: '0.85rem' }}>Select a date first</p>}
               </div>
             )}
           </div>
-        </div>
+        )}
 
         {/* Contact info */}
         <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(201,150,60,0.15)', borderRadius: '4px', padding: '1.5rem', marginBottom: '2rem' }}>
