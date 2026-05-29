@@ -1,3 +1,14 @@
+# ⭐ START HERE — ALCHEMIZED BIOHEALING (web pública + Lumina + Lyra)
+Web pública del dúo Bella Vargas + Dr. Meighen, con los agentes Lumina (chat) y Lyra (espacio espiritual de Bella) y el Soul Assessment.
+**Este repo es SOLO la web pública.** El Orion clínico del Dr. Meighen es OTRO repo/proyecto (C:\Projects\orion) — aquí solo se enlaza ("Meet Orion"). El Orion de Danae (C:\Projects\orion-template) no tiene nada que ver.
+
+- **Live:** https://the-alchemist-danae.netlify.app (pública, bilingüe EN/ES) · **Netlify site:** the-alchemist-danae · GitHub: Danaepozo/The-Alchemist
+- **Supabase:** `pjmhtekeyymftpwzepca` (compartido con el Orion del doctor)
+- **Deploy:** `netlify deploy --prod --build` (`rm -rf .next` antes si el build falla por tipos)
+- **Agentes:** Lumina (`components/LuminaChat.tsx` + `app/api/lumina`), Lyra (`/lyra` + `lib/alchemist/lyra-knowledge-base.ts` + `app/api/lyra`), Soul Assessment (`/assessment` + `app/api/soul-reading`).
+- **Catálogo único:** `lib/alchemist/catalog.ts` (membresías/IVs/terapias). Logo: `public/logo-alchemized.png`.
+- Páginas: home, /about/bella, /about/meighen, /retreats, /booking. Detalle completo: memoria `project_alchemist.md`.
+
 <!-- BEGIN:nextjs-agent-rules -->
 # This is NOT the Next.js you know
 
