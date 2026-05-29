@@ -341,7 +341,7 @@ const assessmentSteps: AssessmentStep[] = [
 
 export const en = {
   common: {
-    brand: 'THE ALCHEMIST',
+    brand: 'ALCHEMIZED BIOHEALING',
     tagline: 'Where Science Meets Spirit',
     backHome: 'Return Home',
     book: 'Book Your Session',
@@ -369,7 +369,7 @@ export const en = {
     result: {
       title: 'Your Soul Reading',
       subtitle: 'For',
-      bookCta: 'Begin Your First Alchemy — $199',
+      bookCta: 'Begin Your Journey',
       emailSent: '✦ Your reading has been sent to',
     },
   },

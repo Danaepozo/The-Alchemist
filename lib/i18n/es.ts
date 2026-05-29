@@ -341,7 +341,7 @@ const assessmentSteps: AssessmentStep[] = [
 
 export const es: Translations = {
   common: {
-    brand: 'THE ALCHEMIST',
+    brand: 'ALCHEMIZED BIOHEALING',
     tagline: 'Donde la Ciencia se Encuentra con el Espíritu',
     backHome: 'Volver al Inicio',
     book: 'Reserva tu Sesión',
@@ -369,7 +369,7 @@ export const es: Translations = {
     result: {
       title: 'Tu Lectura del Alma',
       subtitle: 'Para',
-      bookCta: 'Comienza Tu Primera Alquimia — $199',
+      bookCta: 'Comienza Tu Viaje',
       emailSent: '✦ Tu lectura ha sido enviada a',
     },
   },

@@ -28,8 +28,8 @@ const QUICK_REPLIES_ES = [
 ]
 
 const GREETINGS = {
-  en: 'I\'m Lumina ✦ — the guiding intelligence of The Alchemist Miami.\n\nI\'m here to help you understand what your body, mind, and soul are asking for — and to find the right path forward.\n\nWhat brings you here today?',
-  es: 'Soy Lumina ✦ — la inteligencia guía de The Alchemist Miami.\n\nEstoy aquí para ayudarte a entender lo que tu cuerpo, mente y alma están pidiendo — y encontrar el camino correcto.\n\n¿Qué te trae hoy aquí?',
+  en: 'I\'m Lumina ✦ — the guiding intelligence of Alchemized BioHealing Institute.\n\nI\'m here to help you understand what your body, mind, and soul are asking for — and to find the right path forward.\n\nWhat brings you here today?',
+  es: 'Soy Lumina ✦ — la inteligencia guía de Alchemized BioHealing Institute.\n\nEstoy aquí para ayudarte a entender lo que tu cuerpo, mente y alma están pidiendo — y encontrar el camino correcto.\n\n¿Qué te trae hoy aquí?',
 }
 
 export default function LuminaChat() {
@@ -190,7 +190,7 @@ export default function LuminaChat() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                   <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#3DC898', display: 'inline-block' }} />
                   <span style={{ fontSize: '0.65rem', color: 'rgba(240,232,216,0.4)', letterSpacing: '0.08em' }}>
-                    {lang === 'es' ? 'The Alchemist · En línea' : 'The Alchemist · Online'}
+                    {lang === 'es' ? 'Alchemized · En línea' : 'Alchemized · Online'}
                   </span>
                 </div>
               </div>

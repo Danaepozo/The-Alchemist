@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Alchemist · Miami</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  background: #000000;
+  color: #f0e8d8;
+  font-family: 'Jost', sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ── PROGRESS ── */
+#prog {
+  position:fixed; top:0; left:0; right:0; height:2px; z-index:999;
+  background: linear-gradient(90deg, #c9963c, #6abf96, #c9963c);
+  transform-origin:left; transform:scaleX(0);
+  transition:transform .1s;
+}
+
+/* ── NAV ── */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  padding:16px 52px;
+  display:flex; align-items:center; justify-content:space-between;
+  background:rgba(0,0,0,0.92);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(201,150,60,0.18);
+}
+.nav-logo {
+  font-family:'Cinzel',serif;
+  font-size:15px; letter-spacing:.22em;
+  color:#e8c060;
+  text-decoration:none;
+}
+.nav-logo span {
+  display:block; font-size:9px;
+  font-family:'Jost',sans-serif;
+  font-weight:300; letter-spacing:.15em;
+  color:rgba(240,232,216,0.4);
+  margin-top:1px;
+}
+.nav-links { display:flex; gap:28px; align-items:center; }
+.nav-a {
+  font-size:11px; font-weight:400;
+  color:rgba(240,232,216,0.5);
+  letter-spacing:.1em; text-transform:uppercase;
+  text-decoration:none;
+  transition:color .2s;
+}
+.nav-a:hover { color:#f0e8d8; }
+.nav-btn {
+  padding:9px 22px; border-radius:100px;
+  border:1px solid rgba(201,150,60,0.4);
+  background:rgba(201,150,60,0.08);
+  color:#e8c060;
+  font-family:'Jost',sans-serif;
+  font-size:11px; font-weight:500;
+  letter-spacing:.1em; text-transform:uppercase;
+  cursor:pointer;
+  transition:all .25s;
+}
+.nav-btn:hover {
+  background:#c9963c; color:#000000;
+  border-color:#c9963c;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height:100vh;
+  background:#000000;
+  display:flex; align-items:center; justify-content:center;
+  text-align:center;
+  padding:100px 40px 80px;
+  position:relative; overflow:hidden;
+}
+.hero-glow {
+  position:absolute; top:30%; left:50%;
+  transform:translate(-50%,-50%);
+  width:600px; height:400px;
+  background:radial-gradient(ellipse, rgba(201,150,60,0.08) 0%, transparent 70%);
+  pointer-events:none;
+}
+.hero-symbol {
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-52%);
+  font-family:'Cormorant Garamond',serif;
+  font-size:500px; line-height:1;
+  color:#c9963c; opacity:0.04;
+  pointer-events:none; user-select:none;
+  animation:breathe 8s ease-in-out infinite;
+}
+@keyframes breathe {
+  0%,100%{opacity:0.04; transform:translate(-50%,-52%) scale(1);}
+  50%{opacity:0.07; transform:translate(-50%,-52%) scale(1.03);}
+}
+.hero-ring {
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  width:500px; height:500px;
+  border-radius:50%;
+  border:1px solid rgba(201,150,60,0.1);
+  animation:spin 45s linear infinite;
+  pointer-events:none;
+}
+@keyframes spin { to { transform:translate(-50%,-50%) rotate(360deg); } }
+
+.hero-inner { position:relative; z-index:2; max-width:800px; }
+
+.hero-badge {
+  display:inline-flex; align-items:center; gap:10px;
+  padding:8px 22px; border-radius:100px;
+  border:1px solid rgba(201,150,60,0.35);
+  background:rgba(201,150,60,0.08);
+  font-size:10px; font-weight:500;
+  letter-spacing:.3em; text-transform:uppercase;
+  color:#e8c060;
+  margin-bottom:32px;
+}
+.dot {
+  width:5px; height:5px; border-radius:50%;
+  background:#c9963c;
+  box-shadow:0 0 8px #c9963c;
+  animation:glow 2.2s ease-in-out infinite;
+}
+@keyframes glow {
+  0%,100%{box-shadow:0 0 6px #c9963c;}
+  50%{box-shadow:0 0 16px #e8c060;}
+}
+
+.hero-sup {
+  font-family:'Cinzel',serif;
+  font-size:10px; letter-spacing:.5em; text-transform:uppercase;
+  color:rgba(240,232,216,0.35); margin-bottom:18px;
+}
+
+.hero-h1 {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(52px,8vw,92px);
+  font-weight:300; line-height:1.04;
+  color:#f0e8d8;
+  margin-bottom:10px;
+}
+.hero-h1 em {
+  font-style:italic; font-weight:300;
+  color:#e8c060;
+}
+
+.hero-h2 {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(18px,2.5vw,26px);
+  font-weight:300; font-style:italic;
+  color:rgba(240,232,216,0.55);
+  margin-bottom:28px;
+}
+
+.hero-line {
+  width:1px; height:56px;
+  background:linear-gradient(to bottom, #c9963c, transparent);
+  margin:0 auto 28px;
+}
+
+.hero-p {
+  font-size:16px; font-weight:300;
+  color:rgba(240,232,216,0.70);
+  line-height:1.8; max-width:540px;
+  margin:0 auto 40px;
+}
+
+.btn-row { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+
+.btn-gold {
+  padding:15px 38px; border-radius:100px;
+  background:linear-gradient(135deg,#c9963c,#e8c060);
+  color:#000000;
+  font-family:'Jost',sans-serif;
+  font-size:12px; font-weight:600;
+  letter-spacing:.15em; text-transform:uppercase;
+  border:none; cursor:pointer;
+  box-shadow:0 0 30px rgba(201,150,60,0.25);
+  transition:all .3s;
+}
+.btn-gold:hover {
+  box-shadow:0 0 50px rgba(201,150,60,0.45);
+  transform:translateY(-2px);
+}
+.btn-outline {
+  padding:15px 38px; border-radius:100px;
+  background:transparent;
+  border:1px solid rgba(240,232,216,0.2);
+  color:rgba(240,232,216,0.65);
+  font-family:'Jost',sans-serif;
+  font-size:12px; font-weight:400;
+  letter-spacing:.12em; text-transform:uppercase;
+  cursor:pointer;
+  transition:all .3s;
+}
+.btn-outline:hover {
+  border-color:rgba(201,150,60,0.4);
+  color:#f0e8d8;
+}
+
+.hero-stats {
+  display:flex; justify-content:center; gap:52px;
+  margin-top:60px; padding-top:44px;
+  border-top:1px solid rgba(201,150,60,0.12);
+}
+.hs-v {
+  font-family:'Cormorant Garamond',serif;
+  font-size:34px; font-weight:300; line-height:1;
+}
+.hs-l {
+  font-size:10px; color:rgba(240,232,216,0.4);
+  letter-spacing:.08em; margin-top:5px;
+}
+
+/* ── MARQUEE ── */
+.mq {
+  padding:24px 0; overflow:hidden;
+  border-top:1px solid rgba(201,150,60,0.1);
+  border-bottom:1px solid rgba(201,150,60,0.1);
+  background:rgba(201,150,60,0.03);
+}
+.mq-track {
+  display:flex; white-space:nowrap;
+  animation:mq 30s linear infinite;
+}
+.mq-track:hover { animation-play-state:paused; }
+@keyframes mq { to { transform:translateX(-50%); } }
+.mq-item {
+  font-family:'Cormorant Garamond',serif;
+  font-size:14px; font-style:italic;
+  color:rgba(240,232,216,0.5);
+  padding:0 24px;
+  border-right:1px solid rgba(201,150,60,0.15);
+}
+.mq-gem { color:#c9963c; font-style:normal; margin:0 6px; font-size:9px; }
+
+/* ── SECTION ── */
+.section { padding:100px 0; }
+.wrap { max-width:1060px; margin:0 auto; padding:0 48px; }
+
+.s-label {
+  font-family:'Cinzel',serif;
+  font-size:9px; letter-spacing:.45em; text-transform:uppercase;
+  color:#c9963c; display:block; margin-bottom:14px;
+}
+.s-label.sage { color:#3dc898; }
+.s-label.rose { color:#e06090; }
+
+.s-h2 {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(32px,4.5vw,52px);
+  font-weight:300; line-height:1.12;
+  color:#f0e8d8; margin-bottom:10px;
+}
+.s-h2 em { font-style:italic; color:#e8c060; }
+
+.s-rule {
+  width:38px; height:1px;
+  background:linear-gradient(90deg,#c9963c,transparent);
+  margin-bottom:26px;
+}
+.s-body {
+  font-size:15px; font-weight:300;
+  color:rgba(240,232,216,0.68);
+  line-height:1.8; max-width:560px;
+}
+
+.divider {
+  width:100%; height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,150,60,0.18),transparent);
+}
+
+/* ── ABOUT ── */
+.about-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
+
+.about-vis {
+  display:flex; align-items:center; justify-content:center;
+  height:460px; position:relative;
+}
+.ring-outer {
+  width:360px; height:360px; border-radius:50%;
+  border:1px solid rgba(201,150,60,0.12);
+  display:flex; align-items:center; justify-content:center;
+  animation:spin 35s linear infinite;
+}
+.ring-inner {
+  width:270px; height:270px; border-radius:50%;
+  border:1px solid rgba(61,200,152,0.1);
+  display:flex; align-items:center; justify-content:center;
+  animation:spin 20s linear infinite reverse;
+}
+.about-glyph {
+  font-family:'Cormorant Garamond',serif;
+  font-size:110px; color:#e8c060; opacity:0.55;
+  text-shadow:0 0 60px rgba(201,150,60,0.4);
+  animation:breathe 7s ease-in-out infinite;
+  position:absolute;
+}
+
+.about-tagline {
+  font-family:'Cormorant Garamond',serif;
+  font-size:20px; font-style:italic;
+  color:#e8c060; margin-bottom:22px; line-height:1.4;
+}
+.sigline {
+  display:flex; align-items:flex-start; gap:14px;
+  padding:13px 0; border-bottom:1px solid rgba(201,150,60,0.1);
+}
+.sig-gem {
+  width:6px; height:6px; border-radius:50%; flex-shrink:0; margin-top:6px;
+}
+.sig-t { font-size:13px; color:rgba(240,232,216,0.68); line-height:1.55; }
+.sig-t b { color:#f0e8d8; font-weight:500; }
+
+/* ── FOUNDERS ── */
+.founders-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+
+.fc {
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:18px; overflow:hidden;
+  background:rgba(255,255,255,0.02);
+  transition:transform .35s, border-color .3s;
+}
+.fc:hover { transform:translateY(-5px); border-color:rgba(201,150,60,0.22); }
+
+.fc-acc { height:3px; }
+.fc-img {
+  height:200px;
+  display:flex; align-items:center; justify-content:center;
+  position:relative;
+}
+.fc-initials {
+  font-family:'Cormorant Garamond',serif;
+  font-size:80px; font-weight:200; opacity:0.18; z-index:0;
+}
+.fc-badge {
+  position:absolute; bottom:14px; left:50%; transform:translateX(-50%);
+  padding:5px 16px; border-radius:100px;
+  font-size:9px; letter-spacing:.18em; text-transform:uppercase;
+  font-family:'Cinzel',serif;
+  white-space:nowrap;
+}
+.fc-bd { padding:22px 26px 26px; }
+.fc-name {
+  font-family:'Cormorant Garamond',serif;
+  font-size:24px; font-weight:400;
+  color:#f0e8d8; margin-bottom:3px;
+}
+.fc-title { font-size:12px; font-style:italic; color:rgba(240,232,216,0.45); margin-bottom:14px; line-height:1.5; }
+.fc-quote {
+  font-size:14px; font-style:italic;
+  color:rgba(240,232,216,0.62); line-height:1.7;
+  padding:12px 16px; border-left:2px solid;
+  background:rgba(255,255,255,0.03);
+  border-radius:0 8px 8px 0; margin-bottom:16px;
+}
+.fc-pills { display:flex; gap:6px; flex-wrap:wrap; }
+.fc-pill {
+  padding:4px 12px; border-radius:100px;
+  font-size:10px; font-weight:500;
+  letter-spacing:.05em;
+  border:1px solid; background:transparent;
+}
+
+/* ── SERVICES ── */
+.svcs {
+  background:linear-gradient(180deg,#080808 0%,#000000 100%);
+}
+.svc-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+
+.svc {
+  padding:24px 20px;
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:14px;
+  background:rgba(255,255,255,0.02);
+  transition:all .3s;
+}
+.svc:hover {
+  border-color:rgba(201,150,60,0.2);
+  transform:translateY(-3px);
+  background:rgba(201,150,60,0.04);
+}
+.svc-ico { font-size:22px; margin-bottom:10px; display:block; }
+.svc-t {
+  font-family:'Cormorant Garamond',serif;
+  font-size:16px; font-weight:500;
+  margin-bottom:9px; line-height:1.3;
+}
+.svc-list { list-style:none; display:flex; flex-direction:column; gap:4px; }
+.svc-list li {
+  font-size:11px; color:rgba(240,232,216,0.52);
+  padding-left:12px; position:relative; line-height:1.5;
+}
+.svc-list li::before { content:'·'; position:absolute; left:0; color:#c9963c; }
+
+/* ── MEMBERSHIPS ── */
+.mems-section { background:#080808; }
+.mems-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; align-items:end; }
+
+.mc {
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:14px; overflow:hidden;
+  background:rgba(255,255,255,0.03);
+  transition:all .3s;
+}
+.mc:hover { transform:translateY(-5px); border-color:rgba(201,150,60,0.2); }
+.mc.feat {
+  border-color:rgba(201,150,60,0.35);
+  background:rgba(201,150,60,0.04);
+  box-shadow:0 0 50px rgba(201,150,60,0.08);
+  transform:scale(1.03);
+}
+.mc.feat:hover { transform:scale(1.03) translateY(-5px); }
+
+.mc-acc { height:3px; }
+.mc-top { padding:20px 16px 14px; }
+.mc-phase {
+  font-family:'Cinzel',serif;
+  font-size:8px; letter-spacing:.28em; text-transform:uppercase;
+  margin-bottom:7px;
+}
+.mc-name {
+  font-family:'Cormorant Garamond',serif;
+  font-size:17px; font-weight:500;
+  color:#f0e8d8; margin-bottom:6px; line-height:1.3;
+}
+.mc-price {
+  font-family:'Cormorant Garamond',serif;
+  font-size:28px; font-weight:300; line-height:1;
+}
+.mc-sub { font-size:10px; color:rgba(240,232,216,0.38); margin-top:3px; }
+.mc-promo {
+  display:inline-block; margin-top:8px;
+  padding:3px 10px; border-radius:100px;
+  font-size:9px; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
+}
+.mc-body { padding:0 16px 18px; border-top:1px solid rgba(255,255,255,0.06); }
+.mc-list {
+  list-style:none; display:flex; flex-direction:column;
+  gap:4px; padding-top:13px;
+}
+.mc-list li {
+  font-size:11px; color:rgba(240,232,216,0.55);
+  padding-left:13px; position:relative; line-height:1.5;
+}
+.mc-list li::before { content:'→'; position:absolute; left:0; font-size:8px; top:2px; color:#c9963c; opacity:.7; }
+.mc-list li.hi { color:#f0e8d8; }
+.mc-cta {
+  width:100%; margin-top:12px;
+  padding:10px; border-radius:100px;
+  font-family:'Jost',sans-serif;
+  font-size:10px; font-weight:500; letter-spacing:.1em; text-transform:uppercase;
+  cursor:pointer; border:1px solid;
+  background:transparent;
+  transition:all .25s;
+}
+
+/* ── QUOTE ── */
+.quote-sec {
+  padding:110px 0;
+  background:#000000;
+  text-align:center; position:relative; overflow:hidden;
+}
+.quote-bg-sym {
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  font-family:'Cormorant Garamond',serif;
+  font-size:380px; color:#c9963c; opacity:0.025;
+  pointer-events:none; user-select:none;
+}
+.q-inner { position:relative; z-index:1; max-width:720px; margin:0 auto; padding:0 48px; }
+.q-rule { width:50px; height:1px; background:linear-gradient(90deg,transparent,#c9963c,transparent); margin:0 auto 26px; }
+.q-mark {
+  font-family:'Cormorant Garamond',serif;
+  font-size:72px; line-height:.4; color:#c9963c; opacity:0.35;
+  display:block; margin-bottom:22px;
+}
+.q-text {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(22px,3.5vw,36px);
+  font-weight:300; font-style:italic;
+  color:#f0e8d8; line-height:1.45; margin-bottom:26px;
+}
+.q-attr {
+  font-size:11px; letter-spacing:.25em; text-transform:uppercase;
+  color:rgba(240,232,216,0.35);
+}
+
+/* ── CTA ── */
+.cta-sec {
+  padding:110px 0; text-align:center;
+  background:radial-gradient(ellipse 80% 70% at 50% 50%, rgba(201,150,60,0.05), transparent 65%);
+}
+.cta-glyph {
+  font-family:'Cormorant Garamond',serif;
+  font-size:60px; color:#c9963c; opacity:0.3;
+  display:block; margin-bottom:18px;
+  animation:breathe 6s ease-in-out infinite;
+}
+.cta-h { 
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(32px,5vw,54px);
+  font-weight:200; color:#f0e8d8; line-height:1.1; margin-bottom:14px;
+}
+.cta-h em { font-style:italic; color:#e8c060; }
+.cta-p { font-size:15px; color:rgba(240,232,216,0.62); line-height:1.8; max-width:520px; margin:0 auto 36px; font-weight:300; }
+
+/* ── FOOTER ── */
+footer {
+  background:#000000;
+  border-top:1px solid rgba(201,150,60,0.12);
+  padding:56px 52px 0;
+  max-width:1060px; margin:0 auto;
+  display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:48px;
+}
+.f-logo {
+  font-family:'Cinzel',serif;
+  font-size:14px; letter-spacing:.2em;
+  color:#e8c060; margin-bottom:5px;
+}
+.f-tag { font-size:11px; color:rgba(240,232,216,0.35); font-style:italic; margin-bottom:14px; }
+.f-body { font-size:12px; color:rgba(240,232,216,0.45); line-height:1.7; }
+.f-col-t {
+  font-family:'Cinzel',serif;
+  font-size:9px; letter-spacing:.3em; text-transform:uppercase;
+  color:#c9963c; margin-bottom:14px;
+}
+.f-link {
+  display:block; font-size:12px;
+  color:rgba(240,232,216,0.45);
+  text-decoration:none; margin-bottom:8px;
+  letter-spacing:.04em; transition:color .2s;
+}
+.f-link:hover { color:#f0e8d8; }
+.f-bottom {
+  background:#000000;
+  max-width:1060px; margin:0 auto;
+  padding:20px 52px 32px;
+  display:flex; justify-content:space-between; align-items:center;
+  font-size:11px; color:rgba(240,232,216,0.3);
+  border-top:1px solid rgba(255,255,255,0.05);
+  margin-top:40px;
+}
+.f-gold { color:#c9963c; font-style:italic; }
+
+/* ── REVEAL ── */
+.reveal { opacity:0; transform:translateY(28px); transition:opacity .75s, transform .75s cubic-bezier(.16,1,.3,1); }
+.reveal.on { opacity:1; transform:translateY(0); }
+.d1{transition-delay:.1s;} .d2{transition-delay:.2s;} .d3{transition-delay:.3s;} .d4{transition-delay:.4s;}
+
+/* ── MOBILE ── */
+@media(max-width:880px){
+  nav{padding:12px 18px;}
+  .nav-links{display:none;}
+  .wrap{padding:0 18px;}
+  .section{padding:64px 0;}
+  .about-grid,.founders-grid{grid-template-columns:1fr;}
+  .svc-grid{grid-template-columns:1fr 1fr;}
+  .mems-grid{grid-template-columns:1fr 1fr;}
+  .mc.feat{transform:none;}
+  footer{grid-template-columns:1fr;padding:40px 18px 0;}
+  .f-bottom{padding:16px 18px 28px;flex-direction:column;gap:6px;text-align:center;}
+  .about-vis{height:280px;}
+  .ring-outer{width:240px;height:240px;}
+  .ring-inner{width:185px;height:185px;}
+  .hero-stats{gap:28px;}
+}
+</style>
+</head>
+<body>
+
+<div id="prog"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    THE ALCHEMIST
+    <span>Where Science Meets Spirit</span>
+  </a>
+  <div class="nav-links">
+    <a href="#about" class="nav-a">About</a>
+    <a href="#services" class="nav-a">Services</a>
+    <a href="#team" class="nav-a">Our Team</a>
+    <a href="#memberships" class="nav-a">Memberships</a>
+    <button class="nav-btn">Begin Your Journey</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-symbol">☿</div>
+  <div class="hero-ring"></div>
+  <div class="hero-inner">
+    <div class="hero-badge"><div class="dot"></div>Miami's Premier Integrative Wellness · Est. 2024</div>
+    <p class="hero-sup">The Alchemist · Miami, Florida</p>
+    <h1 class="hero-h1">Where Science<br>meets <em>Spirit.</em></h1>
+    <p class="hero-h2">Nervous system regulation. Human connection.</p>
+    <div class="hero-line"></div>
+    <p class="hero-p">Precision medicine, functional healing and spiritual transformation — woven into a single experience by two extraordinary practitioners.</p>
+    <div class="btn-row">
+      <button class="btn-gold">Begin Your Assessment</button>
+      <button class="btn-outline">Explore Memberships</button>
+    </div>
+    <div class="hero-stats">
+      <div><div class="hs-v" style="color:#3dc898;">100+</div><div class="hs-l">Transformative Services</div></div>
+      <div><div class="hs-v" style="color:#e8c060;">2</div><div class="hs-l">Expert Practitioners</div></div>
+      <div><div class="hs-v" style="color:#e06090;">∞</div><div class="hs-l">Possibilities</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq">
+  <div class="mq-track">
+    <span class="mq-item">Precision Medicine<span class="mq-gem">✦</span></span>
+    <span class="mq-item">Peptide Therapy<span class="mq-gem">✦</span></span>
+    <span class="mq-item">Reiki Healing<span class="mq-gem">✦</span></span>
+    <span class="mq-item">NAD+ IV Therapy<span class="mq-gem">✦</span></span>
+    <span class="mq-item">Chakra Balancing<span class="mq-gem">✦</span></span>
+    <span class="mq-item">Hormone Optimization<span class="mq-gem">✦</span></span>
+    <span class="mq-item">Sacred Ceremonies<span class="mq-gem">✦</span></span>
+    <span class="mq-item">Longevity Programs<span class="mq-gem">✦</span></span>
+    <span class="mq-item">Somatic Healing<span class="mq-gem">✦</span></span>
+    <span class="mq-item">Epigenetic Testing<span class="mq-gem">✦</span></span>
+    <span class="mq-item">Ancestral Medicine<span class="mq-gem">✦</span></span>
+    <span class="mq-item">Biohacking Protocols<span class="mq-gem">✦</span></span>
+    <span class="mq-item">Precision Medicine<span class="mq-gem">✦</span></span>
+    <span class="mq-item">Peptide Therapy<span class="mq-gem">✦</span></span>
+    <span class="mq-item">Reiki Healing<span class="mq-gem">✦</span></span>
+    <span class="mq-item">NAD+ IV Therapy<span class="mq-gem">✦</span></span>
+    <span class="mq-item">Chakra Balancing<span class="mq-gem">✦</span></span>
+    <span class="mq-item">Hormone Optimization<span class="mq-gem">✦</span></span>
+    <span class="mq-item">Sacred Ceremonies<span class="mq-gem">✦</span></span>
+    <span class="mq-item">Longevity Programs<span class="mq-gem">✦</span></span>
+    <span class="mq-item">Somatic Healing<span class="mq-gem">✦</span></span>
+    <span class="mq-item">Epigenetic Testing<span class="mq-gem">✦</span></span>
+    <span class="mq-item">Ancestral Medicine<span class="mq-gem">✦</span></span>
+    <span class="mq-item">Biohacking Protocols<span class="mq-gem">✦</span></span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-vis reveal">
+        <div class="ring-outer"><div class="ring-inner"></div></div>
+        <div class="about-glyph">☿</div>
+      </div>
+      <div class="reveal d2">
+        <span class="s-label">The Philosophy</span>
+        <h2 class="s-h2">The body holds<br>every <em>answer.</em></h2>
+        <div class="s-rule"></div>
+        <p class="about-tagline">"Science meet Spirit. Nervous system regulation. Human connection."</p>
+        <p class="s-body" style="margin-bottom:28px;">At The Alchemist, true healing requires precision in both the scientific and spiritual dimensions. Dr. Michael Meighen brings functional medicine's deepest tools. Bella Vargas brings ancient wisdom and the rare gift of creating safety in every space.</p>
+        <div class="sigline">
+          <div class="sig-gem" style="background:#3dc898;box-shadow:0 0 8px #3dc898;"></div>
+          <div class="sig-t"><b>Root cause medicine</b> — not symptom suppression</div>
+        </div>
+        <div class="sigline">
+          <div class="sig-gem" style="background:#e06090;box-shadow:0 0 8px #e06090;"></div>
+          <div class="sig-t"><b>Conscious medical experiences</b> — especially for needle-sensitive clients</div>
+        </div>
+        <div class="sigline">
+          <div class="sig-gem" style="background:#c9963c;box-shadow:0 0 8px #c9963c;"></div>
+          <div class="sig-t"><b>Ancestral + precision medicine</b> — three countries of healing wisdom</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TEAM -->
+<section class="section" id="team">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:48px;" class="reveal">
+      <span class="s-label" style="text-align:center;display:block;">The Practitioners</span>
+      <h2 class="s-h2" style="text-align:center;">Two masters. <em>One purpose.</em></h2>
+    </div>
+    <div class="founders-grid">
+
+      <!-- BELLA -->
+      <div class="fc reveal">
+        <div class="fc-acc" style="background:linear-gradient(90deg,#d44070,#e86090);"></div>
+        <div class="fc-img" style="background:linear-gradient(160deg,rgba(212,64,112,0.15),rgba(0,0,0,0.8));">
+          <div class="fc-initials" style="color:#e06090;">BV</div>
+          <div class="fc-badge" style="border:1px solid rgba(212,64,112,0.4);color:#e86090;background:rgba(212,64,112,0.1);">
+            Holistic Healer · Nurse · Reiki Master
+          </div>
+        </div>
+        <div class="fc-bd">
+          <div class="fc-name">Bella Vargas</div>
+          <div class="fc-title">Harvard Certified Coach · Holistic Practitioner · Enfermera Licenciada · Ancestral Medicine Specialist</div>
+          <div class="fc-quote" style="border-color:#d44070;">
+            "Known for making even the most needle-phobic patients end up laughing during their IV." ✨
+          </div>
+          <div class="fc-pills">
+            <span class="fc-pill" style="border-color:rgba(212,64,112,0.35);color:#e06090;">Harvard Certified</span>
+            <span class="fc-pill" style="border-color:rgba(212,64,112,0.35);color:#e06090;">Reiki Master</span>
+            <span class="fc-pill" style="border-color:rgba(212,64,112,0.35);color:#e06090;">Nursing Degree</span>
+            <span class="fc-pill" style="border-color:rgba(212,64,112,0.35);color:#e06090;">Guatemala · México · Colombia</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MICHAEL -->
+      <div class="fc reveal d2">
+        <div class="fc-acc" style="background:linear-gradient(90deg,#2aaa80,#3dc898);"></div>
+        <div class="fc-img" style="background:linear-gradient(160deg,rgba(42,170,128,0.15),rgba(0,0,0,0.8));">
+          <div class="fc-initials" style="color:#3dc898;">MJM</div>
+          <div class="fc-badge" style="border:1px solid rgba(42,170,128,0.4);color:#3dc898;background:rgba(42,170,128,0.1);">
+            MD · Precision Medicine · Longevity
+          </div>
+        </div>
+        <div class="fc-bd">
+          <div class="fc-name">Dr. Michael J. Meighen</div>
+          <div class="fc-title">MD · Precision Medicine · Functional & Integrative · Hormone Optimization · Longevity · Peptide Therapy</div>
+          <div class="fc-quote" style="border-color:#2aaa80;">
+            "Root cause medicine — finding and resolving the origin. Science meets spirit."
+          </div>
+          <div class="fc-pills">
+            <span class="fc-pill" style="border-color:rgba(42,170,128,0.35);color:#3dc898;">Precision MD</span>
+            <span class="fc-pill" style="border-color:rgba(42,170,128,0.35);color:#3dc898;">Peptide Therapy</span>
+            <span class="fc-pill" style="border-color:rgba(42,170,128,0.35);color:#3dc898;">Longevity</span>
+            <span class="fc-pill" style="border-color:rgba(42,170,128,0.35);color:#3dc898;">Nervous System</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SERVICES -->
+<section class="section svcs" id="services">
+  <div class="wrap">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end;margin-bottom:52px;">
+      <div class="reveal">
+        <span class="s-label sage">The Services</span>
+        <h2 class="s-h2">Every dimension<br><em>of healing.</em></h2>
+        <div class="s-rule"></div>
+      </div>
+      <p class="s-body reveal d2">From epigenetic testing and peptide protocols to sacred ceremonies and Reiki healing — The Alchemist covers the complete spectrum of human transformation.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc reveal">
+        <span class="svc-ico">🔬</span>
+        <div class="svc-t" style="color:#3dc898;">Precision Medicine</div>
+        <ul class="svc-list">
+          <li>Functional medicine consultations</li>
+          <li>Hormone optimization therapy</li>
+          <li>Peptide therapy protocols</li>
+          <li>Longevity programs</li>
+          <li>Biohacking consultations</li>
+          <li>Root cause medicine</li>
+        </ul>
+      </div>
+      <div class="svc reveal d1">
+        <span class="svc-ico">🧪</span>
+        <div class="svc-t" style="color:#e8c060;">Advanced Diagnostics</div>
+        <ul class="svc-list">
+          <li>Biological age testing</li>
+          <li>DUTCH hormone testing</li>
+          <li>Epigenetic analysis</li>
+          <li>Longevity biomarkers</li>
+          <li>Cardiovascular panels</li>
+          <li>Genetic wellness analysis</li>
+        </ul>
+      </div>
+      <div class="svc reveal d2">
+        <span class="svc-ico">💉</span>
+        <div class="svc-t" style="color:#6ab4d8;">IV Therapy</div>
+        <ul class="svc-list">
+          <li>NAD+ · Glutathione · B12</li>
+          <li>Beauty & glow IVs</li>
+          <li>Longevity drips</li>
+          <li>Athletic recovery IVs</li>
+          <li>Mobile & in-home IV</li>
+          <li>Needle-sensitive care ✨</li>
+        </ul>
+      </div>
+      <div class="svc reveal d3">
+        <span class="svc-ico">🌀</span>
+        <div class="svc-t" style="color:#e06090;">Spiritual Healing</div>
+        <ul class="svc-list">
+          <li>Reiki · Chakra balancing</li>
+          <li>Somatic healing sessions</li>
+          <li>Inner child healing</li>
+          <li>Sacred ceremonies</li>
+          <li>Ancestral healing</li>
+          <li>Spiritual integration</li>
+        </ul>
+      </div>
+      <div class="svc reveal">
+        <span class="svc-ico">🌿</span>
+        <div class="svc-t" style="color:#8acd7a;">Herbalism & Nature</div>
+        <ul class="svc-list">
+          <li>Custom herbal protocols</li>
+          <li>Adaptogenic support</li>
+          <li>Medicinal mushrooms</li>
+          <li>Plant medicine education</li>
+          <li>Womb wellness support</li>
+          <li>Natural detox protocols</li>
+        </ul>
+      </div>
+      <div class="svc reveal d1">
+        <span class="svc-ico">🔥</span>
+        <div class="svc-t" style="color:#f0a040;">Retreats & Ceremonies</div>
+        <ul class="svc-list">
+          <li>Healing retreats</li>
+          <li>Couples retreats</li>
+          <li>Sound healing circles</li>
+          <li>Beach meditations</li>
+          <li>Luxury immersions</li>
+          <li>Corporate wellness</li>
+        </ul>
+      </div>
+      <div class="svc reveal d2">
+        <span class="svc-ico">💊</span>
+        <div class="svc-t" style="color:#3dc898;">Regenerative Wellness</div>
+        <ul class="svc-list">
+          <li>Nervous system regulation</li>
+          <li>Pain resolution</li>
+          <li>Trauma physiology</li>
+          <li>Sleep optimization</li>
+          <li>Adrenal recovery</li>
+          <li>Men's health</li>
+        </ul>
+      </div>
+      <div class="svc reveal d3">
+        <span class="svc-ico">👑</span>
+        <div class="svc-t" style="color:#e8c060;">Luxury Concierge</div>
+        <ul class="svc-list">
+          <li>Private intensives</li>
+          <li>VIP transformation days</li>
+          <li>At-home wellness</li>
+          <li>Elite memberships</li>
+          <li>Private ceremony</li>
+          <li>Executive optimization</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- QUOTE -->
+<div class="quote-sec">
+  <div class="quote-bg-sym">"</div>
+  <div class="q-inner reveal">
+    <div class="q-rule"></div>
+    <span class="q-mark">"</span>
+    <p class="q-text">Science meet Spirit.<br>Nervous system regulation. Human connection.</p>
+    <div class="q-rule" style="margin-bottom:20px;"></div>
+    <p class="q-attr">The Alchemist · Miami, Florida</p>
+  </div>
+</div>
+
+<!-- MEMBERSHIPS -->
+<section class="section mems-section" id="memberships">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:48px;" class="reveal">
+      <span class="s-label" style="display:block;text-align:center;">Memberships</span>
+      <h2 class="s-h2" style="text-align:center;">Your transformation <em>awaits.</em></h2>
+      <p style="font-size:14px;color:rgba(240,232,216,0.42);margin-top:10px;font-style:italic;font-family:'Cormorant Garamond',serif;">Five levels. Each one deeper than the last.</p>
+    </div>
+    <div class="mems-grid">
+
+      <div class="mc reveal">
+        <div class="mc-acc" style="background:linear-gradient(90deg,#2aaa80,transparent);"></div>
+        <div class="mc-top">
+          <div class="mc-phase" style="color:#3dc898;">Phase I</div>
+          <div class="mc-name">The First Alchemy</div>
+          <div class="mc-price" style="color:#3dc898;">$199</div>
+          <div class="mc-sub">One-time · no commitment</div>
+          <div class="mc-promo" style="background:rgba(42,170,128,0.12);color:#3dc898;">50% OFF</div>
+        </div>
+        <div class="mc-body">
+          <ul class="mc-list">
+            <li class="hi">Soul Assessment 7D</li>
+            <li class="hi">Soul Reading written</li>
+            <li>Bio Age with AI</li>
+            <li>1 session of choice</li>
+            <li>Personalized protocol</li>
+          </ul>
+          <button class="mc-cta" style="border-color:rgba(42,170,128,0.3);color:#3dc898;">Begin →</button>
+        </div>
+      </div>
+
+      <div class="mc reveal d1">
+        <div class="mc-acc" style="background:linear-gradient(90deg,#7a5cc8,transparent);"></div>
+        <div class="mc-top">
+          <div class="mc-phase" style="color:#9a7ce8;">Phase II</div>
+          <div class="mc-name">The 21-Day Alchemy</div>
+          <div class="mc-price" style="color:#9a7ce8;">$499</div>
+          <div class="mc-sub">21 days · no contract</div>
+          <div class="mc-promo" style="background:rgba(122,92,200,0.12);color:#9a7ce8;">Intro price</div>
+        </div>
+        <div class="mc-body">
+          <ul class="mc-list">
+            <li class="hi">3 sessions with Bella or Dr.</li>
+            <li class="hi">AI Protocol weekly</li>
+            <li>Unlimited BOOST</li>
+            <li>WhatsApp check-in</li>
+            <li>Final Soul Reading</li>
+          </ul>
+          <button class="mc-cta" style="border-color:rgba(122,92,200,0.3);color:#9a7ce8;">Begin →</button>
+        </div>
+      </div>
+
+      <div class="mc feat reveal d2">
+        <div class="mc-acc" style="background:linear-gradient(90deg,#c9963c,#e8c060);"></div>
+        <div class="mc-top">
+          <div class="mc-phase" style="color:#e8c060;">Phase III · ★ Most Popular</div>
+          <div class="mc-name">The Alchemist</div>
+          <div class="mc-price" style="color:#e8c060;">$850</div>
+          <div class="mc-sub">per month · first month $590</div>
+          <div class="mc-promo" style="background:rgba(201,150,60,0.15);color:#e8c060;">Save $260</div>
+        </div>
+        <div class="mc-body">
+          <ul class="mc-list">
+            <li class="hi">Integrated protocol</li>
+            <li class="hi">4 mixed sessions/month</li>
+            <li class="hi">1 IV therapy included</li>
+            <li>Bio age dashboard</li>
+            <li>Unlimited BOOST</li>
+            <li>Monthly AI update</li>
+          </ul>
+          <button class="mc-cta" style="background:#c9963c;border-color:#c9963c;color:#000000;font-weight:600;">Transform →</button>
+        </div>
+      </div>
+
+      <div class="mc reveal d3">
+        <div class="mc-acc" style="background:linear-gradient(90deg,#d44070,transparent);"></div>
+        <div class="mc-top">
+          <div class="mc-phase" style="color:#e06090;">Phase IV</div>
+          <div class="mc-name">The Limitless</div>
+          <div class="mc-price" style="color:#e06090;">$2,200</div>
+          <div class="mc-sub">per month · first month $1,490</div>
+          <div class="mc-promo" style="background:rgba(212,64,112,0.12);color:#e06090;">Save $710</div>
+        </div>
+        <div class="mc-body">
+          <ul class="mc-list">
+            <li class="hi">2 medical consultations</li>
+            <li class="hi">2 healing sessions</li>
+            <li class="hi">2 IVs + peptides</li>
+            <li>Quarterly biomarkers</li>
+            <li>Priority booking</li>
+            <li>3 guest passes</li>
+          </ul>
+          <button class="mc-cta" style="border-color:rgba(212,64,112,0.3);color:#e06090;">Ascend →</button>
+        </div>
+      </div>
+
+      <div class="mc reveal d4" style="border-color:rgba(240,232,216,0.1);">
+        <div class="mc-acc" style="background:linear-gradient(90deg,rgba(240,232,216,0.3),transparent);"></div>
+        <div class="mc-top">
+          <div class="mc-phase" style="color:rgba(240,232,216,0.38);">Phase V · Invitation Only</div>
+          <div class="mc-name">Inner Circle</div>
+          <div class="mc-price" style="color:rgba(240,232,216,0.55);">$4,500</div>
+          <div class="mc-sub">per month · annually</div>
+          <div class="mc-promo" style="background:rgba(255,255,255,0.04);color:rgba(240,232,216,0.4);">12 max</div>
+        </div>
+        <div class="mc-body">
+          <ul class="mc-list">
+            <li class="hi">Everything in Limitless</li>
+            <li class="hi">Personal concierge</li>
+            <li class="hi">2 private retreats/year</li>
+            <li>Epigenetic DNA</li>
+            <li>Exclusive ceremonies</li>
+            <li>First access always</li>
+          </ul>
+          <button class="mc-cta" style="border-color:rgba(240,232,216,0.15);color:rgba(240,232,216,0.45);">Request →</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CTA -->
+<section class="cta-sec">
+  <div style="max-width:580px;margin:0 auto;padding:0 48px;" class="reveal">
+    <span class="cta-glyph">☿</span>
+    <h2 class="cta-h">Your alchemy<br><em>begins here.</em></h2>
+    <p class="cta-p">Begin with a Soul Assessment — two hours that will show you exactly where you are and where you need to go. Science. Spirit. Human connection.</p>
+    <div class="btn-row">
+      <button class="btn-gold">Book First Alchemy — $199</button>
+      <button class="btn-outline">Talk to Our Team</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div style="background:#000000;">
+  <footer>
+    <div>
+      <div class="f-logo">THE ALCHEMIST</div>
+      <div class="f-tag">Where Science Meets Spirit</div>
+      <div class="f-body">Integrative precision medicine and spiritual healing — by Bella Vargas &amp; Dr. Michael J. Meighen.<br><br>Operating within Centner Wellness · Miami, Florida</div>
+    </div>
+    <div>
+      <div class="f-col-t">Services</div>
+      <a href="#" class="f-link">Precision Medicine</a>
+      <a href="#" class="f-link">IV Therapy</a>
+      <a href="#" class="f-link">Spiritual Healing</a>
+      <a href="#" class="f-link">Retreats & Ceremonies</a>
+      <a href="#" class="f-link">Luxury Concierge</a>
+    </div>
+    <div>
+      <div class="f-col-t">Connect</div>
+      <a href="#" class="f-link">Book a Session</a>
+      <a href="#" class="f-link">Memberships</a>
+      <a href="#" class="f-link">Our Team</a>
+      <a href="#" class="f-link">Instagram</a>
+      <a href="#" class="f-link">WhatsApp</a>
+    </div>
+  </footer>
+  <div class="f-bottom">
+    <span>© 2026 The Alchemist · Miami, Florida</span>
+    <span>Web by <span class="f-gold">Blue Ocean AI Systems · Danae Pozo</span></span>
+  </div>
+</div>
+
+<script>
+// Progress
+window.addEventListener('scroll',()=>{
+  const p = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+  document.getElementById('prog').style.transform = `scaleX(${p})`;
+});
+
+// Reveal
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('on'); });
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
