@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
     async start(controller) {
       try {
         const stream = client.messages.stream({
-          model: 'claude-sonnet-4-20250514',
+          model: 'claude-sonnet-4-6',
           max_tokens: 2000,
           system: LYRA_SYSTEM_PROMPT,
           messages: messages.slice(-20).map(m => ({

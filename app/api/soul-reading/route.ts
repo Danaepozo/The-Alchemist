@@ -135,7 +135,7 @@ Write entirely in English. Length: deep, not long. Every paragraph must earn its
         let soulReading = ''
         try {
           const stream = client.messages.stream({
-            model: 'claude-sonnet-4-20250514',
+            model: 'claude-sonnet-4-6',
             max_tokens: 1700,
             system: SOUL_READING_SYSTEM_PROMPT,
             messages: [{ role: 'user', content: prompt + lengthNote }],
