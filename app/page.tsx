@@ -64,14 +64,12 @@ export default function Home() {
         padding: '120px 2rem 4rem', textAlign: 'center',
         background: 'radial-gradient(ellipse at center top, rgba(201,150,60,0.08) 0%, transparent 60%)'
       }}>
-        <div className="animate-breathe" style={{
-          display: 'inline-block', padding: 'clamp(1.5rem, 4vw, 3.25rem)', marginBottom: '2rem',
-          border: '1.5px solid rgba(201,150,60,0.6)', borderRadius: '10px',
-          boxShadow: '0 0 65px rgba(201,150,60,0.3), inset 0 0 45px rgba(201,150,60,0.06)'
+        <div className="animate-logo-float" style={{
+          display: 'inline-block', marginBottom: '2rem'
         }}>
           <img src="/logo-alchemized.png" alt="Alchemized BioHealing Institute" style={{
             width: 'clamp(280px, 58vw, 540px)', maxWidth: '86vw', height: 'auto', display: 'block',
-            filter: 'drop-shadow(0 0 30px rgba(201,150,60,0.35))'
+            filter: 'drop-shadow(0 0 38px rgba(201,150,60,0.40))'
           }} />
         </div>
         <div style={{
