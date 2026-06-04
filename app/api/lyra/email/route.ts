@@ -7,13 +7,13 @@ export const maxDuration = 30
 // Emails the Deep Soul Profile that Lyra generated, and captures the lead.
 export async function POST(req: NextRequest) {
   try {
-    const { name, email, profile, lang = 'es' } = await req.json()
+    const { name, email, profile, lang = 'es', shareWithBella = false } = await req.json()
     if (!email || !profile) {
       return NextResponse.json({ error: 'Email and profile are required.' }, { status: 400 })
     }
     const isSpanish = lang !== 'en'
 
-    // 1) Save the lead + profile (best-effort)
+    // 1) Save the lead + profile (best-effort) — record consent / appointment intent
     if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
       try {
         const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
           .select('id').single()
         await supabase.from('assessments').insert({
           client_id: data?.id,
-          answers: { source: 'lyra' },
+          answers: { source: 'lyra', wants_appointment: !!shareWithBella, consented_to_share: !!shareWithBella },
           soul_reading: String(profile),
         })
       } catch (e) { console.error('Lyra email DB error (non-fatal):', e) }
@@ -60,7 +60,33 @@ export async function POST(req: NextRequest) {
       } catch (e) { console.error('Lyra email send error (non-fatal):', e) }
     }
 
-    return NextResponse.json({ ok: true, emailed })
+    // 3) WITH the person's consent → send a copy to Bella so they can work together
+    let sharedWithBella = false
+    if (shareWithBella && process.env.RESEND_API_KEY && process.env.BELLA_NOTIFY_EMAIL) {
+      try {
+        const resend = new Resend(process.env.RESEND_API_KEY)
+        const formatted = String(profile)
+          .replace(/\n/g, '<br>')
+          .replace(/\*\*(.*?)\*\*/g, '<strong style="color:#C9963C;">$1</strong>')
+        await resend.emails.send({
+          from: 'Lyra · Alchemized <onboarding@resend.dev>',
+          to: process.env.BELLA_NOTIFY_EMAIL,
+          replyTo: email,
+          subject: `💛 ${name || 'Una persona'} quiere una cita — Perfil del Alma (Lyra)`,
+          html: `<div style="font-family:Georgia,serif;max-width:640px;margin:0 auto;color:#1a1a1a;">
+            <h2 style="color:#C9963C;margin:0 0 .5rem;">Nueva solicitud de cita desde Lyra</h2>
+            <p><strong>${name || 'Sin nombre'}</strong> autorizó compartir su Perfil del Alma contigo para trabajarlo juntas.</p>
+            <p>Email de contacto: <a href="mailto:${email}">${email}</a></p>
+            <hr style="border:none;border-top:1px solid #e0d4b8;margin:1rem 0;"/>
+            <div style="line-height:1.8;">${formatted}</div>
+            <p style="color:#888;font-size:12px;margin-top:24px;">Compartido CON el consentimiento de la persona · Alchemized BioHealing Institute</p>
+          </div>`,
+        })
+        sharedWithBella = true
+      } catch (e) { console.error('Lyra Bella-copy error (non-fatal):', e) }
+    }
+
+    return NextResponse.json({ ok: true, emailed, sharedWithBella })
   } catch (e) {
     console.error('Lyra email error:', e)
     return NextResponse.json({ error: 'Failed to send.' }, { status: 500 })

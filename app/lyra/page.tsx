@@ -41,6 +41,7 @@ export default function LyraPage() {
   const [leadName, setLeadName] = useState('')
   const [leadEmail, setLeadEmail] = useState('')
   const [emailStatus, setEmailStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+  const [shareWithBella, setShareWithBella] = useState(false)
   const [accessCode, setAccessCode] = useState('')
   const [unlocked, setUnlocked] = useState(false)
   const [gateInput, setGateInput] = useState('')
@@ -71,7 +72,7 @@ export default function LyraPage() {
     try {
       const res = await fetch('/api/lyra/email', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: leadName, email: leadEmail, profile: lastProfile, lang: 'es' }),
+        body: JSON.stringify({ name: leadName, email: leadEmail, profile: lastProfile, lang: 'es', shareWithBella }),
       })
       if (!res.ok) throw new Error('fail')
       setEmailStatus('sent')
@@ -173,10 +174,14 @@ export default function LyraPage() {
         <div style={{ maxWidth: 760, width: '100%', margin: '0 auto', padding: '0 1.25rem' }}>
           <div style={{ background: 'rgba(224,96,144,0.08)', border: '1px solid rgba(224,96,144,0.32)', borderRadius: 14, padding: '1.15rem 1.3rem' }}>
             {emailStatus === 'sent' ? (
-              <div style={{ color: GOLD, fontSize: '0.92rem', lineHeight: 1.6 }}>🌙 Tu Perfil del Alma va en camino a tu correo. Revisa tu bandeja de entrada (y la carpeta de spam).</div>
+              <div style={{ color: GOLD, fontSize: '0.92rem', lineHeight: 1.6 }}>🌙 Tu Perfil del Alma va en camino a tu correo (revisa también spam).{shareWithBella ? ' Y le avisamos a Bella que deseas una cita — ella te contactará para trabajarlo juntas. 💛' : ''}</div>
             ) : (
               <>
                 <div style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '1.25rem', color: GOLD, marginBottom: '0.7rem' }}>Recibe tu Perfil del Alma por email 🌙</div>
+                <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.55rem', marginBottom: '0.85rem', cursor: 'pointer', fontSize: '0.85rem', color: 'rgba(240,232,216,0.8)', lineHeight: 1.5 }}>
+                  <input type="checkbox" checked={shareWithBella} onChange={e => setShareWithBella(e.target.checked)} style={{ marginTop: '0.2rem', accentColor: ROSE, width: 16, height: 16, flexShrink: 0 }} />
+                  <span>💛 Quiero trabajar esto con <strong style={{ color: ROSE }}>Bella</strong> — autorizo compartir mi perfil con ella para una cita.</span>
+                </label>
                 <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                   <input value={leadName} onChange={e => setLeadName(e.target.value)} placeholder="Tu nombre"
                     style={{ flex: '1 1 140px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(201,150,60,0.25)', borderRadius: 10, padding: '0.7rem 0.9rem', color: CREAM, fontSize: '0.9rem', outline: 'none', fontFamily: 'inherit' }} />
