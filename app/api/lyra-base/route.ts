@@ -1,8 +1,9 @@
 import { NextRequest } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
-import { LYRA_WORKING_SYSTEM_PROMPT } from '@/lib/alchemist/lyra-working-knowledge-base'
+import { LYRA_SYSTEM_PROMPT } from '@/lib/alchemist/lyra-knowledge-base'
 import { checkLyraCode } from '@/lib/alchemist/lyra-access'
 
+// LYRA BASE — usa el prompt congelado (línea base, sin las mejoras de la versión de trabajo).
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
 export const maxDuration = 60
@@ -19,7 +20,6 @@ export async function POST(req: NextRequest) {
   } catch {
     return new Response(sse({ type: 'error', error: 'Invalid request.' }), { status: 400 })
   }
-  // Gate: reject unless the access code matches (prevents the link being shared/abused)
   if (!checkLyraCode(code)) {
     return new Response(sse({ type: 'error', error: 'unauthorized' }), { status: 401 })
   }
@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
         const stream = client.messages.stream({
           model: 'claude-sonnet-4-6',
           max_tokens: 4000,
-          system: LYRA_WORKING_SYSTEM_PROMPT,
+          system: LYRA_SYSTEM_PROMPT,
           messages: messages.slice(-20).map(m => ({
             role: m.role === 'assistant' ? 'assistant' as const : 'user' as const,
             content: String(m.content || ''),
@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
         controller.enqueue(sse({ type: 'done' }))
         controller.close()
       } catch (err) {
-        console.error('lyra route error:', err)
+        console.error('lyra-base route error:', err)
         controller.enqueue(sse({ type: 'error', error: 'Lyra could not respond right now.' }))
         controller.close()
       }
