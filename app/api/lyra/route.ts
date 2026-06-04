@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { LYRA_SYSTEM_PROMPT } from '@/lib/alchemist/lyra-knowledge-base'
+import { checkLyraCode } from '@/lib/alchemist/lyra-access'
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
@@ -10,11 +11,17 @@ function sse(o: unknown) { return new TextEncoder().encode(JSON.stringify(o) + '
 
 export async function POST(req: NextRequest) {
   let messages: { role: string; content: string }[] = []
+  let code: unknown = ''
   try {
     const body = await req.json()
     messages = body.messages || []
+    code = body.code
   } catch {
     return new Response(sse({ type: 'error', error: 'Invalid request.' }), { status: 400 })
+  }
+  // Gate: reject unless the access code matches (prevents the link being shared/abused)
+  if (!checkLyraCode(code)) {
+    return new Response(sse({ type: 'error', error: 'unauthorized' }), { status: 401 })
   }
   if (!Array.isArray(messages) || messages.length === 0) {
     return new Response(sse({ type: 'error', error: 'A message is required.' }), { status: 400 })
@@ -25,7 +32,7 @@ export async function POST(req: NextRequest) {
       try {
         const stream = client.messages.stream({
           model: 'claude-sonnet-4-6',
-          max_tokens: 2000,
+          max_tokens: 4000,
           system: LYRA_SYSTEM_PROMPT,
           messages: messages.slice(-20).map(m => ({
             role: m.role === 'assistant' ? 'assistant' as const : 'user' as const,
