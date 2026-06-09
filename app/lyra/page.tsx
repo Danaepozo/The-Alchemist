@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { LYRA_GREETING_ES } from '@/lib/alchemist/lyra-knowledge-base'
+import { LYRA_CONSENT } from '@/lib/alchemist/lyra-consent'
 
 const GOLD = '#C9963C'
 const ROSE = '#E06090'
@@ -47,11 +48,15 @@ export default function LyraPage() {
   const [gateInput, setGateInput] = useState('')
   const [gateErr, setGateErr] = useState(false)
   const [verifying, setVerifying] = useState(false)
+  const [consented, setConsented] = useState(false)
+  const [consentChecked, setConsentChecked] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const saved = typeof window !== 'undefined' ? localStorage.getItem('lyra_code') : null
+    if (typeof window === 'undefined') return
+    const saved = localStorage.getItem('lyra_code')
     if (saved) { setAccessCode(saved); setUnlocked(true) }
+    if (localStorage.getItem('lyra_consent') === '1') setConsented(true)
   }, [])
 
   async function verifyGate() {
@@ -136,6 +141,31 @@ export default function LyraPage() {
           }}>{verifying ? '✦' : 'Entrar'}</button>
           {gateErr && <p style={{ color: ROSE, fontSize: '0.82rem', marginTop: '0.8rem' }}>Código incorrecto. Verifica e intenta de nuevo.</p>}
         </div>
+      </div>
+    )
+  }
+
+  // Informed consent — accepted once per device before entering the conversation
+  if (!consented) {
+    return (
+      <div style={{ minHeight: '100vh', background: 'radial-gradient(ellipse at 50% -10%, #1a1535 0%, #0a0a14 45%, #050509 100%)', color: CREAM, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2.5rem 1.25rem' }}>
+        <Link href="/" style={{ position: 'absolute', left: '1.5rem', top: '1.5rem', color: 'rgba(240,232,216,0.5)', textDecoration: 'none', fontSize: '0.8rem', letterSpacing: '0.1em' }}>← Alchemized</Link>
+        <div style={{ fontSize: '1.4rem', color: GOLD, marginBottom: '0.5rem' }}>✧ ⋆ ˚ ☾ ˚ ⋆ ✧</div>
+        <h2 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '2rem', fontWeight: 300, margin: '0 0 0.4rem', color: CREAM }}>{LYRA_CONSENT.title}</h2>
+        <p style={{ color: 'rgba(240,232,216,0.7)', fontSize: '0.9rem', maxWidth: 540, textAlign: 'center', marginBottom: '1.4rem' }}>{LYRA_CONSENT.intro}</p>
+        <ul style={{ listStyle: 'none', maxWidth: 540, margin: '0 0 1.3rem', padding: 0 }}>
+          {LYRA_CONSENT.points.map((p, i) => (
+            <li key={i} style={{ fontSize: '0.88rem', color: 'rgba(240,232,216,0.82)', lineHeight: 1.6, marginBottom: '0.7rem' }}>{p}</li>
+          ))}
+        </ul>
+        <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem', maxWidth: 540, cursor: 'pointer', marginBottom: '1.2rem' }}>
+          <input type="checkbox" checked={consentChecked} onChange={e => setConsentChecked(e.target.checked)} style={{ marginTop: '0.2rem', accentColor: ROSE, width: 18, height: 18, flexShrink: 0 }} />
+          <span style={{ color: CREAM, fontSize: '0.92rem' }}>{LYRA_CONSENT.accept}</span>
+        </label>
+        <button onClick={() => { if (consentChecked) { setConsented(true); try { localStorage.setItem('lyra_consent', '1') } catch {} } }} disabled={!consentChecked}
+          style={{ background: consentChecked ? `linear-gradient(135deg, ${GOLD}, ${ROSE})` : 'rgba(201,150,60,0.3)', color: '#1a1020', border: 'none', borderRadius: 12, padding: '0.85rem 2.4rem', fontSize: '0.9rem', fontWeight: 700, cursor: consentChecked ? 'pointer' : 'default', letterSpacing: '0.06em' }}>
+          {LYRA_CONSENT.button}
+        </button>
       </div>
     )
   }
