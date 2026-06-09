@@ -2,11 +2,32 @@
 
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
-import { useLanguage } from '@/components/LanguageProvider'
 
 interface Message {
   role: 'user' | 'assistant'
   content: string
+}
+
+// Lumina follows the PAGE language (the same Google-Translate cookie the site toggle uses),
+// so it is never out of sync with the rest of the website.
+function readPageLang(): 'en' | 'es' {
+  if (typeof document === 'undefined') return 'en'
+  const m = document.cookie.match(/googtrans=([^;]+)/)
+  return m && decodeURIComponent(m[1]).endsWith('/es') ? 'es' : 'en'
+}
+function setPageLang(next: 'en' | 'es') {
+  const host = window.location.hostname
+  if (next === 'es') {
+    document.cookie = 'googtrans=/en/es;path=/'
+    document.cookie = `googtrans=/en/es;path=/;domain=${host}`
+    document.cookie = `googtrans=/en/es;path=/;domain=.${host}`
+  } else {
+    const past = ';expires=Thu, 01 Jan 1970 00:00:00 GMT'
+    document.cookie = `googtrans=;path=/${past}`
+    document.cookie = `googtrans=;path=/;domain=${host}${past}`
+    document.cookie = `googtrans=;path=/;domain=.${host}${past}`
+  }
+  window.location.reload()
 }
 
 const QUICK_REPLIES_EN = [
@@ -33,7 +54,9 @@ const GREETINGS = {
 }
 
 export default function LuminaChat() {
-  const { lang, toggle } = useLanguage()
+  const [lang, setLang] = useState<'en' | 'es'>('en')
+  useEffect(() => { setLang(readPageLang()) }, [])
+  const toggle = () => setPageLang(lang === 'en' ? 'es' : 'en')
   const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
@@ -137,7 +160,7 @@ export default function LuminaChat() {
     <>
       {/* Floating launcher — pill with avatar + label, pulsing glow, and an attention nudge */}
       {!open && (
-        <div style={{ position: 'fixed', bottom: '1.6rem', right: '1.6rem', zIndex: 200, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.7rem' }}>
+        <div translate="no" className="notranslate" style={{ position: 'fixed', bottom: '1.6rem', right: '1.6rem', zIndex: 200, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.7rem' }}>
           {/* Attention nudge bubble */}
           {showNudge && (
             <div style={{ position: 'relative', maxWidth: '230px', background: '#0c0c0c', border: '1px solid rgba(201,150,60,0.3)', borderRadius: '14px 14px 2px 14px', padding: '0.8rem 2rem 0.8rem 0.9rem', boxShadow: '0 10px 34px rgba(0,0,0,0.6)', animation: 'luminaNudge 0.4s ease-out', cursor: 'pointer' }} onClick={handleOpen}>
@@ -199,7 +222,7 @@ export default function LuminaChat() {
 
       {/* Chat panel */}
       {open && (
-        <div style={{
+        <div translate="no" className="notranslate" style={{
           position: 'fixed', bottom: '2rem', right: '2rem', zIndex: 200,
           width: '400px', maxWidth: 'calc(100vw - 1.5rem)',
           height: '580px', maxHeight: 'calc(100vh - 3rem)',
