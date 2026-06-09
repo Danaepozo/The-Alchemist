@@ -1,8 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { Resend } from 'resend'
+import Anthropic from '@anthropic-ai/sdk'
 
-export const maxDuration = 30
+const ai = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+
+const BELLA_BRIEFING_PROMPT = `Eres la asistente de Holistic Bella. A partir del Perfil del Alma de una persona que quiere una cita, genera un BRIEFING ESTRATÉGICO PARA BELLA (no para la persona) — para que Bella llegue a la sesión sabiendo exactamente qué trabajar. Conciso, escaneable, cálido pero profesional, en español. Estructura con títulos en **negrita**:
+**Tema central del alma** (la herida/lección que se repite)
+**Patrones y defensas** (cómo se protege, qué evita)
+**Lo que más necesita** (la necesidad profunda)
+**Enfoque sugerido para la sesión** (por dónde empezar, con qué cuidado)
+**Servicios de Bella recomendados** (retiro, IV therapy, coaching/mentoría, ceremonia, programa — los más afines)
+**Señales de cautela** (si hay algo delicado/crisis, márcalo).
+No diagnostiques patologías; es una guía intuitiva-estratégica.`
+
+export const maxDuration = 45
 
 // Emails the Deep Soul Profile that Lyra generated, and captures the lead.
 export async function POST(req: NextRequest) {
@@ -60,25 +72,37 @@ export async function POST(req: NextRequest) {
       } catch (e) { console.error('Lyra email send error (non-fatal):', e) }
     }
 
-    // 3) WITH the person's consent → send a copy to Bella so they can work together
+    // 3) WITH the person's consent → generate a STRATEGIC briefing for Bella + send it
     let sharedWithBella = false
     if (shareWithBella && process.env.RESEND_API_KEY && process.env.BELLA_NOTIFY_EMAIL) {
       try {
+        // Generate Bella's "what to work on" briefing from the soul profile
+        let briefing = ''
+        try {
+          const r = await ai.messages.create({
+            model: 'claude-sonnet-4-6', max_tokens: 1000, system: BELLA_BRIEFING_PROMPT,
+            messages: [{ role: 'user', content: `Perfil del Alma de ${name || 'la persona'} (contacto: ${email || '—'}):\n\n${String(profile)}\n\nGenera el briefing estratégico para Bella.` }],
+          })
+          briefing = r.content.map(c => (c.type === 'text' ? c.text : '')).join('')
+        } catch (e) { console.error('Lyra briefing gen error:', e) }
+
+        const fmt = (s: string) => String(s).replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong style="color:#C9963C;">$1</strong>')
+        const briefBlock = briefing
+          ? `<div style="line-height:1.7;">${fmt(briefing)}</div><hr style="border:none;border-top:1px solid #e0d4b8;margin:1.4rem 0;"/><p style="color:#888;font-size:12px;">Perfil completo de la persona (referencia):</p><div style="line-height:1.7;color:#444;font-size:13px;">${fmt(profile)}</div>`
+          : `<div style="line-height:1.8;">${fmt(profile)}</div>`
+
         const resend = new Resend(process.env.RESEND_API_KEY)
-        const formatted = String(profile)
-          .replace(/\n/g, '<br>')
-          .replace(/\*\*(.*?)\*\*/g, '<strong style="color:#C9963C;">$1</strong>')
         await resend.emails.send({
           from: 'Lyra · Alchemized <onboarding@resend.dev>',
           to: process.env.BELLA_NOTIFY_EMAIL,
           replyTo: email,
-          subject: `💛 ${name || 'Una persona'} quiere una cita — Perfil del Alma (Lyra)`,
-          html: `<div style="font-family:Georgia,serif;max-width:640px;margin:0 auto;color:#1a1a1a;">
-            <h2 style="color:#C9963C;margin:0 0 .5rem;">Nueva solicitud de cita desde Lyra</h2>
-            <p><strong>${name || 'Sin nombre'}</strong> autorizó compartir su Perfil del Alma contigo para trabajarlo juntas.</p>
-            <p>Email de contacto: <a href="mailto:${email}">${email}</a></p>
+          subject: `💛 ${name || 'Una persona'} quiere una cita — Briefing (Lyra)`,
+          html: `<div style="font-family:Georgia,serif;max-width:660px;margin:0 auto;color:#1a1a1a;">
+            <h2 style="color:#C9963C;margin:0 0 .4rem;">Briefing para tu sesión — desde Lyra</h2>
+            <p><strong>${name || 'Sin nombre'}</strong> autorizó compartir contigo para trabajarlo juntas.</p>
+            <p>Contacto: <a href="mailto:${email}">${email}</a></p>
             <hr style="border:none;border-top:1px solid #e0d4b8;margin:1rem 0;"/>
-            <div style="line-height:1.8;">${formatted}</div>
+            ${briefBlock}
             <p style="color:#888;font-size:12px;margin-top:24px;">Compartido CON el consentimiento de la persona · Alchemized BioHealing Institute</p>
           </div>`,
         })
