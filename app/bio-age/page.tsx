@@ -72,6 +72,26 @@ export default function BioAgePage() {
       </header>
 
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '2rem 1.25rem 4rem' }}>
+        {/* Credenciales del Dr. — autoridad clínica */}
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap', background: 'rgba(61,200,152,0.06)', border: '1px solid rgba(61,200,152,0.25)', borderRadius: 14, padding: '1.1rem 1.25rem', marginBottom: '1.8rem' }}>
+          <div style={{ width: 62, height: 62, flexShrink: 0, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'radial-gradient(circle at 50% 35%, #122a23, #060d0b)', boxShadow: '0 0 0 1px rgba(61,200,152,0.5), 0 0 22px rgba(61,200,152,0.3)', fontFamily: 'Cormorant Garamond, serif', fontSize: '1.8rem', color: CREAM }}>M</div>
+          <div style={{ flex: '1 1 240px' }}>
+            <div style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '1.4rem', color: GOLDL, lineHeight: 1.1 }}>Dr. Michael J. Meighen, MD</div>
+            <div style={{ fontSize: '0.72rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: SAGE, margin: '0.25rem 0 0.6rem' }}>Director Médico · Medicina Regenerativa &amp; Longevidad</div>
+            <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gap: '0.28rem' }}>
+              {[
+                'Doble board-certified — Medicina Física & Rehabilitación y Medicina del Dolor',
+                'Autor best-seller #1 en Amazon — "A New You"',
+                'Uno de ~30 proveedores DiscSeel® del mundo · 25+ años',
+                'Péptidos · optimización hormonal · NAD+ · biohacking & longevidad',
+              ].map((c, i) => (
+                <li key={i} style={{ fontSize: '0.82rem', color: 'rgba(240,232,216,0.8)', paddingLeft: '1.1rem', position: 'relative' }}>
+                  <span style={{ position: 'absolute', left: 0, color: SAGE }}>✦</span>{c}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
         {bioAge === null ? (
           <>
             <div style={{ marginBottom: '1.6rem' }}>
