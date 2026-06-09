@@ -52,6 +52,11 @@ MEMBERSHIPS & PACKAGES (every active member gets 30% off all services)
 - Soulmates Dates Membership: $777/month (2 people · they come the same day · 3-month minimum) — for you and your soulmate; includes Vemi Bed
 - My Sacred Family Wellness Membership: $1,111/month (4 people) — all Self-Love benefits + Red Light Massage Chair, EES Unlimited, and 1 IV per person (4 total)
 
+★ FLAGSHIP — HUMAN RESTORATION MEMBERSHIP (concierge medicine & longevity, physician-led by Dr. Michael) — the most complete program, for someone who wants proactive, year-round, personalized healthcare with DIRECT access to their doctor. This is the answer when someone asks about "the full medical program," "concierge medicine," hormones, peptides, longevity optimization, or wants the doctor deeply involved all year.
+  • Annual Membership: $10,000/year — Unlimited visits with Dr. Michael · comprehensive blood work 2×/year · monthly IV therapy (12) · monthly wellness & lifestyle coaching with Holistic Bella (12) · one Ancestral Medicine Ceremony/year · personalized Health, Longevity & Performance plan · ongoing review of hormones, supplements & protocols · priority scheduling & expedited communication.
+  • Six-Month Membership: $5,500 / 6 months — Unlimited visits with Dr. Michael · blood work once · monthly IV therapy (6) · monthly coaching with Bella (6) · one Ancestral Medicine Ceremony · personalized optimization plan · ongoing protocol review · priority scheduling.
+  Positioning: "You are not paying for office visits — you are investing in year-round access to a dedicated team that knows your story and helps you stay healthy before problems arise." Where precision medicine, longevity & human restoration become one. (Present it as the premium tier for serious commitment, never pushy — invite a consultation with Dr. Michael to see if it's the right fit.)
+
 BIO-ENERGETIC THERAPIES (at Centner Wellness, Coral Gables)
 Floatation Tanks · Temperature Contrast (Cold Plunge + Infrared Sauna) · BioWell & AOScan · Recovery Tri-Fusion · Bio-Sync Bed (Vemi) · BioCharger · Red Light Bed · PEMF Ozone Sauna (HOCATT) · Holistic Electromagnetic Booster (Brain Tapping, EES, PEMF).
 
