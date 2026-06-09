@@ -154,29 +154,46 @@ export default function LuminaChat() {
             </div>
           )}
 
-          {/* Pulsing glow ring */}
+          {/* Creative launcher — floating haloed orb, orbiting sparkles, shimmer sweep */}
+          <span style={{ animation: 'luminaFloat 4.5s ease-in-out infinite', display: 'inline-block' }}>
           <button
             onClick={handleOpen}
             style={{
-              position: 'relative',
-              display: 'flex', alignItems: 'center', gap: '0.6rem',
-              padding: '0.55rem 1.1rem 0.55rem 0.6rem', borderRadius: '40px',
+              position: 'relative', overflow: 'hidden',
+              display: 'flex', alignItems: 'center', gap: '0.85rem',
+              padding: '0.7rem 1.6rem 0.7rem 0.7rem', borderRadius: '50px',
               background: 'linear-gradient(135deg, #C9963C, #E4B85A)',
               border: 'none', cursor: 'pointer',
-              boxShadow: '0 6px 26px rgba(201,150,60,0.5)',
-              animation: 'luminaGlow 2.6s ease-in-out infinite',
+              boxShadow: '0 8px 34px rgba(201,150,60,0.55)',
+              animation: 'luminaGlow 2.8s ease-in-out infinite',
               transition: 'transform 0.2s',
             }}
-            onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.05)' }}
+            onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.06)' }}
             onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)' }}
             title={lang === 'es' ? 'Habla con Lumina' : 'Chat with Lumina'}
           >
-            <span style={{ width: '42px', height: '42px', borderRadius: '50%', background: 'rgba(0,0,0,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.35rem', color: '#1a1206', flexShrink: 0 }}>☿</span>
-            <span style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.15, textAlign: 'left', paddingRight: '0.2rem' }}>
-              <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '1.05rem', fontWeight: 600, color: '#1a1206', letterSpacing: '0.02em' }}>{lang === 'es' ? 'Habla con Lumina' : 'Chat with Lumina'}</span>
-              <span style={{ fontSize: '0.62rem', color: 'rgba(26,18,6,0.7)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{lang === 'es' ? 'Tu guía · en línea' : 'Your guide · online'}</span>
+            {/* shimmer sweep */}
+            <span aria-hidden="true" style={{ position: 'absolute', top: 0, left: 0, width: '40%', height: '100%', background: 'linear-gradient(105deg, transparent, rgba(255,255,255,0.55), transparent)', animation: 'luminaShimmer 3.6s ease-in-out infinite', pointerEvents: 'none' }} />
+            {/* avatar orb with spinning halo + orbiting sparkles */}
+            <span style={{ position: 'relative', width: '58px', height: '58px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <span aria-hidden="true" style={{ position: 'absolute', inset: '-5px', borderRadius: '50%', background: 'conic-gradient(from 0deg, #fff6df, #C9963C, #fff6df, #E4B85A, #fff6df)', animation: 'luminaSpin 6s linear infinite', filter: 'blur(2.5px)', opacity: 0.95 }} />
+              <span style={{ position: 'relative', width: '58px', height: '58px', borderRadius: '50%', background: 'radial-gradient(circle at 38% 30%, #2c2210, #0b0905)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.8rem', color: '#E4B85A', textShadow: '0 0 12px rgba(228,184,90,0.8)' }}>☿</span>
+              <span aria-hidden="true" style={{ position: 'absolute', inset: 0, animation: 'luminaSpin 5s linear infinite' }}>
+                <span style={{ position: 'absolute', top: '-2px', left: '50%', marginLeft: '-3px', width: '6px', height: '6px', borderRadius: '50%', background: '#fff', boxShadow: '0 0 8px #fff' }} />
+              </span>
+              <span aria-hidden="true" style={{ position: 'absolute', inset: 0, animation: 'luminaSpin 7s linear infinite reverse' }}>
+                <span style={{ position: 'absolute', bottom: '0px', left: '50%', marginLeft: '-2px', width: '4px', height: '4px', borderRadius: '50%', background: '#fff6df', boxShadow: '0 0 6px #fff6df' }} />
+              </span>
+            </span>
+            <span style={{ position: 'relative', display: 'flex', flexDirection: 'column', lineHeight: 1.12, textAlign: 'left', paddingRight: '0.2rem' }}>
+              <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '1.4rem', fontWeight: 600, color: '#1a1206', letterSpacing: '0.02em' }}>{lang === 'es' ? 'Habla con Lumina' : 'Chat with Lumina'}</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.66rem', color: 'rgba(26,18,6,0.78)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#176b50', boxShadow: '0 0 6px #3DC898', display: 'inline-block' }} />
+                {lang === 'es' ? 'Tu guía · en línea' : 'Your guide · online'}
+              </span>
             </span>
           </button>
+          </span>
         </div>
       )}
 
@@ -433,12 +450,25 @@ export default function LuminaChat() {
           to { opacity: 1; transform: translateY(0) scale(1); }
         }
         @keyframes luminaGlow {
-          0%, 100% { box-shadow: 0 6px 26px rgba(201,150,60,0.5); }
-          50% { box-shadow: 0 6px 40px rgba(201,150,60,0.85), 0 0 0 6px rgba(201,150,60,0.12); }
+          0%, 100% { box-shadow: 0 8px 30px rgba(201,150,60,0.5); }
+          50% { box-shadow: 0 8px 46px rgba(201,150,60,0.9), 0 0 0 7px rgba(201,150,60,0.13); }
         }
         @keyframes luminaNudge {
           from { opacity: 0; transform: translateY(8px) scale(0.96); }
           to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes luminaFloat {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-7px); }
+        }
+        @keyframes luminaSpin {
+          to { transform: rotate(360deg); }
+        }
+        @keyframes luminaShimmer {
+          0% { transform: translateX(0); opacity: 0; }
+          15% { opacity: 1; }
+          60% { opacity: 0.7; }
+          100% { transform: translateX(420%); opacity: 0; }
         }
       `}</style>
     </>
