@@ -40,6 +40,38 @@ export const BIOAGE_QUESTIONS: BioQuestion[] = [
     { label: 'Más de 8h', delta: 2, tag: 'sitting_high' },
   ]},
 
+  // ── Función física (pruebas validadas en estudios de longevidad) ──
+  { id: 'grip', cat: 'Función física', q: 'Fuerza de agarre: ¿abres frascos difíciles y cargas las compras sin problema?', options: [
+    { label: 'Sí, con facilidad', delta: -2, tag: 'grip_strong' },
+    { label: 'Con algo de esfuerzo', delta: 1 },
+    { label: 'Me cuesta bastante', delta: 3, tag: 'grip_weak' },
+  ]},
+  { id: 'siterise', cat: 'Función física', q: 'Levantarte del piso: ¿puedes sentarte y pararte del suelo SIN apoyar manos ni rodillas?', options: [
+    { label: 'Sí, sin ningún apoyo', delta: -2, tag: 'sitrise_good' },
+    { label: 'Con una mano o apoyo', delta: 1 },
+    { label: 'No puedo / muy difícil', delta: 3, tag: 'sitrise_poor' },
+  ]},
+  { id: 'balance', cat: 'Función física', q: 'Equilibrio: ¿puedes pararte en UN solo pie 10 segundos sin agarrarte?', options: [
+    { label: 'Sí, fácil', delta: -2, tag: 'balance_good' },
+    { label: 'Apenas / tambaleo', delta: 1 },
+    { label: 'No lo logro', delta: 3, tag: 'balance_poor' },
+  ]},
+  { id: 'pushups', cat: 'Función física', q: 'Flexiones: ¿cuántas (push-ups) puedes hacer seguidas?', options: [
+    { label: 'Más de 20', delta: -2, tag: 'pushups_high' },
+    { label: 'Entre 5 y 20', delta: 0 },
+    { label: 'Menos de 5 o ninguna', delta: 2, tag: 'pushups_low' },
+  ]},
+  { id: 'restingHR', cat: 'Función física', q: 'Tu frecuencia cardíaca en reposo (pulso en calma):', options: [
+    { label: 'Menos de 60 lpm', delta: -2, tag: 'rhr_low' },
+    { label: '60–75 lpm', delta: 0 },
+    { label: 'Más de 75 lpm o no la sé', delta: 2, tag: 'rhr_high' },
+  ]},
+  { id: 'whtr', cat: 'Función física', q: 'Tu cintura, ¿mide MENOS de la mitad de tu estatura? (cintura ÷ estatura < 0.5 es lo ideal)', options: [
+    { label: 'Sí, menos de la mitad', delta: -2, tag: 'whtr_good' },
+    { label: 'Más o menos la mitad', delta: 1 },
+    { label: 'Bastante más de la mitad', delta: 3, tag: 'whtr_high' },
+  ]},
+
   // ── Nutrición ──
   { id: 'diet', cat: 'Nutrición', q: '¿Cómo describes tu alimentación?', options: [
     { label: 'Real, alta en proteína y vegetales', delta: -2, tag: 'diet_clean' },
