@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Acuerdo de Colaboración y Servicios · Sistema Digital Alchemized</title>
+<style>
+  :root{ --gold:#A9792B; --ink:#1c1a16; --soft:#5c574e; --line:#d8cdb4; }
+  *{ box-sizing:border-box; }
+  body{ font-family:Georgia,'Times New Roman',serif; color:var(--ink); background:#f3efe6; margin:0; padding:2rem 1rem; line-height:1.6; }
+  .doc{ max-width:820px; margin:0 auto; background:#fff; padding:3.2rem 3rem; box-shadow:0 4px 30px rgba(0,0,0,.08); border-top:5px solid var(--gold); }
+  header{ text-align:center; border-bottom:1px solid var(--line); padding-bottom:1.6rem; margin-bottom:2rem; }
+  header .logo{ font-size:1.7rem; letter-spacing:.18em; color:var(--gold); }
+  header .sub{ font-size:.72rem; letter-spacing:.22em; text-transform:uppercase; color:var(--soft); margin-top:.4rem; }
+  h1{ font-size:1.45rem; text-align:center; font-weight:400; margin:1.2rem 0 .2rem; }
+  h1 .en{ display:block; font-size:.95rem; color:var(--soft); font-style:italic; margin-top:.2rem; }
+  h2{ font-size:1.02rem; color:var(--gold); border-bottom:1px solid var(--line); padding-bottom:.35rem; margin:2rem 0 .7rem; }
+  p,li{ font-size:.93rem; }
+  .en{ display:block; color:#4a463d; font-style:italic; margin-top:.3rem; }
+  .en::before{ content:"EN · "; font-style:normal; color:var(--gold); font-weight:bold; font-size:.8em; }
+  ul{ margin:.4rem 0 .6rem; padding-left:1.2rem; }
+  .placeholder{ background:#fff7d6; padding:0 .25rem; border-radius:2px; font-style:italic; }
+  .note{ background:#fbf3df; border-left:3px solid var(--gold); padding:.8rem 1rem; font-size:.85rem; margin:1rem 0; }
+  .warn{ background:#fdeaea; border-left:3px solid #c0392b; padding:.9rem 1rem; font-size:.84rem; margin:1.2rem 0; }
+  .fill{ border-bottom:1px solid #999; display:inline-block; min-width:200px; }
+  .sigrow{ display:flex; gap:2rem; margin:1.6rem 0 .4rem; flex-wrap:wrap; }
+  .sigbox{ flex:1; min-width:220px; }
+  .sigline{ border-bottom:1px solid var(--ink); height:2.2rem; }
+  .siglabel{ font-size:.74rem; color:var(--soft); margin-top:.25rem; }
+  footer{ text-align:center; font-size:.7rem; color:var(--soft); border-top:1px solid var(--line); margin-top:2.4rem; padding-top:1rem; }
+  @media print{ body{ background:#fff; padding:0; } .doc{ box-shadow:none; padding:1.4rem; } }
+</style>
+</head>
+<body>
+<div class="doc">
+  <header>
+    <div class="logo">✦ ALCHEMIZED</div>
+    <div class="sub">BioHealing Institute · Sistema Digital</div>
+  </header>
+
+  <div class="warn"><strong>BORRADOR — para tu revisión.</strong> Plantilla basada en lo que conversamos. Revisa los datos en <span class="placeholder">[ amarillo ]</span> y, para algo legalmente firme, que lo valide un abogado. · <span class="en" style="font-style:normal">Draft for your review; confirm bracketed items and have counsel review.</span></div>
+
+  <h1>Acuerdo de Alquiler y Servicios del Sistema Digital
+    <span class="en">Digital System Rental &amp; Services Agreement</span>
+  </h1>
+
+  <p>Entre <strong>Danae Pozo</strong> ("la Proveedora"), <strong>propietaria</strong> del sistema digital, quien lo diseñó, desarrolla y mantiene; y <strong>Holistic Bella Vargas LLC</strong> y <strong>Michael J. Meighen, MD</strong>, operando como <strong>Alchemized BioHealing Institute</strong> ("el Instituto"). Vigente desde la fecha de firma. Este es un <strong>acuerdo de alquiler (licencia de uso)</strong> del sistema: el Instituto paga por <strong>usar</strong> el sistema mientras el acuerdo esté vigente; el sistema en sí permanece como propiedad de la Proveedora.
+  <span class="en">Between Danae Pozo ("Provider"), owner of the digital system, and Holistic Bella Vargas LLC &amp; Michael J. Meighen, MD, d/b/a Alchemized BioHealing Institute ("the Institute"). This is a rental/license agreement: the Institute pays to use the system; ownership stays with the Provider.</span></p>
+
+  <h2>1. Objeto</h2>
+  <p>La Proveedora pone a disposición del Instituto y mantiene operativo ("vivo") el sistema digital, que incluye:</p>
+  <ul>
+    <li>El <strong>sitio web</strong> (the-alchemist-danae.netlify.app y el dominio propio cuando se conecte).</li>
+    <li>Los <strong>agentes de IA</strong>: Lumina (concierge), Lyra (espacio de Bella), Soul Assessment y la Calculadora de Edad Biológica.</li>
+    <li>La <strong>infraestructura</strong>: hosting, base de datos, y las integraciones de correo y pagos.</li>
+  </ul>
+  <p class="en">Provider makes available and maintains the digital system: website, AI agents (Lumina, Lyra, Soul Assessment, Bio-Age), and supporting infrastructure (hosting, database, email &amp; payment integrations).</p>
+
+  <h2>2. Tarifa mensual de alquiler</h2>
+  <p>El Instituto pagará a la Proveedora <strong>US$350 por mes</strong>, en concepto de <strong>alquiler y mantenimiento del sistema</strong>, que cubren el <strong>costo operativo de mantenerlo vivo</strong> (hosting, APIs de inteligencia artificial, dominio, base de datos y mantenimiento básico). Pago <strong>mensual por Zelle</strong>, el día <span class="placeholder">[ 1 ]</span> de cada mes.</p>
+  <div class="note">Los costos de terceros que <strong>excedan</strong> lo cubierto por la tarifa (por ejemplo: consumo alto de IA, planes premium como Supabase Pro o HIPAA, o comisiones de la pasarela de pagos) se <span class="placeholder">[ facturarán aparte / se acordarán antes ]</span>. · <span class="en" style="font-style:normal">Third-party costs exceeding the fee are billed separately or pre-agreed.</span></div>
+  <p class="en">The Institute pays Provider US$350/month covering the operational cost of keeping the system live.</p>
+
+  <h2>3. Beneficios en especie para la Proveedora</h2>
+  <p>Como parte de la compensación, el Instituto otorga a <strong>Danae Pozo</strong> y a <strong>Diego Riveros</strong>:</p>
+  <ul>
+    <li><strong>Acceso libre a los servicios del spa / terapias bioenergéticas</strong>, sujeto a reservar cita (según disponibilidad).</li>
+    <li><strong>Consultas con el Dr. Meighen para optimización de la salud</strong> (la consulta médica).</li>
+  </ul>
+  <p style="font-size:.85rem">Estos beneficios son personales e intransferibles y cubren <strong>el servicio/consulta</strong>; insumos, medicamentos, IVs o procedimientos adicionales <strong>no están incluidos</strong> salvo que se acuerde por separado.
+  <span class="en">In-kind: free spa/therapy access (by appointment) and health-optimization consultations with Dr. Meighen for Danae Pozo and Diego Riveros — personal, non-transferable; covers the service/consultation only.</span></p>
+
+  <h2>4. Propiedad del sistema y de los datos</h2>
+  <p>El <strong>sistema completo</strong> (código, arquitectura, diseño y agentes de IA) es <strong>propiedad exclusiva de la Proveedora</strong>. El Instituto recibe únicamente una <strong>licencia de uso</strong> mientras el acuerdo esté vigente y al día en sus pagos; <strong>no adquiere</strong> la propiedad del sistema ni el derecho a operarlo después de terminado el acuerdo.</p>
+  <p>Los <strong>contactos generados</strong> a través del sistema (la lista de clientes y pacientes y sus datos), así como el <strong>contenido de marca</strong> del Instituto (logo, textos, fotos, catálogo), <strong>pertenecen al Instituto</strong>.</p>
+  <p class="en">The entire system (code, architecture, design, AI agents) is the Provider's exclusive property; the Institute gets only a license to use it while the agreement is active. Generated contacts (client/patient list &amp; data) and the Institute's brand content belong to the Institute.</p>
+
+  <h2>5. Vigencia y renovación</h2>
+  <p>Mes a mes, con renovación automática, hasta que cualquiera de las partes lo termine conforme a la Sección 6.
+  <span class="en">Month-to-month, auto-renewing until terminated per Section 6.</span></p>
+
+  <h2>6. Terminación</h2>
+  <p>Cualquiera de las partes puede terminar con <span class="placeholder">[ 30 ]</span> días de aviso por escrito. Al terminar:</p>
+  <ul>
+    <li>La Proveedora <strong>dará de baja (apagará) el sistema</strong>; el Instituto no conserva el sistema ni el derecho a seguir usándolo.</li>
+    <li>La Proveedora <strong>entregará al Instituto los contactos generados</strong> (lista de clientes/pacientes y sus datos) y el contenido de marca del Instituto, en un formato exportable.</li>
+    <li>Cesan la tarifa mensual y los beneficios en especie.</li>
+  </ul>
+  <p class="en">On termination: Provider takes the system offline (Institute does not keep it); Provider hands over the generated contacts (client/patient data) and the Institute's brand content in exportable form; fees and in-kind benefits cease.</p>
+
+  <h2>7. Confidencialidad</h2>
+  <p>Ambas partes mantendrán confidencial la información sensible: datos de clientes y pacientes, credenciales del sistema e información de negocio.
+  <span class="en">Both parties keep client/patient data, system credentials and business information confidential.</span></p>
+
+  <h2>8. Responsabilidad</h2>
+  <p>La Proveedora mantiene el sistema con esfuerzos razonables, pero <strong>no garantiza disponibilidad ininterrumpida</strong> ni responde por fallas de terceros (hosting, proveedores de IA, pasarela de pagos). El <strong>Instituto</strong> es el único responsable del <strong>cumplimiento médico y legal</strong> (licencias, HIPAA, consentimientos y atención a clientes/pacientes).
+  <span class="en">Provider uses reasonable efforts but does not guarantee uptime or third-party services; the Institute is solely responsible for medical/legal compliance (HIPAA, licensing, patient care).</span></p>
+
+  <h2>9. Ley aplicable</h2>
+  <p>Este acuerdo se rige por las leyes del Estado de Florida. Si alguna cláusula resulta inválida, el resto continúa vigente.
+  <span class="en">Governed by Florida law; severability applies.</span></p>
+
+  <h2>10. Firmas</h2>
+  <div class="sigrow">
+    <div class="sigbox"><div class="sigline"></div><div class="siglabel">Danae Pozo — Proveedora del sistema</div></div>
+    <div class="sigbox" style="max-width:180px"><div class="sigline"></div><div class="siglabel">Fecha</div></div>
+  </div>
+  <div class="sigrow">
+    <div class="sigbox"><div class="sigline"></div><div class="siglabel">Bella Vargas — Holistic Bella Vargas LLC</div></div>
+    <div class="sigbox" style="max-width:180px"><div class="sigline"></div><div class="siglabel">Fecha</div></div>
+  </div>
+  <div class="sigrow">
+    <div class="sigbox"><div class="sigline"></div><div class="siglabel">Michael J. Meighen, MD</div></div>
+    <div class="sigbox" style="max-width:180px"><div class="sigline"></div><div class="siglabel">Fecha</div></div>
+  </div>
+
+  <footer>
+    Alchemized BioHealing Institute · 2970 Coral Way, Miami, FL 33145 · 305-305-3820<br>
+    Acuerdo de colaboración — borrador para revisión.
+  </footer>
+</div>
+</body>
+</html>

@@ -38,6 +38,28 @@ export default function StudioPage() {
   const [error, setError] = useState('')
   const [open, setOpen] = useState<string | null>(null)
   const [filter, setFilter] = useState<'all' | 'bio-age' | 'lyra'>('all')
+  const [rvName, setRvName] = useState('')
+  const [rvEmail, setRvEmail] = useState('')
+  const [rvLang, setRvLang] = useState<'es' | 'en'>('es')
+  const [rvMsg, setRvMsg] = useState('')
+  const [rvSending, setRvSending] = useState(false)
+
+  async function sendReview(e?: React.FormEvent) {
+    e?.preventDefault()
+    if (!rvEmail) return
+    setRvSending(true); setRvMsg('')
+    try {
+      const r = await fetch('/api/review', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code, name: rvName, email: rvEmail, lang: rvLang }),
+      })
+      const d = await r.json().catch(() => ({}))
+      if (r.ok) { setRvMsg('✅ ¡Enviado! El cliente recibió el pedido de reseña.'); setRvName(''); setRvEmail('') }
+      else if (d.error === 'no-review-url') setRvMsg('⚠️ Falta configurar el link de Google (GOOGLE_REVIEW_URL).')
+      else setRvMsg('No se pudo enviar. Revisa el correo e intenta de nuevo.')
+    } catch { setRvMsg('Error de conexión.') }
+    setRvSending(false)
+  }
 
   async function unlock(e?: React.FormEvent) {
     e?.preventDefault()
@@ -88,6 +110,26 @@ export default function StudioPage() {
           <h1 style={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 300, fontSize: '1.8rem', letterSpacing: '0.18em', margin: 0, color: GOLD }}>STUDIO</h1>
           <p style={{ fontSize: '0.7rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(240,232,216,0.4)', margin: '0.3rem 0 0' }}>{entries.length} perfiles · espacio privado</p>
         </header>
+
+        {/* Review request — send a client the Google review link after their appointment */}
+        <form onSubmit={sendReview} style={{ background: 'rgba(201,150,60,0.06)', border: '1px solid rgba(201,150,60,0.25)', borderRadius: 8, padding: '1.2rem 1.3rem', marginBottom: '2rem' }}>
+          <div style={{ color: GOLD, fontSize: '0.8rem', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.8rem' }}>⭐ Pedir reseña al terminar la cita</div>
+          <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', alignItems: 'center' }}>
+            <input value={rvName} onChange={e => setRvName(e.target.value)} placeholder="Nombre (opcional)"
+              style={{ flex: '1 1 140px', padding: '0.6rem 0.8rem', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(240,232,216,0.18)', borderRadius: 4, color: CREAM, fontSize: '0.85rem', outline: 'none' }} />
+            <input value={rvEmail} onChange={e => setRvEmail(e.target.value)} placeholder="Email del cliente" type="email"
+              style={{ flex: '1 1 180px', padding: '0.6rem 0.8rem', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(240,232,216,0.18)', borderRadius: 4, color: CREAM, fontSize: '0.85rem', outline: 'none' }} />
+            <select value={rvLang} onChange={e => setRvLang(e.target.value as 'es' | 'en')}
+              style={{ padding: '0.6rem 0.5rem', background: '#111', border: '1px solid rgba(240,232,216,0.18)', borderRadius: 4, color: CREAM, fontSize: '0.85rem' }}>
+              <option value="es">ES</option><option value="en">EN</option>
+            </select>
+            <button type="submit" disabled={rvSending || !rvEmail}
+              style={{ padding: '0.6rem 1.3rem', background: `linear-gradient(135deg,${GOLD},#E4B85A)`, color: '#000', border: 'none', borderRadius: 4, fontWeight: 700, fontSize: '0.78rem', letterSpacing: '0.08em', cursor: rvSending ? 'wait' : 'pointer', opacity: rvSending || !rvEmail ? 0.6 : 1 }}>
+              {rvSending ? 'Enviando…' : 'Enviar'}
+            </button>
+          </div>
+          {rvMsg && <p style={{ fontSize: '0.78rem', color: rvMsg.startsWith('✅') ? SAGE : ROSE, margin: '0.7rem 0 0' }}>{rvMsg}</p>}
+        </form>
 
         <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
           {([['all', 'Todos'], ['bio-age', '🧬 Edad biológica'], ['lyra', '🌙 Lyra']] as const).map(([k, label]) => (
