@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import LuminaChat from '@/components/LuminaChat'
 import Link from 'next/link'
-import { membershipCards, therapies, protocols, citations, therapiesWithEvidence, SPECIAL_OFFER } from '@/lib/alchemist/catalog'
+import { membershipCards, therapies, protocols, citations, therapiesWithEvidence, SPECIAL_OFFER, HUMAN_RESTORATION } from '@/lib/alchemist/catalog'
 import IVMenu from '@/components/IVMenu'
 import CarePackages from '@/components/CarePackages'
 
@@ -435,6 +435,53 @@ export default function Home() {
               <Link href="/booking" style={{ display: 'block', marginTop: '1.5rem', textAlign: 'center', padding: '0.65rem', border: `1px solid ${tier.color}`, color: tier.color, borderRadius: '2px', textDecoration: 'none', fontSize: '0.75rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Begin →</Link>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* HUMAN RESTORATION — flagship concierge membership */}
+      <section id="human-restoration" ref={addReveal as any} className="section-reveal" style={{ padding: '6rem 2rem', position: 'relative', background: 'radial-gradient(ellipse at top, rgba(201,150,60,0.09) 0%, transparent 60%)', borderTop: '1px solid rgba(201,150,60,0.12)' }}>
+        <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '3.2rem' }}>
+            <div style={{ fontSize: '0.72rem', letterSpacing: '0.32em', color: '#C9963C', textTransform: 'uppercase', marginBottom: '0.9rem' }}>Flagship · Concierge Medicine &amp; Longevity</div>
+            <h2 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(2.2rem, 5.5vw, 3.6rem)', fontWeight: 300, lineHeight: 1.1, background: 'linear-gradient(135deg, #F0E8D8, #C9963C, #3DC898)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+              {HUMAN_RESTORATION.name}
+            </h2>
+            <p style={{ fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic', fontSize: '1.25rem', color: '#E4B85A', margin: '0.7rem 0 1.2rem' }}>{HUMAN_RESTORATION.tagline}</p>
+            <p style={{ fontSize: '1rem', color: 'rgba(240,232,216,0.7)', maxWidth: 660, margin: '0 auto', lineHeight: 1.8 }}>{HUMAN_RESTORATION.intro}</p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.6rem', alignItems: 'start' }}>
+            {HUMAN_RESTORATION.tiers.map(tier => (
+              <div key={tier.id} style={{ background: tier.featured ? 'linear-gradient(180deg, #14110A, #0B0B0B)' : 'rgba(255,255,255,0.02)', border: `1px solid ${tier.featured ? 'rgba(201,150,60,0.55)' : 'rgba(201,150,60,0.22)'}`, borderRadius: '6px', padding: '2.3rem 2rem', position: 'relative', boxShadow: tier.featured ? '0 0 60px rgba(201,150,60,0.16)' : 'none' }}>
+                {tier.featured && (
+                  <div style={{ position: 'absolute', top: '-13px', left: '50%', transform: 'translateX(-50%)', background: '#000', border: '1px solid rgba(201,150,60,0.5)', borderRadius: '30px', padding: '0.25rem 0.95rem', whiteSpace: 'nowrap' }}>
+                    <span style={{ color: '#E4B85A', fontSize: '0.58rem', fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase' }}>★ Most Comprehensive</span>
+                  </div>
+                )}
+                <div style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '1.3rem', color: '#C9963C', marginBottom: '0.6rem' }}>{tier.name}</div>
+                <div style={{ marginBottom: '0.3rem' }}>
+                  <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '2.6rem', color: '#F0E8D8' }}>{tier.price}</span>
+                  <span style={{ fontSize: '0.82rem', color: 'rgba(240,232,216,0.5)', marginLeft: '0.5rem' }}>{tier.billing}</span>
+                </div>
+                <div style={{ fontSize: '0.72rem', color: 'rgba(240,232,216,0.4)', marginBottom: '1.4rem', fontStyle: 'italic' }}>{tier.note}</div>
+                <ul style={{ listStyle: 'none', fontSize: '0.82rem', lineHeight: 1.95, color: 'rgba(240,232,216,0.78)', padding: 0, margin: 0 }}>
+                  {tier.features.map(f => <li key={f} style={{ marginBottom: '0.15rem' }}><span style={{ color: '#3DC898' }}>✓</span> {f}</li>)}
+                </ul>
+                <Link href="/booking" style={{ display: 'block', marginTop: '1.8rem', textAlign: 'center', padding: '0.8rem', background: tier.featured ? 'linear-gradient(135deg, #C9963C, #E4B85A)' : 'transparent', border: '1px solid #C9963C', color: tier.featured ? '#000' : '#C9963C', borderRadius: '2px', textDecoration: 'none', fontSize: '0.76rem', fontWeight: tier.featured ? 700 : 400, letterSpacing: '0.12em', textTransform: 'uppercase' }}>Apply / Begin →</Link>
+              </div>
+            ))}
+          </div>
+
+          {/* The Difference */}
+          <div style={{ marginTop: '3.2rem', textAlign: 'center', maxWidth: 760, marginLeft: 'auto', marginRight: 'auto' }}>
+            <h3 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '1.7rem', fontWeight: 300, color: '#E4B85A', marginBottom: '1.2rem' }}>{HUMAN_RESTORATION.difference.title}</h3>
+            {HUMAN_RESTORATION.difference.body.map((p, i) => (
+              <p key={i} style={{ fontSize: '0.98rem', color: 'rgba(240,232,216,0.7)', lineHeight: 1.85, marginBottom: '1rem' }}>{p}</p>
+            ))}
+            <p style={{ fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic', fontSize: '1.35rem', color: '#C9963C', marginTop: '1.8rem', lineHeight: 1.4 }}>
+              {HUMAN_RESTORATION.difference.closing}
+            </p>
+          </div>
         </div>
       </section>
 

@@ -159,6 +159,84 @@ export const membershipCards: MembershipCard[] = [
 ]
 
 // ─────────────────────────────────────────────────────────────
+// FLAGSHIP — Human Restoration Membership (concierge medicine del Dr. Michael)
+// Programa premium anual / 6 meses con acceso directo al médico.
+// ─────────────────────────────────────────────────────────────
+export interface RestorationTier {
+  id: string
+  name: string
+  /** Precio formateado para UI */
+  price: string
+  /** Valor numérico, para cálculos */
+  priceNumeric: number
+  /** Ciclo de cobro */
+  billing: string
+  /** Nota corta */
+  note: string
+  /** Resalta como recomendado */
+  featured: boolean
+  /** Qué incluye */
+  features: string[]
+}
+
+export const HUMAN_RESTORATION = {
+  name: 'Human Restoration Membership',
+  tagline: 'Concierge medicine & longevity — direct access to your physician, all year long.',
+  intro:
+    'A comprehensive concierge medicine and longevity program designed for those who want proactive, personalized healthcare with direct access to their physician.',
+  tiers: [
+    {
+      id: 'human-restoration-annual',
+      name: 'Annual Membership',
+      price: '$10,000',
+      priceNumeric: 10000,
+      billing: 'per year',
+      note: 'Full year · most comprehensive',
+      featured: true,
+      features: [
+        'Unlimited visits with Dr. Michael',
+        'Comprehensive blood work twice per year',
+        'Monthly IV Therapy (12 per year)',
+        'Monthly Wellness & Lifestyle Coaching with Holistic Bella (12 sessions)',
+        'One Ancestral Medicine Ceremony per year',
+        'Personalized Health, Longevity & Performance Optimization Plan',
+        'Ongoing review of hormones, supplements, and treatment protocols',
+        'Priority scheduling and expedited communication',
+        'Personalized health guidance throughout the year',
+      ],
+    },
+    {
+      id: 'human-restoration-6mo',
+      name: 'Six-Month Membership',
+      price: '$5,500',
+      priceNumeric: 5500,
+      billing: 'for 6 months',
+      note: '6-month commitment',
+      featured: false,
+      features: [
+        'Unlimited visits with Dr. Michael',
+        'Comprehensive blood work once during membership',
+        'Monthly IV Therapy (6 total)',
+        'Monthly Wellness & Lifestyle Coaching with Holistic Bella (6 sessions)',
+        'One Ancestral Medicine Ceremony',
+        'Personalized Health & Optimization Plan',
+        'Ongoing review of supplements, hormones, and treatment protocols',
+        'Priority scheduling and communication',
+      ],
+    },
+  ] as RestorationTier[],
+  difference: {
+    title: 'The Human Restoration Difference',
+    body: [
+      'This is more than healthcare.',
+      'This membership is designed to help you optimize your health, energy, hormones, longevity, and overall quality of life through a unique combination of precision medicine, preventative care, wellness coaching, and ancestral healing practices.',
+      'You are not paying for office visits. You are investing in year-round access to a dedicated healthcare team that knows your story, monitors your progress, and helps you stay healthy before problems arise.',
+    ],
+    closing: 'Where Precision Medicine, Longevity & Human Restoration Become One.',
+  },
+} as const
+
+// ─────────────────────────────────────────────────────────────
 // Terapias bio-energéticas (9)
 // ─────────────────────────────────────────────────────────────
 export const therapies: Therapy[] = [
