@@ -31,6 +31,9 @@ export default function BioAgePage() {
 
   const chronoNum = parseInt(chrono, 10)
   const allAnswered = BIOAGE_QUESTIONS.every(q => answers[q.id])
+  const answered = BIOAGE_QUESTIONS.filter(q => answers[q.id]).length
+  const total = BIOAGE_QUESTIONS.length
+  const pct = Math.round((answered / total) * 100)
   const ready = chronoNum >= 18 && chronoNum <= 100 && allAnswered
 
   async function calculate() {
@@ -76,20 +79,35 @@ export default function BioAgePage() {
               <input type="number" value={chrono} onChange={e => setChrono(e.target.value)} placeholder="Tu edad" min={18} max={100}
                 style={{ width: 160, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(61,200,152,0.3)', borderRadius: 10, padding: '0.7rem 1rem', color: CREAM, fontSize: '1rem', outline: 'none', fontFamily: 'inherit' }} />
             </div>
-            {BIOAGE_QUESTIONS.map(q => (
-              <div key={q.id} style={{ marginBottom: '1.5rem' }}>
-                <div style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '1.2rem', color: CREAM, marginBottom: '0.6rem' }}>{q.q}</div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                  {q.options.map(o => {
-                    const sel = answers[q.id] === o.label
-                    return (
-                      <button key={o.label} onClick={() => setAnswers(a => ({ ...a, [q.id]: o.label }))}
-                        style={{ textAlign: 'left', background: sel ? 'rgba(61,200,152,0.14)' : 'rgba(255,255,255,0.03)', border: `1px solid ${sel ? SAGE : 'rgba(201,150,60,0.18)'}`, borderRadius: 10, padding: '0.7rem 1rem', color: sel ? CREAM : 'rgba(240,232,216,0.8)', fontSize: '0.92rem', cursor: 'pointer', fontFamily: 'inherit' }}>
-                        {sel ? '✦ ' : ''}{o.label}
-                      </button>
-                    )
-                  })}
-                </div>
+            {/* Progress */}
+            <div style={{ position: 'sticky', top: 0, zIndex: 5, background: 'rgba(8,18,15,0.92)', backdropFilter: 'blur(8px)', padding: '0.8rem 0', marginBottom: '0.5rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.74rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(240,232,216,0.6)', marginBottom: '0.4rem' }}>
+                <span>Evaluación de longevidad</span><span>{answered}/{total}</span>
+              </div>
+              <div style={{ height: 4, background: 'rgba(255,255,255,0.08)', borderRadius: 4, overflow: 'hidden' }}>
+                <div style={{ width: `${pct}%`, height: '100%', background: `linear-gradient(90deg, ${SAGE}, ${GOLD})`, transition: 'width 0.3s' }} />
+              </div>
+            </div>
+
+            {Array.from(new Set(BIOAGE_QUESTIONS.map(q => q.cat))).map(cat => (
+              <div key={cat}>
+                <div style={{ fontSize: '0.72rem', letterSpacing: '0.26em', textTransform: 'uppercase', color: SAGE, margin: '1.9rem 0 0.9rem', borderBottom: '1px solid rgba(61,200,152,0.18)', paddingBottom: '0.4rem' }}>{cat}</div>
+                {BIOAGE_QUESTIONS.filter(q => q.cat === cat).map(q => (
+                  <div key={q.id} style={{ marginBottom: '1.4rem' }}>
+                    <div style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '1.2rem', color: CREAM, marginBottom: '0.6rem' }}>{q.q}</div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                      {q.options.map(o => {
+                        const sel = answers[q.id] === o.label
+                        return (
+                          <button key={o.label} onClick={() => setAnswers(a => ({ ...a, [q.id]: o.label }))}
+                            style={{ textAlign: 'left', background: sel ? 'rgba(61,200,152,0.14)' : 'rgba(255,255,255,0.03)', border: `1px solid ${sel ? SAGE : 'rgba(201,150,60,0.18)'}`, borderRadius: 10, padding: '0.7rem 1rem', color: sel ? CREAM : 'rgba(240,232,216,0.8)', fontSize: '0.92rem', cursor: 'pointer', fontFamily: 'inherit' }}>
+                            {sel ? '✦ ' : ''}{o.label}
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </div>
+                ))}
               </div>
             ))}
             <div style={{ marginTop: '2rem', borderTop: '1px solid rgba(61,200,152,0.15)', paddingTop: '1.5rem' }}>

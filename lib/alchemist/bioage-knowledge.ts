@@ -2,81 +2,132 @@
 // Educational estimate based on validated longevity/lifestyle factors. NOT a diagnosis.
 
 export interface BioOption { label: string; delta: number; tag?: string }
-export interface BioQuestion { id: string; q: string; options: BioOption[] }
+export interface BioQuestion { id: string; cat: string; q: string; options: BioOption[] }
 
 // Each option carries a delta in YEARS (+ ages you, − rejuvenates). Summed onto chronological age.
 export const BIOAGE_QUESTIONS: BioQuestion[] = [
-  { id: 'sleep', q: '¿Cuántas horas duermes y qué tan reparador es tu sueño?', options: [
-    { label: '7–8h, me levanto descansado/a', delta: -2, tag: 'sleep_good' },
-    { label: '6–7h, más o menos', delta: 1, tag: 'sleep_ok' },
+  // ── Sueño y recuperación ──
+  { id: 'sleep', cat: 'Sueño y recuperación', q: '¿Cuántas horas duermes y qué tan reparador es tu sueño?', options: [
+    { label: '7–8h y me levanto descansado/a', delta: -2, tag: 'sleep_good' },
+    { label: '6–7h, más o menos', delta: 1 },
     { label: 'Menos de 6h o sueño interrumpido', delta: 3, tag: 'sleep_poor' },
   ]},
-  { id: 'exercise', q: '¿Con qué frecuencia entrenas (fuerza o cardio)?', options: [
+  { id: 'snore', cat: 'Sueño y recuperación', q: '¿Roncas o te han dicho que dejas de respirar al dormir?', options: [
+    { label: 'No', delta: -1 },
+    { label: 'A veces', delta: 1 },
+    { label: 'Sí, con frecuencia', delta: 3, tag: 'apnea_risk' },
+  ]},
+  { id: 'recovery', cat: 'Sueño y recuperación', q: 'Cuando te lesionas o enfermas, ¿cómo te recuperas?', options: [
+    { label: 'Rápido', delta: -1 },
+    { label: 'Normal', delta: 0 },
+    { label: 'Lento, me cuesta', delta: 2, tag: 'inflammation' },
+  ]},
+
+  // ── Movimiento y fuerza ──
+  { id: 'exercise', cat: 'Movimiento y fuerza', q: '¿Con qué frecuencia entrenas (fuerza o cardio)?', options: [
     { label: '4+ veces por semana', delta: -3, tag: 'fit_high' },
-    { label: '1–3 veces por semana', delta: -1, tag: 'fit_mod' },
+    { label: '1–3 veces por semana', delta: -1 },
     { label: 'Casi nunca', delta: 3, tag: 'sedentary' },
   ]},
-  { id: 'sitting', q: '¿Cuántas horas pasas sentado/a al día?', options: [
+  { id: 'strength', cat: 'Movimiento y fuerza', q: '¿Qué tan fuerte te sientes (fuerza y músculo)?', options: [
+    { label: 'Fuerte, mantengo músculo', delta: -2, tag: 'strong' },
+    { label: 'Normal', delta: 0 },
+    { label: 'Débil, perdiendo músculo', delta: 2, tag: 'sarcopenia' },
+  ]},
+  { id: 'sitting', cat: 'Movimiento y fuerza', q: '¿Cuántas horas pasas sentado/a al día?', options: [
     { label: 'Menos de 4h, me muevo mucho', delta: -1 },
     { label: '4–8h', delta: 1 },
     { label: 'Más de 8h', delta: 2, tag: 'sitting_high' },
   ]},
-  { id: 'diet', q: '¿Cómo describes tu alimentación?', options: [
+
+  // ── Nutrición ──
+  { id: 'diet', cat: 'Nutrición', q: '¿Cómo describes tu alimentación?', options: [
     { label: 'Real, alta en proteína y vegetales', delta: -2, tag: 'diet_clean' },
     { label: 'Mixta, a veces sana a veces no', delta: 1 },
     { label: 'Mucho procesado / comida rápida', delta: 3, tag: 'diet_poor' },
   ]},
-  { id: 'sugar', q: '¿Cuánta azúcar y harinas refinadas consumes?', options: [
+  { id: 'protein', cat: 'Nutrición', q: '¿Comes suficiente proteína (carne, huevo, pescado, legumbres)?', options: [
+    { label: 'Sí, en cada comida', delta: -1 },
+    { label: 'A veces', delta: 1 },
+    { label: 'Poca', delta: 2, tag: 'low_protein' },
+  ]},
+  { id: 'sugar', cat: 'Nutrición', q: '¿Cuánta azúcar y harinas refinadas consumes?', options: [
     { label: 'Muy poca', delta: -1 },
     { label: 'Moderada', delta: 1 },
     { label: 'Bastante / antojos frecuentes', delta: 2, tag: 'sugar_high' },
   ]},
-  { id: 'smoking', q: '¿Fumas (cigarrillo o vape)?', options: [
-    { label: 'No, nunca', delta: -1 },
-    { label: 'Lo dejé', delta: 0 },
-    { label: 'Sí', delta: 4, tag: 'smoker' },
+  { id: 'hydration', cat: 'Nutrición', q: '¿Tomas suficiente agua al día?', options: [
+    { label: 'Sí, bien hidratado/a', delta: -1 },
+    { label: 'Regular', delta: 0 },
+    { label: 'Poca', delta: 1 },
   ]},
-  { id: 'alcohol', q: '¿Cuánto alcohol tomas?', options: [
-    { label: 'Nada o muy poco', delta: -1 },
-    { label: 'Social, fines de semana', delta: 1 },
-    { label: 'Casi a diario', delta: 3, tag: 'alcohol_high' },
-  ]},
-  { id: 'stress', q: '¿Cómo está tu nivel de estrés?', options: [
+
+  // ── Estrés y mente ──
+  { id: 'stress', cat: 'Estrés y mente', q: '¿Cómo está tu nivel de estrés?', options: [
     { label: 'Manejable, me siento en calma', delta: -1 },
     { label: 'Alto por temporadas', delta: 1 },
     { label: 'Crónico, vivo acelerado/a', delta: 3, tag: 'stress_high' },
   ]},
-  { id: 'waist', q: '¿Cómo está tu grasa abdominal / cintura?', options: [
+  { id: 'memory', cat: 'Estrés y mente', q: '¿Notas fallas de memoria, concentración o niebla mental?', options: [
+    { label: 'No, estoy claro/a', delta: -1 },
+    { label: 'A veces', delta: 1 },
+    { label: 'Con frecuencia', delta: 2, tag: 'cognition' },
+  ]},
+  { id: 'mood', cat: 'Estrés y mente', q: '¿Cómo está tu ánimo últimamente?', options: [
+    { label: 'Estable y positivo', delta: -1 },
+    { label: 'Con altibajos', delta: 1 },
+    { label: 'Decaído/a o ansioso/a seguido', delta: 2, tag: 'mood' },
+  ]},
+  { id: 'social', cat: 'Estrés y mente', q: '¿Qué tan conectado/a te sientes con tu gente?', options: [
+    { label: 'Muy acompañado/a', delta: -1 },
+    { label: 'Algo', delta: 0 },
+    { label: 'Me siento solo/a a menudo', delta: 2, tag: 'isolation' },
+  ]},
+
+  // ── Hábitos y biomarcadores ──
+  { id: 'smoking', cat: 'Hábitos y biomarcadores', q: '¿Fumas (cigarrillo o vape)?', options: [
+    { label: 'No, nunca', delta: -1 },
+    { label: 'Lo dejé', delta: 0 },
+    { label: 'Sí', delta: 4, tag: 'smoker' },
+  ]},
+  { id: 'alcohol', cat: 'Hábitos y biomarcadores', q: '¿Cuánto alcohol tomas?', options: [
+    { label: 'Nada o muy poco', delta: -1 },
+    { label: 'Social, fines de semana', delta: 1 },
+    { label: 'Casi a diario', delta: 3, tag: 'alcohol_high' },
+  ]},
+  { id: 'waist', cat: 'Hábitos y biomarcadores', q: '¿Cómo está tu grasa abdominal / cintura?', options: [
     { label: 'Delgada / definida', delta: -2 },
     { label: 'Un poco de más', delta: 1 },
     { label: 'Grasa abdominal notable', delta: 3, tag: 'visceral_fat' },
   ]},
-  { id: 'energy', q: '¿Cómo es tu energía durante el día?', options: [
+  { id: 'bp', cat: 'Hábitos y biomarcadores', q: '¿Cómo está tu presión arterial?', options: [
+    { label: 'Normal', delta: -1 },
+    { label: 'No la sé / no me la mido', delta: 1, tag: 'bp_unknown' },
+    { label: 'Alta / en tratamiento', delta: 2, tag: 'hypertension' },
+  ]},
+  { id: 'energy', cat: 'Hábitos y biomarcadores', q: '¿Cómo es tu energía durante el día?', options: [
     { label: 'Estable y buena', delta: -2 },
     { label: 'Baja en la tarde', delta: 1 },
     { label: 'Cansancio casi todo el día', delta: 3, tag: 'fatigue' },
   ]},
-  { id: 'recovery', q: 'Cuando te lesionas o enfermas, ¿cómo te recuperas?', options: [
-    { label: 'Rápido', delta: -1 },
-    { label: 'Normal', delta: 0 },
-    { label: 'Lento / me cuesta', delta: 2, tag: 'inflammation' },
-  ]},
-  { id: 'hormones', q: '¿Notas señales hormonales (libido baja, cambios de ánimo, niebla mental)?', options: [
-    { label: 'No, me siento vital', delta: -1 },
-    { label: 'Algunas a veces', delta: 1 },
-    { label: 'Sí, varias y seguidas', delta: 3, tag: 'hormonal' },
-  ]},
-  { id: 'labs', q: '¿Cuándo te hiciste un chequeo/laboratorios completos por última vez?', options: [
+  { id: 'labs', cat: 'Hábitos y biomarcadores', q: '¿Cuándo te hiciste laboratorios completos por última vez?', options: [
     { label: 'En el último año', delta: -1 },
     { label: 'Hace 1–3 años', delta: 1 },
     { label: 'Hace años / nunca', delta: 2, tag: 'no_labs' },
   ]},
-  { id: 'family', q: '¿Antecedentes familiares de enfermedad cardíaca, diabetes o cáncer?', options: [
+
+  // ── Historia y hormonas ──
+  { id: 'family', cat: 'Historia y hormonas', q: '¿Antecedentes familiares de enfermedad cardíaca, diabetes o cáncer?', options: [
     { label: 'Pocos o ninguno', delta: 0 },
     { label: 'Algunos', delta: 1 },
     { label: 'Fuertes / varios', delta: 2, tag: 'family_risk' },
   ]},
-  { id: 'mindset', q: '¿Qué tan proactivo/a eres con tu salud y longevidad?', options: [
+  { id: 'hormones', cat: 'Historia y hormonas', q: '¿Señales hormonales (libido baja, cambios de ánimo, sofocos, peso resistente)?', options: [
+    { label: 'No, me siento vital', delta: -1 },
+    { label: 'Algunas a veces', delta: 1 },
+    { label: 'Sí, varias y seguidas', delta: 3, tag: 'hormonal' },
+  ]},
+  { id: 'mindset', cat: 'Historia y hormonas', q: '¿Qué tan proactivo/a eres con tu salud y longevidad?', options: [
     { label: 'Muy proactivo/a, quiero optimizar', delta: -2, tag: 'optimizer' },
     { label: 'Quiero empezar', delta: 0 },
     { label: 'Lo he dejado de lado', delta: 1 },
@@ -92,8 +143,8 @@ export function computeBioAge(chrono: number, answers: Record<string, string>): 
     if (opt) delta += opt.delta
   }
   const bio = Math.round(chrono + delta)
-  const lo = Math.max(18, chrono - 12)
-  const hi = chrono + 22
+  const lo = Math.max(18, chrono - 14)
+  const hi = chrono + 25
   return Math.min(hi, Math.max(lo, bio))
 }
 
@@ -113,5 +164,5 @@ CLIENT REPORT rules:
 - ALWAYS include a short disclaimer: this is an educational estimate, not a medical diagnosis.
 
 DOCTOR BRIEFING rules (separate, for Dr. Meighen's eyes before the appointment):
-- Concise, clinical, scannable. Structure: Estimated bio age vs chrono; Top risk drivers (from answers); Systems to prioritize (metabolic / hormonal / inflammation / cardiovascular / recovery); Suggested labs/panels to consider; Candidate protocols/services to discuss; Cautions/flags.
+- Concise, clinical, scannable. Structure: Estimated bio age vs chrono; Top risk drivers (from answers); Systems to prioritize (metabolic / hormonal / inflammation / cardiovascular / cognitive / recovery); Suggested labs/panels to consider; Candidate protocols/services to discuss; Cautions/flags.
 - Frame as "considerations to discuss," not orders. Evidence-aware. No prescriptions.`
