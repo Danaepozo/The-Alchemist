@@ -42,6 +42,8 @@ export default function LuminaChat() {
   const [leadEmail, setLeadEmail] = useState('')
   const [leadCaptured, setLeadCaptured] = useState(false)
   const [showLeadForm, setShowLeadForm] = useState(false)
+  const [showNudge, setShowNudge] = useState(false)
+  const [nudgeDismissed, setNudgeDismissed] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const messageCount = useRef(0)
@@ -58,6 +60,13 @@ export default function LuminaChat() {
   useEffect(() => {
     if (open) setTimeout(() => inputRef.current?.focus(), 300)
   }, [open])
+
+  // Attention nudge — invite the visitor to chat a few seconds after landing
+  useEffect(() => {
+    if (open || nudgeDismissed) { setShowNudge(false); return }
+    const t = setTimeout(() => setShowNudge(true), 4000)
+    return () => clearTimeout(t)
+  }, [open, nudgeDismissed])
 
   const quickReplies = lang === 'es' ? QUICK_REPLIES_ES : QUICK_REPLIES_EN
 
@@ -126,31 +135,49 @@ export default function LuminaChat() {
 
   return (
     <>
-      {/* Floating button */}
+      {/* Floating launcher — pill with avatar + label, pulsing glow, and an attention nudge */}
       {!open && (
-        <button
-          onClick={handleOpen}
-          style={{
-            position: 'fixed', bottom: '2rem', right: '2rem', zIndex: 200,
-            width: '58px', height: '58px', borderRadius: '50%',
-            background: 'linear-gradient(135deg, #C9963C, #E4B85A)',
-            border: 'none', cursor: 'pointer',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: '0 4px 24px rgba(201,150,60,0.45), 0 0 0 1px rgba(201,150,60,0.2)',
-            fontSize: '1.4rem', transition: 'transform 0.2s, box-shadow 0.2s',
-          }}
-          onMouseEnter={e => {
-            e.currentTarget.style.transform = 'scale(1.08)'
-            e.currentTarget.style.boxShadow = '0 6px 32px rgba(201,150,60,0.6), 0 0 0 1px rgba(201,150,60,0.3)'
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.transform = 'scale(1)'
-            e.currentTarget.style.boxShadow = '0 4px 24px rgba(201,150,60,0.45), 0 0 0 1px rgba(201,150,60,0.2)'
-          }}
-          title="Chat with Lumina"
-        >
-          ☿
-        </button>
+        <div style={{ position: 'fixed', bottom: '1.6rem', right: '1.6rem', zIndex: 200, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.7rem' }}>
+          {/* Attention nudge bubble */}
+          {showNudge && (
+            <div style={{ position: 'relative', maxWidth: '230px', background: '#0c0c0c', border: '1px solid rgba(201,150,60,0.3)', borderRadius: '14px 14px 2px 14px', padding: '0.8rem 2rem 0.8rem 0.9rem', boxShadow: '0 10px 34px rgba(0,0,0,0.6)', animation: 'luminaNudge 0.4s ease-out', cursor: 'pointer' }} onClick={handleOpen}>
+              <button
+                onClick={e => { e.stopPropagation(); setNudgeDismissed(true) }}
+                aria-label="close"
+                style={{ position: 'absolute', top: '0.35rem', right: '0.45rem', background: 'none', border: 'none', color: 'rgba(240,232,216,0.35)', cursor: 'pointer', fontSize: '0.85rem', lineHeight: 1 }}
+              >✕</button>
+              <p style={{ margin: 0, fontSize: '0.82rem', lineHeight: 1.55, color: 'rgba(240,232,216,0.85)', fontFamily: 'Jost, sans-serif' }}>
+                {lang === 'es'
+                  ? <>Hola, soy <strong style={{ color: '#E4B85A' }}>Lumina ✦</strong> ¿Te ayudo a encontrar tu camino? Pregúntame lo que quieras.</>
+                  : <>Hi, I’m <strong style={{ color: '#E4B85A' }}>Lumina ✦</strong> Can I help you find your path? Ask me anything.</>}
+              </p>
+            </div>
+          )}
+
+          {/* Pulsing glow ring */}
+          <button
+            onClick={handleOpen}
+            style={{
+              position: 'relative',
+              display: 'flex', alignItems: 'center', gap: '0.6rem',
+              padding: '0.55rem 1.1rem 0.55rem 0.6rem', borderRadius: '40px',
+              background: 'linear-gradient(135deg, #C9963C, #E4B85A)',
+              border: 'none', cursor: 'pointer',
+              boxShadow: '0 6px 26px rgba(201,150,60,0.5)',
+              animation: 'luminaGlow 2.6s ease-in-out infinite',
+              transition: 'transform 0.2s',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.05)' }}
+            onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)' }}
+            title={lang === 'es' ? 'Habla con Lumina' : 'Chat with Lumina'}
+          >
+            <span style={{ width: '42px', height: '42px', borderRadius: '50%', background: 'rgba(0,0,0,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.35rem', color: '#1a1206', flexShrink: 0 }}>☿</span>
+            <span style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.15, textAlign: 'left', paddingRight: '0.2rem' }}>
+              <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '1.05rem', fontWeight: 600, color: '#1a1206', letterSpacing: '0.02em' }}>{lang === 'es' ? 'Habla con Lumina' : 'Chat with Lumina'}</span>
+              <span style={{ fontSize: '0.62rem', color: 'rgba(26,18,6,0.7)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{lang === 'es' ? 'Tu guía · en línea' : 'Your guide · online'}</span>
+            </span>
+          </button>
+        </div>
       )}
 
       {/* Chat panel */}
@@ -351,7 +378,7 @@ export default function LuminaChat() {
                 fontWeight: 600,
               }}
             >
-              {lang === 'es' ? '☿ Reservar $199' : '☿ Book $199'}
+              {lang === 'es' ? '☿ Reservar cita' : '☿ Book a session'}
             </Link>
           </div>
 
@@ -403,6 +430,14 @@ export default function LuminaChat() {
         }
         @keyframes luminaOpen {
           from { opacity: 0; transform: translateY(12px) scale(0.97); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes luminaGlow {
+          0%, 100% { box-shadow: 0 6px 26px rgba(201,150,60,0.5); }
+          50% { box-shadow: 0 6px 40px rgba(201,150,60,0.85), 0 0 0 6px rgba(201,150,60,0.12); }
+        }
+        @keyframes luminaNudge {
+          from { opacity: 0; transform: translateY(8px) scale(0.96); }
           to { opacity: 1; transform: translateY(0) scale(1); }
         }
       `}</style>
