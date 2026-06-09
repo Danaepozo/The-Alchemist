@@ -48,6 +48,8 @@ export default function LyraPage() {
   const [gateInput, setGateInput] = useState('')
   const [gateErr, setGateErr] = useState(false)
   const [verifying, setVerifying] = useState(false)
+  const [inviteChecking, setInviteChecking] = useState(false)
+  const [inviteMsg, setInviteMsg] = useState('')
   const [consented, setConsented] = useState(false)
   const [consentChecked, setConsentChecked] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -57,6 +59,31 @@ export default function LyraPage() {
     const saved = localStorage.getItem('lyra_code')
     if (saved) { setAccessCode(saved); setUnlocked(true) }
     if (localStorage.getItem('lyra_consent') === '1') setConsented(true)
+
+    // Blindado invite link: /lyra?invite=TOKEN → validate (single-use, 24h, non-forwardable)
+    const token = new URLSearchParams(window.location.search).get('invite')
+    if (token && !saved) {
+      setInviteChecking(true)
+      const secret = localStorage.getItem(`lyra_invite_secret_${token}`) || ''
+      fetch('/api/lyra/invite/claim', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token, secret }) })
+        .then(r => r.json())
+        .then(j => {
+          if (j.ok) {
+            setAccessCode(j.code); setUnlocked(true)
+            try {
+              localStorage.setItem('lyra_code', j.code)
+              if (j.secret) localStorage.setItem(`lyra_invite_secret_${token}`, j.secret)
+            } catch {}
+          } else {
+            setInviteMsg(
+              j.reason === 'expired' ? 'Este enlace expiró (los enlaces duran 24h). Pídele a Bella uno nuevo. 🌙'
+                : j.reason === 'used' ? 'Este enlace ya fue usado. Por seguridad, cada invitación es de un solo uso — pídele a Bella uno nuevo. 🌙'
+                  : 'Este enlace no es válido. Pídele a Bella tu invitación. 🌙')
+          }
+        })
+        .catch(() => setInviteMsg('No se pudo validar el enlace. Intenta de nuevo en un momento.'))
+        .finally(() => setInviteChecking(false))
+    }
   }, [])
 
   async function verifyGate() {
@@ -126,6 +153,8 @@ export default function LyraPage() {
         <h1 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(2.4rem, 8vw, 3.4rem)', fontWeight: 300, letterSpacing: '0.3em', margin: 0, background: 'linear-gradient(135deg, #F0E8D8, #C9963C, #E06090)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>LYRA</h1>
         <p style={{ fontSize: '0.72rem', letterSpacing: '0.3em', color: 'rgba(240,232,216,0.45)', textTransform: 'uppercase', margin: '0.6rem 0 2rem' }}>Espacio por invitación · Invitation only</p>
         <div style={{ width: '100%', maxWidth: 360, textAlign: 'center' }}>
+          {inviteChecking && <p style={{ color: GOLD, fontSize: '0.92rem', marginBottom: '1.1rem', letterSpacing: '0.1em' }}>✦ Validando tu invitación…</p>}
+          {inviteMsg && <p style={{ color: ROSE, fontSize: '0.9rem', marginBottom: '1.2rem', lineHeight: 1.6 }}>{inviteMsg}</p>}
           <p style={{ color: 'rgba(240,232,216,0.7)', fontSize: '0.92rem', marginBottom: '1.1rem', lineHeight: 1.6 }}>Ingresa tu código de acceso para entrar.</p>
           <input
             value={gateInput}

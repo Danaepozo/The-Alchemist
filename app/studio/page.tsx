@@ -43,6 +43,30 @@ export default function StudioPage() {
   const [rvLang, setRvLang] = useState<'es' | 'en'>('es')
   const [rvMsg, setRvMsg] = useState('')
   const [rvSending, setRvSending] = useState(false)
+  const [invLabel, setInvLabel] = useState('')
+  const [invUrl, setInvUrl] = useState('')
+  const [invMsg, setInvMsg] = useState('')
+  const [invGen, setInvGen] = useState(false)
+  const [invCopied, setInvCopied] = useState(false)
+
+  async function genInvite(e?: React.FormEvent) {
+    e?.preventDefault()
+    setInvGen(true); setInvMsg(''); setInvUrl(''); setInvCopied(false)
+    try {
+      const r = await fetch('/api/lyra/invite/create', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code, label: invLabel }),
+      })
+      const d = await r.json().catch(() => ({}))
+      if (r.ok && d.url) setInvUrl(d.url)
+      else setInvMsg('No se pudo generar. Intenta de nuevo.')
+    } catch { setInvMsg('Error de conexión.') }
+    setInvGen(false)
+  }
+  function copyInvite() {
+    if (!invUrl || typeof navigator === 'undefined' || !navigator.clipboard) return
+    navigator.clipboard.writeText(invUrl).then(() => { setInvCopied(true); setTimeout(() => setInvCopied(false), 2000) }).catch(() => {})
+  }
 
   async function sendReview(e?: React.FormEvent) {
     e?.preventDefault()
@@ -129,6 +153,31 @@ export default function StudioPage() {
             </button>
           </div>
           {rvMsg && <p style={{ fontSize: '0.78rem', color: rvMsg.startsWith('✅') ? SAGE : ROSE, margin: '0.7rem 0 0' }}>{rvMsg}</p>}
+        </form>
+
+        {/* Lyra invite generator — unique, single-use, expires in 24h */}
+        <form onSubmit={genInvite} style={{ background: 'rgba(224,96,144,0.06)', border: '1px solid rgba(224,96,144,0.28)', borderRadius: 8, padding: '1.2rem 1.3rem', marginBottom: '2rem' }}>
+          <div style={{ color: ROSE, fontSize: '0.8rem', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.4rem' }}>🔐 Generar invitación de Lyra</div>
+          <p style={{ fontSize: '0.74rem', color: 'rgba(240,232,216,0.45)', margin: '0 0 0.8rem', lineHeight: 1.5 }}>Enlace <strong style={{ color: CREAM }}>único</strong>, de <strong style={{ color: CREAM }}>un solo uso</strong>, que <strong style={{ color: CREAM }}>caduca en 24h</strong>. Si lo reenvían, al segundo ya no le sirve.</p>
+          <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', alignItems: 'center' }}>
+            <input value={invLabel} onChange={e => setInvLabel(e.target.value)} placeholder="¿Para quién? (opcional, ej. María)"
+              style={{ flex: '1 1 200px', padding: '0.6rem 0.8rem', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(240,232,216,0.18)', borderRadius: 4, color: CREAM, fontSize: '0.85rem', outline: 'none' }} />
+            <button type="submit" disabled={invGen}
+              style={{ padding: '0.6rem 1.3rem', background: `linear-gradient(135deg,${GOLD},${ROSE})`, color: '#1a1020', border: 'none', borderRadius: 4, fontWeight: 700, fontSize: '0.78rem', letterSpacing: '0.06em', cursor: invGen ? 'wait' : 'pointer', opacity: invGen ? 0.6 : 1 }}>
+              {invGen ? 'Generando…' : 'Crear enlace'}
+            </button>
+          </div>
+          {invUrl && (
+            <div style={{ marginTop: '0.9rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
+              <input readOnly value={invUrl} onFocus={e => e.currentTarget.select()}
+                style={{ flex: '1 1 240px', padding: '0.55rem 0.7rem', background: 'rgba(0,0,0,0.35)', border: '1px solid rgba(201,150,60,0.3)', borderRadius: 4, color: GOLD, fontSize: '0.78rem', outline: 'none' }} />
+              <button type="button" onClick={copyInvite}
+                style={{ padding: '0.55rem 1rem', background: 'rgba(201,150,60,0.15)', color: GOLD, border: '1px solid rgba(201,150,60,0.4)', borderRadius: 4, fontSize: '0.76rem', fontWeight: 700, cursor: 'pointer' }}>
+                {invCopied ? '✓ Copiado' : 'Copiar'}
+              </button>
+            </div>
+          )}
+          {invMsg && <p style={{ fontSize: '0.78rem', color: ROSE, margin: '0.7rem 0 0' }}>{invMsg}</p>}
         </form>
 
         <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
