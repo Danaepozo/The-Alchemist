@@ -25,7 +25,19 @@ export async function POST(req: NextRequest) {
     }
     const isSpanish = lang !== 'en'
 
-    // 1) Save the lead + profile (best-effort) — record consent / appointment intent
+    // 1) WITH the person's consent → generate Bella's STRATEGIC briefing first, so we can store it privately
+    let briefing = ''
+    if (shareWithBella) {
+      try {
+        const r = await ai.messages.create({
+          model: 'claude-sonnet-4-6', max_tokens: 1000, system: BELLA_BRIEFING_PROMPT,
+          messages: [{ role: 'user', content: `Perfil del Alma de ${name || 'la persona'} (contacto: ${email || '—'}):\n\n${String(profile)}\n\nGenera el briefing estratégico para Bella.` }],
+        })
+        briefing = r.content.map(c => (c.type === 'text' ? c.text : '')).join('')
+      } catch (e) { console.error('Lyra briefing gen error:', e) }
+    }
+
+    // 2) Save the lead + profile + briefing PRIVATELY (RLS-protected, server-only) — never exposed publicly
     if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
       try {
         const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
@@ -35,7 +47,7 @@ export async function POST(req: NextRequest) {
           .select('id').single()
         await supabase.from('assessments').insert({
           client_id: data?.id,
-          answers: { source: 'lyra', wants_appointment: !!shareWithBella, consented_to_share: !!shareWithBella },
+          answers: { source: 'lyra', wants_appointment: !!shareWithBella, consented_to_share: !!shareWithBella, bella_briefing: briefing },
           soul_reading: String(profile),
         })
       } catch (e) { console.error('Lyra email DB error (non-fatal):', e) }
@@ -72,42 +84,28 @@ export async function POST(req: NextRequest) {
       } catch (e) { console.error('Lyra email send error (non-fatal):', e) }
     }
 
-    // 3) WITH the person's consent → generate a STRATEGIC briefing for Bella + send it
+    // 3) WITH consent → NOTIFY Bella (notification only, NO soul content). The full briefing + profile
+    //    live in the private Studio (RLS-protected DB), viewed behind login — never sent by email.
     let sharedWithBella = false
     if (shareWithBella && process.env.RESEND_API_KEY && process.env.BELLA_NOTIFY_EMAIL) {
       try {
-        // Generate Bella's "what to work on" briefing from the soul profile
-        let briefing = ''
-        try {
-          const r = await ai.messages.create({
-            model: 'claude-sonnet-4-6', max_tokens: 1000, system: BELLA_BRIEFING_PROMPT,
-            messages: [{ role: 'user', content: `Perfil del Alma de ${name || 'la persona'} (contacto: ${email || '—'}):\n\n${String(profile)}\n\nGenera el briefing estratégico para Bella.` }],
-          })
-          briefing = r.content.map(c => (c.type === 'text' ? c.text : '')).join('')
-        } catch (e) { console.error('Lyra briefing gen error:', e) }
-
-        const fmt = (s: string) => String(s).replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong style="color:#C9963C;">$1</strong>')
-        const briefBlock = briefing
-          ? `<div style="line-height:1.7;">${fmt(briefing)}</div><hr style="border:none;border-top:1px solid #e0d4b8;margin:1.4rem 0;"/><p style="color:#888;font-size:12px;">Perfil completo de la persona (referencia):</p><div style="line-height:1.7;color:#444;font-size:13px;">${fmt(profile)}</div>`
-          : `<div style="line-height:1.8;">${fmt(profile)}</div>`
-
         const resend = new Resend(process.env.RESEND_API_KEY)
         await resend.emails.send({
           from: 'Lyra · Alchemized <onboarding@resend.dev>',
           to: process.env.BELLA_NOTIFY_EMAIL,
-          replyTo: email,
-          subject: `💛 ${name || 'Una persona'} quiere una cita — Briefing (Lyra)`,
-          html: `<div style="font-family:Georgia,serif;max-width:660px;margin:0 auto;color:#1a1a1a;">
-            <h2 style="color:#C9963C;margin:0 0 .4rem;">Briefing para tu sesión — desde Lyra</h2>
-            <p><strong>${name || 'Sin nombre'}</strong> autorizó compartir contigo para trabajarlo juntas.</p>
-            <p>Contacto: <a href="mailto:${email}">${email}</a></p>
-            <hr style="border:none;border-top:1px solid #e0d4b8;margin:1rem 0;"/>
-            ${briefBlock}
-            <p style="color:#888;font-size:12px;margin-top:24px;">Compartido CON el consentimiento de la persona · Alchemized BioHealing Institute</p>
+          subject: `💛 ${name || 'Una persona'} quiere una cita contigo`,
+          html: `<div style="font-family:Georgia,serif;max-width:560px;margin:0 auto;color:#1a1a1a;">
+            <h2 style="color:#C9963C;margin:0 0 .5rem;">Nueva persona desde Lyra</h2>
+            <p><strong>${name || 'Una persona'}</strong> completó su Perfil del Alma y <strong>autorizó compartir contigo</strong> para trabajarlo juntas${email ? ` (${email})` : ''}.</p>
+            <p style="color:#555;">Tu briefing estratégico y el perfil completo te esperan en tu <strong>espacio privado</strong> (no se envían por correo, por confidencialidad).</p>
+            <div style="text-align:center;margin:1.6rem 0;">
+              <a href="https://the-alchemist-danae.netlify.app/studio" style="background:linear-gradient(135deg,#C9963C,#E4B85A);color:#000;padding:0.8rem 1.8rem;text-decoration:none;border-radius:3px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;font-size:0.76rem;">Abrir en Studio</a>
+            </div>
+            <p style="color:#999;font-size:11px;">Compartido con el consentimiento de la persona · Alchemized BioHealing Institute</p>
           </div>`,
         })
         sharedWithBella = true
-      } catch (e) { console.error('Lyra Bella-copy error (non-fatal):', e) }
+      } catch (e) { console.error('Lyra Bella-notify error (non-fatal):', e) }
     }
 
     return NextResponse.json({ ok: true, emailed, sharedWithBella })

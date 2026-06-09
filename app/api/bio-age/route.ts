@@ -60,7 +60,7 @@ Sigue EXACTAMENTE las reglas del DOCTOR BRIEFING. Responde en ${isSpanish ? 'esp
           try {
             const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
             const { data } = await supabase.from('clients').upsert({ name: name || 'Anonymous', email }, { onConflict: 'email' }).select('id').single()
-            await supabase.from('assessments').insert({ client_id: data?.id, answers: { source: 'bio-age', chronoAge, bioAge, detail: answers }, soul_reading: clientReport })
+            await supabase.from('assessments').insert({ client_id: data?.id, answers: { source: 'bio-age', chronoAge, bioAge, detail: answers, doctor_briefing: doctorBrief }, soul_reading: clientReport })
           } catch (e) { console.error('bio-age DB error:', e) }
         }
 
@@ -85,18 +85,22 @@ Sigue EXACTAMENTE las reglas del DOCTOR BRIEFING. Responde en ${isSpanish ? 'esp
               })
             } catch (e) { console.error('bio-age client email error:', e) }
           }
+          // PRIVACY: the doctor gets only a NOTIFICATION (no clinical detail). The full
+          // pre-appointment profile lives in the private Studio (RLS-protected DB), viewed behind login.
           const doctorTo = process.env.DOCTOR_EMAIL || process.env.BELLA_NOTIFY_EMAIL
-          if (doctorTo && doctorBrief) {
+          if (doctorTo) {
             try {
               await resend.emails.send({
-                from: 'Alchemized Longevity <onboarding@resend.dev>', to: doctorTo, replyTo: email || undefined,
-                subject: `🧬 Nuevo perfil de paciente — ${name || 'sin nombre'} (bio ${bioAge}/${chronoAge})`,
-                html: `<div style="font-family:Georgia,serif;max-width:660px;margin:0 auto;color:#1a1a1a;">
-                  <h2 style="color:#3DC898;margin:0 0 .3rem;">Perfil pre-cita — Edad biológica</h2>
-                  <p><strong>${name || 'Sin nombre'}</strong> · ${email || 'sin email'} · Bio ${bioAge} vs Cronológica ${chronoAge} (${bioAge - chronoAge >= 0 ? '+' : ''}${bioAge - chronoAge}).</p>
-                  <hr style="border:none;border-top:1px solid #d8e8e0;margin:1rem 0;"/>
-                  <div style="line-height:1.7;">${fmt(doctorBrief)}</div>
-                  <p style="color:#888;font-size:12px;margin-top:20px;">Estimación educativa generada por el assessment · Alchemized BioHealing Institute</p>
+                from: 'Alchemized Longevity <onboarding@resend.dev>', to: doctorTo,
+                subject: `🧬 Nuevo perfil pre-cita — ${name || 'sin nombre'}`,
+                html: `<div style="font-family:Georgia,serif;max-width:560px;margin:0 auto;color:#1a1a1a;">
+                  <h2 style="color:#3DC898;margin:0 0 .5rem;">Nuevo perfil de longevidad</h2>
+                  <p><strong>${name || 'Una persona'}</strong> completó la evaluación de edad biológica${email ? ` (${email})` : ''}.</p>
+                  <p style="color:#555;">El perfil completo y el briefing clínico te esperan en tu <strong>espacio privado</strong> (no se envían por correo, por confidencialidad médica).</p>
+                  <div style="text-align:center;margin:1.6rem 0;">
+                    <a href="https://the-alchemist-danae.netlify.app/studio" style="background:linear-gradient(135deg,#3DC898,#C9963C);color:#06201a;padding:0.8rem 1.8rem;text-decoration:none;border-radius:3px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;font-size:0.76rem;">Abrir en Studio</a>
+                  </div>
+                  <p style="color:#999;font-size:11px;">Aviso confidencial · sin datos clínicos · Alchemized BioHealing Institute</p>
                 </div>`,
               })
             } catch (e) { console.error('bio-age doctor email error:', e) }
