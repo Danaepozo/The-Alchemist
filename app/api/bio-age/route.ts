@@ -7,6 +7,13 @@ import { BIOAGE_SYSTEM_PROMPT } from '@/lib/alchemist/bioage-knowledge'
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 export const maxDuration = 60
 
+// PRIVACY MODE (HIPAA).
+//   Default (unset/false) = OPTION A: client-only. Nothing is stored, no doctor copy —
+//   the person just gets their own report. Lowest compliance exposure, no BAA needed.
+//   Set BIOAGE_STORE_MEDICAL="true" in Netlify (AFTER signing BAAs) = OPTION C: also
+//   store the profile privately + notify the doctor to view it in the Studio.
+const STORE_MEDICAL = (process.env.BIOAGE_STORE_MEDICAL || '').trim().toLowerCase() === 'true'
+
 function sse(o: unknown) { return new TextEncoder().encode(JSON.stringify(o) + '\n') }
 
 export async function POST(req: NextRequest) {
@@ -41,22 +48,25 @@ Sigue EXACTAMENTE las reglas del CLIENT REPORT. Responde en ${isSpanish ? 'espa�
           } else controller.enqueue(sse({ type: 'ping' }))
         }
 
-        // Doctor briefing (not streamed — emailed to the doctor)
+        // Doctor briefing — ONLY when medical storage is enabled (Option C, post-BAA).
+        // Option A (default): skip entirely — nothing is generated for the doctor.
         let doctorBrief = ''
-        try {
-          const d = await client.messages.create({
-            model: 'claude-sonnet-4-6', max_tokens: 1200, system: BIOAGE_SYSTEM_PROMPT,
-            messages: [{ role: 'user', content: `Genera el DOCTOR BRIEFING para el Dr. Meighen sobre ${name || 'esta persona'} (contacto: ${email || '—'}).
+        if (STORE_MEDICAL) {
+          try {
+            const d = await client.messages.create({
+              model: 'claude-sonnet-4-6', max_tokens: 1200, system: BIOAGE_SYSTEM_PROMPT,
+              messages: [{ role: 'user', content: `Genera el DOCTOR BRIEFING para el Dr. Meighen sobre ${name || 'esta persona'} (contacto: ${email || '—'}).
 Edad cronológica: ${chronoAge}. Edad biológica estimada: ${bioAge} (${bioAge - chronoAge >= 0 ? '+' : ''}${bioAge - chronoAge} años).
 Respuestas del test:
 ${answers}
 Sigue EXACTAMENTE las reglas del DOCTOR BRIEFING. Responde en ${isSpanish ? 'español' : 'inglés'}.` }],
-          })
-          doctorBrief = d.content.map(c => (c.type === 'text' ? c.text : '')).join('')
-        } catch (e) { console.error('bio-age doctor brief error:', e) }
+            })
+            doctorBrief = d.content.map(c => (c.type === 'text' ? c.text : '')).join('')
+          } catch (e) { console.error('bio-age doctor brief error:', e) }
+        }
 
-        // Save lead (best-effort)
-        if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY && email) {
+        // Save lead (best-effort) — ONLY in Option C. Option A stores NOTHING.
+        if (STORE_MEDICAL && process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY && email) {
           try {
             const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
             const { data } = await supabase.from('clients').upsert({ name: name || 'Anonymous', email }, { onConflict: 'email' }).select('id').single()
@@ -81,14 +91,15 @@ Sigue EXACTAMENTE las reglas del DOCTOR BRIEFING. Responde en ${isSpanish ? 'esp
                   </div>
                   <div style="background:rgba(61,200,152,0.05);border:1px solid rgba(201,150,60,0.18);padding:1.8rem;border-radius:4px;line-height:1.9;font-size:0.9rem;">${fmt(clientReport)}</div>
                   <div style="text-align:center;margin-top:2rem;"><a href="https://the-alchemist-danae.netlify.app/booking" style="background:linear-gradient(135deg,#3DC898,#C9963C);color:#06201a;padding:0.9rem 2rem;text-decoration:none;border-radius:2px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;font-size:0.78rem;">${isSpanish ? 'Agenda con el Dr. Meighen' : 'Book with Dr. Meighen'}</a></div>
+                  <p style="text-align:center;margin-top:1.6rem;color:rgba(240,232,216,0.3);font-size:0.68rem;line-height:1.6;">${isSpanish ? 'Este reporte es solo tuyo y es una estimación educativa, no un diagnóstico. No guardamos tus respuestas.' : 'This report is yours alone and is an educational estimate, not a diagnosis. We do not store your answers.'}</p>
                 </div>`,
               })
             } catch (e) { console.error('bio-age client email error:', e) }
           }
-          // PRIVACY: the doctor gets only a NOTIFICATION (no clinical detail). The full
-          // pre-appointment profile lives in the private Studio (RLS-protected DB), viewed behind login.
+          // PRIVACY: doctor notification ONLY in Option C (post-BAA). The full profile lives in the
+          // private Studio; the email carries no clinical detail. Option A sends nothing to the doctor.
           const doctorTo = process.env.DOCTOR_EMAIL || process.env.BELLA_NOTIFY_EMAIL
-          if (doctorTo) {
+          if (STORE_MEDICAL && doctorTo) {
             try {
               await resend.emails.send({
                 from: 'Alchemized Longevity <onboarding@resend.dev>', to: doctorTo,
