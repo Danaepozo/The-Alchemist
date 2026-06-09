@@ -503,6 +503,31 @@ export default function Home() {
         </Link>
       </section>
 
+      {/* DISCSEEL — regenerative spine procedure (bilingual EN/ES) */}
+      <section ref={addReveal as any} className="section-reveal" style={{ padding: '5rem 2rem', maxWidth: '1000px', margin: '0 auto' }}>
+        <div style={{ background: 'linear-gradient(160deg, rgba(61,200,152,0.08), rgba(13,13,13,0.6))', border: '1px solid rgba(61,200,152,0.28)', borderRadius: '8px', padding: '2.6rem 2.2rem' }}>
+          <div style={{ fontSize: '0.72rem', letterSpacing: '0.26em', textTransform: 'uppercase', color: '#3DC898', marginBottom: '0.9rem' }}>Regenerative Spine Care · Cuidado regenerativo de columna</div>
+          <h2 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(1.8rem, 4.5vw, 2.8rem)', fontWeight: 300, lineHeight: 1.15, marginBottom: '0.4rem' }}>
+            DiscSeel® — A Non-Surgical Alternative for Chronic Back &amp; Neck Pain
+          </h2>
+          <p style={{ fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic', fontSize: '1.2rem', color: '#E4B85A', marginBottom: '1.6rem' }}>
+            Alternativa NO quirúrgica para el dolor crónico de espalda y cuello
+          </p>
+          <p style={{ fontSize: '0.98rem', color: 'rgba(240,232,216,0.82)', lineHeight: 1.8, marginBottom: '1rem' }}>
+            <strong style={{ color: '#3DC898' }}>EN ·</strong> For chronic back and neck pain caused by damaged or torn spinal discs, the DiscSeel® Procedure uses <strong style={{ color: '#F0E8D8' }}>Fibrin</strong> — a natural biologic sealant — to seal the tears and stimulate the disc&rsquo;s own healing. No surgery, no fusion: a single image-guided injection. Dr. Meighen is one of only <strong style={{ color: '#F0E8D8' }}>~30 DiscSeel®-trained providers in the world.</strong>
+          </p>
+          <p style={{ fontSize: '0.98rem', color: 'rgba(240,232,216,0.7)', lineHeight: 1.8, marginBottom: '1.8rem' }}>
+            <strong style={{ color: '#3DC898' }}>ES ·</strong> Para el dolor crónico de espalda y cuello por discos dañados o con desgarros, el procedimiento DiscSeel® usa <strong style={{ color: '#F0E8D8' }}>Fibrina</strong> —un sellador biológico natural— para sellar los desgarros y estimular la reparación del propio disco. Sin cirugía, sin fusión: una sola inyección guiada por imagen. El Dr. Meighen es uno de los <strong style={{ color: '#F0E8D8' }}>~30 proveedores entrenados en DiscSeel® del mundo.</strong>
+          </p>
+          <Link href="/booking" style={{ background: 'linear-gradient(135deg, #3DC898, #C9963C)', color: '#06201a', padding: '1rem 2.4rem', borderRadius: '2px', textDecoration: 'none', fontSize: '0.82rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', display: 'inline-block' }}>
+            Ask about DiscSeel® · Pregunta por DiscSeel® →
+          </Link>
+          <p style={{ fontSize: '0.72rem', color: 'rgba(240,232,216,0.4)', marginTop: '1.4rem', lineHeight: 1.6 }}>
+            Each case is individually evaluated by Dr. Meighen. · Cada caso lo evalúa el Dr. Meighen de forma individual.
+          </p>
+        </div>
+      </section>
+
       {/* THERAPIES */}
       <section id="therapies" ref={addReveal as any} className="section-reveal" style={{ padding: '8rem 2rem', maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
