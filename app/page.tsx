@@ -490,6 +490,19 @@ export default function Home() {
         </div>
       </section>
 
+      {/* BIO-AGE CALCULATOR — medical hook */}
+      <section ref={addReveal as any} className="section-reveal" style={{ padding: '6rem 2rem', textAlign: 'center', background: 'radial-gradient(ellipse at center, rgba(61,200,152,0.08) 0%, transparent 65%)', borderTop: '1px solid rgba(61,200,152,0.12)', borderBottom: '1px solid rgba(61,200,152,0.12)' }}>
+        <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>🧬</div>
+        <div style={{ fontSize: '0.75rem', letterSpacing: '0.3em', color: '#3DC898', textTransform: 'uppercase', marginBottom: '1rem' }}>Gratis · Respaldado por la ciencia</div>
+        <h2 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(2rem, 5.5vw, 3.4rem)', fontWeight: 300, marginBottom: '1rem' }}>¿Cuál es tu edad biológica real?</h2>
+        <p style={{ fontSize: '1.08rem', color: 'rgba(240,232,216,0.7)', maxWidth: 600, margin: '0 auto 2.2rem', lineHeight: 1.8 }}>
+          Tu cuerpo tiene dos edades: la del calendario y la real. Descúbrela en 2 minutos con una evaluación de longevidad basada en marcadores validados, bajo el lente clínico del Dr. Michael J. Meighen, MD — y recibe tu reporte personalizado.
+        </p>
+        <Link href="/bio-age" style={{ background: 'linear-gradient(135deg, #3DC898, #C9963C)', color: '#06201a', padding: '1.1rem 2.8rem', borderRadius: '2px', textDecoration: 'none', fontSize: '0.85rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', display: 'inline-block' }}>
+          Calcular mi edad biológica →
+        </Link>
+      </section>
+
       {/* THERAPIES */}
       <section id="therapies" ref={addReveal as any} className="section-reveal" style={{ padding: '8rem 2rem', maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
