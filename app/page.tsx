@@ -144,11 +144,11 @@ export default function Home() {
         padding: '120px 2rem 4rem', textAlign: 'center', position: 'relative',
         background: 'radial-gradient(ellipse at center top, rgba(201,150,60,0.08) 0%, transparent 60%)'
       }}>
-        {/* Hero — large floating logo (Vesica circles removed per brand direction) */}
-        <div className="animate-logo-float" style={{ display: 'inline-block', marginBottom: '2.5rem' }}>
+        {/* Hero — floating solid-gold logo (Vesica circles removed per brand direction) */}
+        <div className="animate-logo-float" style={{ display: 'inline-block', marginBottom: '2.25rem' }}>
           <img src="/logo-alchemized.png" alt="Alchemized BioHealing Institute" style={{
-            width: 'clamp(340px, 66vw, 660px)', maxWidth: '92vw', height: 'auto', display: 'block',
-            filter: 'drop-shadow(0 0 44px rgba(201,150,60,0.42))'
+            width: 'clamp(240px, 50vw, 470px)', maxWidth: '88vw', height: 'auto', display: 'block',
+            filter: 'drop-shadow(0 0 30px rgba(201,150,60,0.35))'
           }} />
         </div>
         <div style={{
@@ -439,66 +439,31 @@ export default function Home() {
       {/* SIGNATURE IV COLLECTION */}
       <IVMenu />
 
-      {/* LYRA — BELLA'S SPIRITUAL SPACE */}
-      <section id="lyra" ref={addReveal as any} className="section-reveal" style={{ padding: '7rem 2rem', textAlign: 'center', background: 'radial-gradient(ellipse at center, rgba(224,96,144,0.07) 0%, transparent 65%)', position: 'relative', overflow: 'hidden' }}>
-        {/* Floating particles of light */}
-        <div aria-hidden="true" style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
-          {Array.from({ length: 24 }).map((_, i) => {
-            const size = 2 + (i % 5)
-            return <span key={i} style={{
-              position: 'absolute', borderRadius: '50%', width: `${size}px`, height: `${size}px`,
-              left: `${(i * 37) % 100}%`, bottom: `${(i * 53) % 60}%`,
-              background: 'radial-gradient(circle, rgba(240,232,216,0.9), rgba(224,96,144,0.2) 60%, transparent)',
-              animation: `particleFloat ${7 + (i % 6)}s linear ${-(i * 0.7)}s infinite`,
-            }} />
-          })}
+      {/* PUBLIC TOOLS — Soul Assessment (Bella) + Biological Age (Dr. Meighen) */}
+      <section id="tools" ref={addReveal as any} className="section-reveal" style={{ padding: '7rem 2rem', maxWidth: '1100px', margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
+          <div style={{ fontSize: '0.75rem', letterSpacing: '0.3em', color: '#C9963C', textTransform: 'uppercase', marginBottom: '1rem' }}>Begin Your Journey · Free</div>
+          <h2 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(2rem, 5.5vw, 3.4rem)', fontWeight: 300 }}>Two ways to begin</h2>
+          <p style={{ color: 'rgba(240,232,216,0.65)', marginTop: '1rem', maxWidth: 560, margin: '1rem auto 0', lineHeight: 1.8 }}>Start with the soul or with the science — both paths lead to the same place: a deeper understanding of you.</p>
         </div>
-        <div style={{ position: 'relative', zIndex: 1 }}>
-        <div style={{ fontSize: '1.4rem', color: '#C9963C', marginBottom: '0.75rem' }}>✧ ⋆ ˚ ☾ ˚ ⋆ ✧</div>
-        <div style={{ fontSize: '0.75rem', letterSpacing: '0.3em', color: '#E06090', textTransform: 'uppercase', marginBottom: '1rem' }}>Holistic Wisdom · Bella&rsquo;s Space</div>
-        <h2 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(2.2rem, 6vw, 4rem)', fontWeight: 300, letterSpacing: '0.2em', marginBottom: '1rem', background: 'linear-gradient(135deg, #F0E8D8, #C9963C, #E06090)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-          Meet Lyra
-        </h2>
-        <p style={{ fontSize: '1.08rem', color: 'rgba(240,232,216,0.7)', maxWidth: 600, margin: '0 auto 2.5rem', lineHeight: 1.8 }}>
-          An interactive space of holistic wisdom that reads your body, your patterns and your unconscious — and gives you a deep map of your soul. Where neuroscience and the soul speak with one voice.
-        </p>
-        <Link href="/lyra" style={{ background: 'linear-gradient(135deg, #C9963C, #E06090)', color: '#1a1020', padding: '1rem 2.75rem', borderRadius: '2px', textDecoration: 'none', fontSize: '0.85rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase' }}>
-          Enter Lyra&rsquo;s Space →
-        </Link>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.6rem', alignItems: 'stretch' }}>
+          {/* Bella — Soul Assessment */}
+          <div style={{ display: 'flex', flexDirection: 'column', background: 'linear-gradient(165deg, rgba(224,96,144,0.09), rgba(13,13,13,0.5))', border: '1px solid rgba(224,96,144,0.3)', borderRadius: '10px', padding: '2.4rem 2rem', textAlign: 'center' }}>
+            <div style={{ fontSize: '1.4rem', color: '#E06090', marginBottom: '0.6rem' }}>✧ ⋆ ˚ ☾ ˚ ⋆ ✧</div>
+            <div style={{ fontSize: '0.7rem', letterSpacing: '0.26em', color: '#E06090', textTransform: 'uppercase', marginBottom: '0.6rem' }}>With Holistic Bella</div>
+            <h3 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '1.9rem', fontWeight: 300, marginBottom: '0.8rem', color: '#F0E8D8' }}>The Soul Assessment</h3>
+            <p style={{ fontSize: '0.95rem', color: 'rgba(240,232,216,0.72)', lineHeight: 1.75, marginBottom: '1.8rem', flex: 1 }}>A free, intuitive reading of your inner world — your patterns, your energy, and what your body and soul are asking for. The gentle first step into Bella&rsquo;s holistic path.</p>
+            <Link href="/assessment" style={{ background: 'linear-gradient(135deg, #C9963C, #E06090)', color: '#1a1020', padding: '0.95rem 2rem', borderRadius: '2px', textDecoration: 'none', fontSize: '0.82rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase' }}>Begin the Soul Assessment →</Link>
+          </div>
+          {/* Dr. Meighen — Biological Age */}
+          <div style={{ display: 'flex', flexDirection: 'column', background: 'linear-gradient(165deg, rgba(61,200,152,0.09), rgba(13,13,13,0.5))', border: '1px solid rgba(61,200,152,0.3)', borderRadius: '10px', padding: '2.4rem 2rem', textAlign: 'center' }}>
+            <div style={{ fontSize: '1.4rem', color: '#3DC898', marginBottom: '0.6rem' }}>◎ ⋆ ˚ ⚕ ˚ ⋆ ◎</div>
+            <div style={{ fontSize: '0.7rem', letterSpacing: '0.26em', color: '#3DC898', textTransform: 'uppercase', marginBottom: '0.6rem' }}>With Dr. Meighen, MD</div>
+            <h3 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '1.9rem', fontWeight: 300, marginBottom: '0.8rem', color: '#F0E8D8' }}>Your Biological Age</h3>
+            <p style={{ fontSize: '0.95rem', color: 'rgba(240,232,216,0.72)', lineHeight: 1.75, marginBottom: '1.8rem', flex: 1 }}>Your body has two ages — the calendar&rsquo;s and the real one. Discover yours in 2 minutes with a longevity assessment based on validated markers, and receive a personalized report through Dr. Meighen&rsquo;s clinical lens.</p>
+            <Link href="/bio-age" style={{ background: 'linear-gradient(135deg, #3DC898, #C9963C)', color: '#06201a', padding: '0.95rem 2rem', borderRadius: '2px', textDecoration: 'none', fontSize: '0.82rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase' }}>Calculate my biological age →</Link>
+          </div>
         </div>
-      </section>
-
-      {/* ORION — DOCTOR'S CLINICAL INTELLIGENCE */}
-      <section id="orion" ref={addReveal as any} className="section-reveal" style={{ padding: '7rem 2rem', textAlign: 'center', background: 'radial-gradient(ellipse at center, rgba(61,200,152,0.07) 0%, transparent 65%)', borderTop: '1px solid rgba(201,150,60,0.1)' }}>
-        <div style={{ fontSize: '1.4rem', color: '#3DC898', marginBottom: '0.75rem' }}>◎ ⋆ ˚ ⚕ ˚ ⋆ ◎</div>
-        <div style={{ fontSize: '0.75rem', letterSpacing: '0.3em', color: '#3DC898', textTransform: 'uppercase', marginBottom: '1rem' }}>Medical Intelligence · Dr. Meighen&rsquo;s Space</div>
-        <h2 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(2.2rem, 6vw, 4rem)', fontWeight: 300, letterSpacing: '0.2em', marginBottom: '1rem', background: 'linear-gradient(135deg, #F0E8D8, #C9963C, #3DC898)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-          Meet Orion
-        </h2>
-        <p style={{ fontSize: '1.08rem', color: 'rgba(240,232,216,0.7)', maxWidth: 620, margin: '0 auto 2.5rem', lineHeight: 1.8 }}>
-          Orion is the clinical brain of the practice — Dr. Meighen&rsquo;s precision-medicine intelligence. It reads your labs and patient data, checks drug interactions against your full regimen, builds regenerative &amp; longevity protocols, and grounds every answer in real medical evidence. The science half of the alchemy.
-        </p>
-        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <a href="https://orion-danae.netlify.app/orion" target="_blank" rel="noopener noreferrer" style={{ background: 'linear-gradient(135deg, #3DC898, #2BB892)', color: '#062018', padding: '1rem 2.5rem', borderRadius: '2px', textDecoration: 'none', fontSize: '0.85rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-            Clinician / Member Access →
-          </a>
-          <Link href="/about/meighen" style={{ background: 'transparent', color: '#3DC898', padding: '1rem 2.5rem', border: '1px solid #3DC898', borderRadius: '2px', textDecoration: 'none', fontSize: '0.85rem', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-            Dr. Meighen&rsquo;s Story
-          </Link>
-        </div>
-      </section>
-
-      {/* BIO-AGE CALCULATOR — medical hook */}
-      <section ref={addReveal as any} className="section-reveal" style={{ padding: '6rem 2rem', textAlign: 'center', background: 'radial-gradient(ellipse at center, rgba(61,200,152,0.08) 0%, transparent 65%)', borderTop: '1px solid rgba(61,200,152,0.12)', borderBottom: '1px solid rgba(61,200,152,0.12)' }}>
-        <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>🧬</div>
-        <div style={{ fontSize: '0.75rem', letterSpacing: '0.3em', color: '#3DC898', textTransform: 'uppercase', marginBottom: '1rem' }}>Free · Backed by science</div>
-        <h2 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(2rem, 5.5vw, 3.4rem)', fontWeight: 300, marginBottom: '1rem' }}>What is your real biological age?</h2>
-        <p style={{ fontSize: '1.08rem', color: 'rgba(240,232,216,0.7)', maxWidth: 600, margin: '0 auto 2.2rem', lineHeight: 1.8 }}>
-          Your body has two ages: the one on the calendar and the real one. Discover it in 2 minutes with a longevity assessment based on validated markers, through the clinical lens of Dr. Michael J. Meighen, MD — and receive your personalized report.
-        </p>
-        <Link href="/bio-age" style={{ background: 'linear-gradient(135deg, #3DC898, #C9963C)', color: '#06201a', padding: '1.1rem 2.8rem', borderRadius: '2px', textDecoration: 'none', fontSize: '0.85rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', display: 'inline-block' }}>
-          Calculate my biological age →
-        </Link>
       </section>
 
       {/* DISCSEEL — regenerative spine procedure (bilingual EN/ES) */}
@@ -666,7 +631,7 @@ export default function Home() {
             </div>
             <div style={{ flex: 1, minWidth: '150px' }}>
               <div style={{ fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C9963C', marginBottom: '1rem' }}>Navigate</div>
-              {[['Lyra · Soul Space', '/lyra'], ['Retreats · Samaná', '/retreats'], ['Assessment', '/assessment'], ['Book a Session', '/booking']].map(([label, href]) => (
+              {[['Soul Assessment', '/assessment'], ['Biological Age', '/bio-age'], ['Retreats · Samaná', '/retreats'], ['Book a Session', '/booking']].map(([label, href]) => (
                 <Link key={href} href={href} style={{ display: 'block', fontSize: '0.85rem', color: 'rgba(240,232,216,0.5)', textDecoration: 'none', marginBottom: '0.5rem' }}>{label}</Link>
               ))}
             </div>
