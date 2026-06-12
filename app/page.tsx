@@ -322,24 +322,25 @@ export default function Home() {
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.5rem' }}>
           {[
-            { icon: '🔬', title: 'Precision Medicine', desc: 'Root-cause diagnostics & personalized protocols' },
-            { icon: '🧪', title: 'Advanced Diagnostics', desc: 'Epigenetic testing, hormone panels, microbiome' },
-            { icon: '💉', title: 'IV Therapy', desc: 'NAD+, Glutathione, B12, Beauty & Longevity drips' },
-            { icon: '🌀', title: 'Spiritual Healing', desc: 'Reiki, chakra balancing, somatic release' },
-            { icon: '🌿', title: 'Herbalism & Nature', desc: 'Ancestral plant medicine & natural remedies' },
-            { icon: '🔥', title: 'Retreats & Ceremonies', desc: 'Sacred ceremonies & luxury healing experiences' },
-            { icon: '💊', title: 'Regenerative Wellness', desc: 'Peptide therapy, longevity & performance' },
-            { icon: '👑', title: 'Luxury Concierge', desc: 'Private, personalized wellness journeys' },
+            { icon: '🔬', title: 'Precision Medicine', desc: 'Root-cause diagnostics & personalized protocols', href: '/about/meighen' },
+            { icon: '🧪', title: 'Advanced Diagnostics', desc: 'Epigenetic testing, hormone panels, microbiome', href: '/about/meighen' },
+            { icon: '💉', title: 'IV Therapy', desc: 'NAD+, Glutathione, B12, Beauty & Longevity drips', href: '/about/meighen' },
+            { icon: '🌀', title: 'Spiritual Healing', desc: 'Reiki, chakra balancing, somatic release', href: '/about/bella' },
+            { icon: '🌿', title: 'Herbalism & Nature', desc: 'Ancestral plant medicine & natural remedies', href: '/about/bella' },
+            { icon: '🔥', title: 'Retreats & Ceremonies', desc: 'Sacred ceremonies & luxury healing experiences', href: '/retreats' },
+            { icon: '🌱', title: 'Regenerative Wellness', desc: 'Peptide therapy, longevity & performance', href: '/about/meighen' },
+            { icon: '👑', title: 'Luxury Concierge', desc: 'Private, personalized wellness journeys', href: '/booking' },
           ].map((service) => (
-            <div key={service.title}
-              style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(201,150,60,0.15)', borderRadius: '4px', padding: '2rem', transition: 'border-color 0.3s, background 0.3s', cursor: 'default' }}
-              onMouseEnter={e => { const d = e.currentTarget as HTMLDivElement; d.style.borderColor = 'rgba(201,150,60,0.5)'; d.style.background = 'rgba(201,150,60,0.05)' }}
-              onMouseLeave={e => { const d = e.currentTarget as HTMLDivElement; d.style.borderColor = 'rgba(201,150,60,0.15)'; d.style.background = 'rgba(255,255,255,0.03)' }}
+            <Link key={service.title} href={service.href}
+              style={{ display: 'block', textDecoration: 'none', color: 'inherit', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(201,150,60,0.15)', borderRadius: '4px', padding: '2rem', transition: 'border-color 0.3s, background 0.3s, transform 0.2s', cursor: 'pointer' }}
+              onMouseEnter={e => { const d = e.currentTarget as HTMLAnchorElement; d.style.borderColor = 'rgba(201,150,60,0.5)'; d.style.background = 'rgba(201,150,60,0.05)'; d.style.transform = 'translateY(-3px)' }}
+              onMouseLeave={e => { const d = e.currentTarget as HTMLAnchorElement; d.style.borderColor = 'rgba(201,150,60,0.15)'; d.style.background = 'rgba(255,255,255,0.03)'; d.style.transform = 'translateY(0)' }}
             >
               <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>{service.icon}</div>
               <h3 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '1.3rem', color: '#C9963C', marginBottom: '0.5rem' }}>{service.title}</h3>
-              <p style={{ fontSize: '0.85rem', color: 'rgba(240,232,216,0.6)', lineHeight: 1.6 }}>{service.desc}</p>
-            </div>
+              <p style={{ fontSize: '0.85rem', color: 'rgba(240,232,216,0.6)', lineHeight: 1.6, marginBottom: '0.85rem' }}>{service.desc}</p>
+              <span style={{ fontSize: '0.72rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#C9963C', opacity: 0.85 }}>Learn more →</span>
+            </Link>
           ))}
         </div>
       </section>
