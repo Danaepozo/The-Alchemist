@@ -3,7 +3,7 @@ import Link from 'next/link'
 import AboutShell from '@/components/AboutShell'
 
 export const metadata: Metadata = {
-  title: 'Dr. Michael J. Meighen, MD — Regenerative Medicine & Longevity | Project Alchemy',
+  title: 'Dr. Michael J. Meighen — Regenerative Medicine & Longevity | Project Alchemy',
   description: 'Board-certified specialist in Physical Medicine, Rehabilitation, and Pain Medicine. Expert in regenerative medicine, PRP, stem cells, hormone optimization, and longevity protocols.',
   keywords: 'Dr. Michael Meighen, regenerative medicine, PRP, stem cell therapy, peptide therapy, longevity, hormone replacement, pain management, livelimitlessmd',
 }
@@ -34,10 +34,10 @@ export default function MeighenPage() {
       {/* 1 — HERO */}
       <header style={{ minHeight: '92vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '5rem 1.5rem 3rem', background: 'radial-gradient(ellipse at 50% 28%, rgba(61,200,152,0.16) 0%, transparent 58%), radial-gradient(ellipse at 50% 100%, rgba(201,150,60,0.10) 0%, transparent 60%), #03080a' }}>
         <div className="animate-fade-in-up" style={{ ...eyebrow(TEAL), marginBottom: '1.75rem' }}>Orion · Project Alchemy</div>
-        <h1 className="animate-fade-in-up" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(2.6rem, 9.5vw, 6.2rem)', fontWeight: 300, lineHeight: 1.02, letterSpacing: '0.02em', margin: 0, background: 'linear-gradient(135deg, #F0E8D8 0%, #C9963C 45%, #3DC898 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+        <h1 className="animate-fade-in-up" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(2.6rem, 9.5vw, 6.2rem)', fontWeight: 300, lineHeight: 1.16, paddingBottom: '0.12em', letterSpacing: '0.02em', margin: 0, background: 'linear-gradient(135deg, #F0E8D8 0%, #C9963C 45%, #3DC898 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
           Dr. Michael J. Meighen
         </h1>
-        <p className="animate-fade-in-up" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: 'clamp(1.2rem, 3.2vw, 1.8rem)', color: TEAL, marginTop: '0.85rem' }}>MD · Pain Disruptor · Longevity Architect</p>
+        <p className="animate-fade-in-up" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: 'clamp(1.2rem, 3.2vw, 1.8rem)', color: TEAL, marginTop: '0.85rem' }}>Pain Disruptor · Longevity Architect</p>
         <p style={{ marginTop: '2.25rem', fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: 'clamp(1.05rem, 2.5vw, 1.35rem)', color: 'rgba(240,232,216,0.85)', maxWidth: 580, lineHeight: 1.5 }}>
           &ldquo;From ground zero to superhero. From human doing to human being.&rdquo;
         </p>
@@ -174,13 +174,18 @@ export default function MeighenPage() {
         </p>
       </section>
 
-      {/* 9 — CTA */}
-      <section style={{ ...section, maxWidth: 720 }}>
-        <div style={{ background: 'linear-gradient(160deg, rgba(61,200,152,0.1), rgba(201,150,60,0.06))', border: '1px solid rgba(201,150,60,0.3)', borderRadius: 14, padding: 'clamp(2.5rem, 6vw, 4rem)', textAlign: 'center' }}>
-          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(1.4rem, 3.5vw, 2rem)', fontWeight: 300, color: CREAM, marginBottom: '2rem' }}>From ground zero to superhero. The path begins with a decision.</p>
+      {/* 9 — ORION (the doctor's clinical intelligence — hosted here, on his page) */}
+      <section style={{ ...section, maxWidth: 880 }}>
+        <div style={{ background: 'radial-gradient(ellipse at top, rgba(61,200,152,0.10), transparent 65%), rgba(255,255,255,0.02)', border: '1px solid rgba(61,200,152,0.28)', borderRadius: 16, padding: 'clamp(2.5rem, 6vw, 3.5rem)', textAlign: 'center' }}>
+          <div style={{ fontSize: '1.4rem', color: TEAL, marginBottom: '0.6rem' }}>◎ ⋆ ˚ ⚕ ˚ ⋆ ◎</div>
+          <div style={{ ...eyebrow(TEAL), marginBottom: '0.8rem' }}>Orion · Dr. Meighen&rsquo;s Clinical Intelligence</div>
+          <h2 style={{ ...h2, color: CREAM, marginBottom: '1.25rem' }}>Meet Orion</h2>
+          <p style={{ ...body, maxWidth: 640, margin: '0 auto 2rem' }}>
+            Orion is the clinical brain of the practice — Dr. Meighen&rsquo;s precision-medicine intelligence. It reads labs and patient data, checks drug interactions against the full regimen, builds regenerative &amp; longevity protocols, and grounds every answer in real medical evidence. <strong style={{ color: TEAL }}>For clinicians and members only.</strong>
+          </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/#orion" style={{ background: `linear-gradient(135deg, ${GOLD}, #E4B85A)`, color: '#000', padding: '1rem 2.5rem', borderRadius: 2, textDecoration: 'none', fontSize: '0.85rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase' }}>Meet Orion</Link>
-            <Link href="/booking" style={{ background: 'transparent', color: TEAL, padding: '1rem 2.5rem', border: `1px solid ${TEAL}`, borderRadius: 2, textDecoration: 'none', fontSize: '0.85rem', letterSpacing: '0.12em', textTransform: 'uppercase' }}>Book Your Consultation</Link>
+            <a href="https://orion-danae.netlify.app/orion" target="_blank" rel="noopener noreferrer" style={{ background: `linear-gradient(135deg, ${TEAL}, #2BB892)`, color: '#062018', padding: '1rem 2.5rem', borderRadius: 2, textDecoration: 'none', fontSize: '0.85rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase' }}>Enter Orion · Clinician Access →</a>
+            <Link href="/booking" style={{ background: 'transparent', color: GOLD, padding: '1rem 2.5rem', border: `1px solid ${GOLD}`, borderRadius: 2, textDecoration: 'none', fontSize: '0.85rem', letterSpacing: '0.12em', textTransform: 'uppercase' }}>Book Your Consultation</Link>
           </div>
         </div>
       </section>

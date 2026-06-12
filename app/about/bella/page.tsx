@@ -23,7 +23,7 @@ export default function BellaPage() {
       {/* 1 — HERO */}
       <header style={{ minHeight: '92vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '5rem 1.5rem 3rem', background: 'radial-gradient(ellipse at 50% 28%, rgba(224,96,144,0.16) 0%, transparent 58%), radial-gradient(ellipse at 50% 100%, rgba(201,150,60,0.10) 0%, transparent 60%), #050308' }}>
         <div className="animate-fade-in-up" style={{ ...eyebrow(ROSE), marginBottom: '1.75rem' }}>Lyra · Project Alchemy</div>
-        <h1 className="animate-fade-in-up" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(3rem, 11vw, 7rem)', fontWeight: 300, lineHeight: 1, letterSpacing: '0.02em', margin: 0, background: 'linear-gradient(135deg, #F0E8D8 0%, #C9963C 45%, #E06090 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+        <h1 className="animate-fade-in-up" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(3rem, 11vw, 7rem)', fontWeight: 300, lineHeight: 1.14, paddingBottom: '0.1em', letterSpacing: '0.02em', margin: 0, background: 'linear-gradient(135deg, #F0E8D8 0%, #C9963C 45%, #E06090 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
           Blenedy Vargas
         </h1>
         <p className="animate-fade-in-up" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: 'clamp(1.3rem, 3.5vw, 1.9rem)', color: ROSE, marginTop: '0.75rem' }}>Holistic Bella<sup style={{ fontSize: '0.6em' }}>®</sup></p>

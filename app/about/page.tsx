@@ -26,7 +26,7 @@ export default function AboutPage() {
         <div style={{ fontSize: '0.75rem', letterSpacing: '0.3em', color: '#C9963C', textTransform: 'uppercase', marginBottom: '1rem' }}>About the Institute</div>
         <h1 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(2.2rem, 6vw, 3.6rem)', fontWeight: 300, lineHeight: 1.15, marginBottom: '1.5rem' }}>Where Science Meets Soul</h1>
         <p style={{ fontSize: '1.08rem', color: 'rgba(240,232,216,0.72)', lineHeight: 1.85 }}>
-          Alchemized BioHealing Institute is a longevity and regenerative-medicine sanctuary in Coral Gables, Miami — the fusion of <strong style={{ color: '#3DC898' }}>Dr. Michael J. Meighen, MD</strong> and holistic practitioner <strong style={{ color: '#E06090' }}>Bella Vargas</strong>. We blend precision medicine with sacred, ancestral healing so that body and soul are treated as one. Proactive, not reactive. Evidence-based, beyond the allopathic. Designed to maximize not just your lifespan, but your <em>healthspan</em> and vitality.
+          Alchemized BioHealing Institute is a longevity and regenerative-medicine sanctuary in Coral Gables, Miami — the fusion of <strong style={{ color: '#3DC898' }}>Dr. Michael J. Meighen</strong> and holistic practitioner <strong style={{ color: '#E06090' }}>Bella Vargas</strong>. We blend precision medicine with sacred, ancestral healing so that body and soul are treated as one. Proactive, not reactive. Evidence-based, beyond the allopathic. Designed to maximize not just your lifespan, but your <em>healthspan</em> and vitality.
         </p>
       </section>
 

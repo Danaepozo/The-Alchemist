@@ -56,7 +56,7 @@ export default function Page() {
           Recharge at the cellular level with <strong style={{ color: '#E4B85A' }}>NAD+ IV therapy in Miami</strong> at Alchemized BioHealing Institute in Coral Gables. Our preservative-free, physician-formulated NAD+ and longevity drips support energy, mental clarity, recovery and healthy aging — where vanguard science meets the soul.
         </p>
         <p style={{ fontSize: '1rem', lineHeight: 1.8, color: 'rgba(240,232,216,0.7)', marginBottom: '2.5rem' }}>
-          Part of our <Link href="/#ivs" style={{ color: '#C9963C' }}>Signature IV Collection</Link>, every drip is crafted by Dr. Michael J. Meighen, MD and Holistic Bella Vargas and includes our secret homeopathic blend. Active members receive 30% off all services.
+          Part of our <Link href="/#ivs" style={{ color: '#C9963C' }}>Signature IV Collection</Link>, every drip is crafted by Dr. Michael J. Meighen and Holistic Bella Vargas and includes our secret homeopathic blend. Active members receive 30% off all services.
         </p>
 
         <h2 style={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 400, fontSize: '1.9rem', color: '#C9963C', margin: '2rem 0 1rem' }}>NAD+ &amp; longevity drips we offer</h2>

@@ -28,7 +28,7 @@ export default function Home() {
         </div>
         <p style={{ fontSize: '1.05rem', color: 'rgba(240,232,216,0.65)', marginBottom: '3rem', maxWidth: '600px', lineHeight: 1.8 }}>
           Where vanguard science meets the soul — an integral healing of body &amp; soul.<br />
-          <span style={{ color: 'rgba(240,232,216,0.45)', fontSize: '0.92rem' }}>By Holistic Bella Vargas &amp; Dr. Michael J. Meighen, MD · Miami</span>
+          <span style={{ color: 'rgba(240,232,216,0.45)', fontSize: '0.92rem' }}>By Holistic Bella Vargas &amp; Dr. Michael J. Meighen · Miami</span>
         </p>
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
           <Link href="/assessment" style={{ background: 'linear-gradient(135deg, #C9963C, #E4B85A)', color: '#000', padding: '1rem 2.5rem', borderRadius: '2px', textDecoration: 'none', fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase' }}>Begin Your Assessment</Link>
@@ -70,7 +70,7 @@ export default function Home() {
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', background: 'linear-gradient(165deg, rgba(61,200,152,0.09), rgba(13,13,13,0.5))', border: '1px solid rgba(61,200,152,0.3)', borderRadius: '10px', padding: '2.4rem 2rem', textAlign: 'center' }}>
             <div style={{ fontSize: '1.4rem', color: '#3DC898', marginBottom: '0.6rem' }}>◎ ⋆ ˚ ⚕ ˚ ⋆ ◎</div>
-            <div style={{ fontSize: '0.7rem', letterSpacing: '0.26em', color: '#3DC898', textTransform: 'uppercase', marginBottom: '0.6rem' }}>With Dr. Meighen, MD</div>
+            <div style={{ fontSize: '0.7rem', letterSpacing: '0.26em', color: '#3DC898', textTransform: 'uppercase', marginBottom: '0.6rem' }}>With Dr. Meighen</div>
             <h3 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '1.9rem', fontWeight: 300, marginBottom: '0.8rem', color: '#F0E8D8' }}>Your Biological Age</h3>
             <p style={{ fontSize: '0.95rem', color: 'rgba(240,232,216,0.72)', lineHeight: 1.75, marginBottom: '1.8rem', flex: 1 }}>Your body has two ages — the calendar&rsquo;s and the real one. Discover yours in 2 minutes with a longevity assessment based on validated markers, and receive a personalized report through Dr. Meighen&rsquo;s clinical lens.</p>
             <Link href="/bio-age" style={{ background: 'linear-gradient(135deg, #3DC898, #C9963C)', color: '#06201a', padding: '0.95rem 2rem', borderRadius: '2px', textDecoration: 'none', fontSize: '0.82rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase' }}>Calculate my biological age →</Link>

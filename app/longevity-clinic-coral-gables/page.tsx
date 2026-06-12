@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 const FAQ = [
   { q: 'What does a longevity clinic do?', a: 'A longevity clinic focuses on extending your healthspan — the years you live in vibrant health — not just lifespan. At Alchemized BioHealing Institute we use advanced diagnostics, regenerative and functional medicine, hormone and metabolic optimization, peptides, IV therapy and biohacking, woven together with spiritual and nervous-system healing.' },
   { q: 'Where is your longevity clinic in Coral Gables?', a: 'We are located at 2970 Coral Way, Miami, FL 33145 (Centner Wellness, Coral Gables). Call +1 (305) 305-3820 to book a longevity consultation. We welcome you in English and Spanish.' },
-  { q: 'Who leads the longevity program?', a: 'Dr. Michael J. Meighen, MD — double board-certified with 25+ years and the #1 Amazon best-seller "A New You" — leads the clinical longevity program, alongside Holistic Bella Vargas for spiritual and energy healing.' },
+  { q: 'Who leads the longevity program?', a: 'Dr. Michael J. Meighen — double board-certified with 25+ years and the #1 Amazon best-seller "A New You" — leads the clinical longevity program, alongside Holistic Bella Vargas for spiritual and energy healing.' },
 ]
 
 export default function Page() {
@@ -59,7 +59,7 @@ export default function Page() {
           Alchemized BioHealing Institute is a <strong style={{ color: '#E4B85A' }}>longevity clinic in Coral Gables, Miami</strong> where regenerative and functional medicine meet sacred, ancestral healing. We help you maximize your <em>healthspan</em> — not just your lifespan — through proactive, evidence-based, deeply personal care.
         </p>
         <p style={{ fontSize: '1rem', lineHeight: 1.8, color: 'rgba(240,232,216,0.7)', marginBottom: '2.5rem' }}>
-          Led by Dr. Michael J. Meighen, MD and Holistic Bella Vargas, our programs combine advanced diagnostics, hormone and metabolic optimization, peptides, <Link href="/nad-iv-therapy-miami" style={{ color: '#C9963C' }}>NAD+ IV therapy</Link>, red light, cold plunge and infrared sauna with breathwork and nervous-system regulation.
+          Led by Dr. Michael J. Meighen and Holistic Bella Vargas, our programs combine advanced diagnostics, hormone and metabolic optimization, peptides, <Link href="/nad-iv-therapy-miami" style={{ color: '#C9963C' }}>NAD+ IV therapy</Link>, red light, cold plunge and infrared sauna with breathwork and nervous-system regulation.
         </p>
 
         <h2 style={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 400, fontSize: '1.9rem', color: '#C9963C', margin: '2rem 0 1rem' }}>What our longevity programs include</h2>

@@ -14,7 +14,7 @@ type Lang = 'en' | 'es'
 const UI = {
   en: {
     title: 'What is your biological age?',
-    subtitle: 'Your body has two ages: the calendar one and the real one. Discover it in 2 minutes — through the clinical lens of Dr. Michael J. Meighen, MD.',
+    subtitle: 'Your body has two ages: the calendar one and the real one. Discover it in 2 minutes — through the clinical lens of Dr. Michael J. Meighen.',
     drRole: 'Medical Director · Regenerative Medicine & Longevity',
     creds: [
       'Double board-certified — Physical Medicine & Rehabilitation and Pain Medicine',
@@ -37,7 +37,7 @@ const UI = {
   },
   es: {
     title: '¿Cuál es tu edad biológica?',
-    subtitle: 'Tu cuerpo tiene dos edades: la del calendario y la real. Descúbrela en 2 minutos — con el lente clínico del Dr. Michael J. Meighen, MD.',
+    subtitle: 'Tu cuerpo tiene dos edades: la del calendario y la real. Descúbrela en 2 minutos — con el lente clínico del Dr. Michael J. Meighen.',
     drRole: 'Director Médico · Medicina Regenerativa & Longevidad',
     creds: [
       'Doble board-certified — Medicina Física & Rehabilitación y Medicina del Dolor',
@@ -162,7 +162,7 @@ export default function BioAgePage() {
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap', background: 'rgba(61,200,152,0.06)', border: '1px solid rgba(61,200,152,0.25)', borderRadius: 14, padding: '1.1rem 1.25rem', marginBottom: '1.8rem' }}>
           <div style={{ width: 62, height: 62, flexShrink: 0, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'radial-gradient(circle at 50% 35%, #122a23, #060d0b)', boxShadow: '0 0 0 1px rgba(61,200,152,0.5), 0 0 22px rgba(61,200,152,0.3)', fontFamily: 'Cormorant Garamond, serif', fontSize: '1.8rem', color: CREAM }}>M</div>
           <div style={{ flex: '1 1 240px' }}>
-            <div style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '1.4rem', color: GOLDL, lineHeight: 1.1 }}>Dr. Michael J. Meighen, MD</div>
+            <div style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '1.4rem', color: GOLDL, lineHeight: 1.1 }}>Dr. Michael J. Meighen</div>
             <div style={{ fontSize: '0.72rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: SAGE, margin: '0.25rem 0 0.6rem' }}>{tt.drRole}</div>
             <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gap: '0.28rem' }}>
               {tt.creds.map((c, i) => (
