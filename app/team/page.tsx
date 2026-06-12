@@ -16,11 +16,14 @@ export default function TeamPage() {
             Alchemized BioHealing Institute was not born in a boardroom. It was born from two very different stories that arrived at the same truth: <em>healing is whole only when science and soul move together.</em> Bella brings the breath, the ritual, the nervous system and the spirit. Michael brings the labs, the hormones, the regenerative science. Apart, each is powerful. <strong style={{ color: '#C9963C' }}>Together, they are the alchemy</strong> — body &amp; soul, transmuted into vitality.
           </p>
         </div>
+        <div style={{ maxWidth: 760, margin: '0 auto 3.5rem', borderRadius: 14, overflow: 'hidden', border: '1px solid rgba(201,150,60,0.3)', boxShadow: '0 20px 60px rgba(0,0,0,0.5)' }}>
+          <img src="/photos/duo.jpg" alt="Holistic Bella and Dr. Michael J. Meighen" style={{ width: '100%', height: 'auto', display: 'block' }} />
+        </div>
         <div style={{ display: 'flex', gap: '2rem', maxWidth: '1100px', margin: '0 auto', flexWrap: 'wrap', justifyContent: 'center' }}>
           {/* Bella Vargas */}
           <div style={{ flex: '1', minWidth: '320px', maxWidth: '500px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(201,150,60,0.2)', borderRadius: '4px', padding: '2.5rem', position: 'relative', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'linear-gradient(90deg, #E06090, #C9963C)' }} />
-            <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>🌿</div>
+            <img src="/photos/bella.jpg" alt="Holistic Bella" style={{ width: '100%', height: '320px', objectFit: 'cover', objectPosition: 'center top', borderRadius: '8px', marginBottom: '1.25rem', border: '1px solid rgba(224,96,144,0.3)' }} />
             <h2 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '1.8rem', fontWeight: 400, color: '#C9963C', marginBottom: '0.25rem' }}>Blenedy Vargas · &ldquo;Holistic Bella&rdquo;</h2>
             <p style={{ fontSize: '0.8rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#E06090', marginBottom: '1.25rem' }}>Co-Founder &amp; Holistic Director</p>
             <p style={{ fontSize: '0.92rem', color: 'rgba(240,232,216,0.72)', lineHeight: 1.75, marginBottom: '1.25rem' }}>
@@ -37,7 +40,7 @@ export default function TeamPage() {
           {/* Dr. Meighen */}
           <div style={{ flex: '1', minWidth: '320px', maxWidth: '500px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(201,150,60,0.2)', borderRadius: '4px', padding: '2.5rem', position: 'relative', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'linear-gradient(90deg, #3DC898, #C9963C)' }} />
-            <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>🔬</div>
+            <img src="/photos/meighen.jpg" alt="Dr. Michael J. Meighen" style={{ width: '100%', height: '320px', objectFit: 'cover', objectPosition: 'center top', borderRadius: '8px', marginBottom: '1.25rem', border: '1px solid rgba(61,200,152,0.3)' }} />
             <h2 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '1.8rem', fontWeight: 400, color: '#C9963C', marginBottom: '0.25rem' }}>Dr. Michael J. Meighen</h2>
             <p style={{ fontSize: '0.8rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#3DC898', marginBottom: '1.25rem' }}>Co-Founder &amp; Medical Director</p>
             <p style={{ fontSize: '0.92rem', color: 'rgba(240,232,216,0.72)', lineHeight: 1.75, marginBottom: '1.25rem' }}>

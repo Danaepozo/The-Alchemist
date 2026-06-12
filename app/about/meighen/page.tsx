@@ -46,6 +46,9 @@ export default function MeighenPage() {
 
       {/* 2 — INTRODUCTION */}
       <section style={section}>
+        <div style={{ width: 'min(360px, 80vw)', margin: '0 auto 2.5rem', borderRadius: 14, overflow: 'hidden', border: '1px solid rgba(61,200,152,0.35)', boxShadow: '0 20px 60px rgba(0,0,0,0.5)' }}>
+          <img src="/photos/meighen.jpg" alt="Dr. Michael J. Meighen" style={{ width: '100%', height: 'auto', display: 'block' }} />
+        </div>
         <p style={{ ...body, fontSize: '1.15rem', marginBottom: '1.75rem' }}>
           Dr. Michael J. Meighen is not a conventional physician. He is a disruptor. A longevity architect. A specialist who refuses to accept that the current &ldquo;sick-care&rdquo; model — where symptoms are treated and root causes are ignored — is the best medicine available.
         </p>

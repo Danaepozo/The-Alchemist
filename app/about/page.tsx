@@ -45,6 +45,9 @@ export default function AboutPage() {
       {/* Story teaser */}
       <section style={{ padding: '5rem 2rem', textAlign: 'center', background: 'rgba(255,255,255,0.02)', borderTop: '1px solid rgba(201,150,60,0.1)', borderBottom: '1px solid rgba(201,150,60,0.1)' }}>
         <div style={{ maxWidth: 720, margin: '0 auto' }}>
+          <div style={{ width: 'min(420px, 88vw)', margin: '0 auto 2.5rem', borderRadius: 14, overflow: 'hidden', border: '1px solid rgba(201,150,60,0.3)', boxShadow: '0 20px 60px rgba(0,0,0,0.5)' }}>
+            <img src="/photos/duo-portrait.jpg" alt="Holistic Bella and Dr. Michael J. Meighen" style={{ width: '100%', height: 'auto', display: 'block' }} />
+          </div>
           <h2 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(1.9rem, 5vw, 3rem)', fontWeight: 300, marginBottom: '1.25rem' }}>Two Healers. One Practice.</h2>
           <p style={{ color: 'rgba(240,232,216,0.7)', lineHeight: 1.8, fontSize: '1.02rem', marginBottom: '2.2rem' }}>
             It was born from two very different stories that arrived at the same truth: <em>healing is whole only when science and soul move together.</em>

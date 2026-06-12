@@ -35,6 +35,9 @@ export default function BellaPage() {
 
       {/* 2 — INTRODUCTION */}
       <section style={section}>
+        <div style={{ width: 'min(360px, 80vw)', margin: '0 auto 2.5rem', borderRadius: 14, overflow: 'hidden', border: '1px solid rgba(224,96,144,0.35)', boxShadow: '0 20px 60px rgba(0,0,0,0.5)' }}>
+          <img src="/photos/bella.jpg" alt="Holistic Bella" style={{ width: '100%', height: 'auto', display: 'block' }} />
+        </div>
         <p style={{ ...body, fontSize: '1.15rem', marginBottom: '1.75rem' }}>
           Blenedy Vargas, known internationally as <strong style={{ color: GOLD }}>Holistic Bella®</strong>, is a holistic wellness entrepreneur, spiritual guide, speaker, and founder of the <strong style={{ color: GOLD }}>Alchemized BioHealing Institute</strong> — a space born from one clear vision: that true healing happens when clinical science and ancestral wisdom stop being opposites and recognize themselves as two sides of the same medicine.
         </p>
@@ -163,6 +166,62 @@ export default function BellaPage() {
             &ldquo;True healing happens when a person aligns their body, mind, emotions, and spirit. Wellbeing is not the absence of illness — it is the capacity to feel alive, connected, and in harmony with oneself and with others.&rdquo;
           </p>
           <div style={{ marginTop: '1.75rem', ...eyebrow(ROSE) }}>— Holistic Bella</div>
+        </div>
+      </section>
+
+      {/* 8.5 — THE SOVEREIGN FREQUENCY SOCIETY (Bella's private coaching membership) */}
+      <section style={{ background: 'radial-gradient(ellipse at top, rgba(224,96,144,0.08), transparent 60%), #060309', borderTop: '1px solid rgba(201,150,60,0.12)', borderBottom: '1px solid rgba(201,150,60,0.12)' }}>
+        <div style={{ ...section, maxWidth: 1100 }}>
+          <div style={{ textAlign: 'center', marginBottom: '3rem', maxWidth: 720, marginInline: 'auto' }}>
+            <div style={{ ...eyebrow(ROSE), marginBottom: '0.9rem' }}>Private Coaching Membership</div>
+            <h2 style={{ ...h2, color: CREAM }}>The Sovereign Frequency Society<sup style={{ fontSize: '0.5em' }}>™</sup></h2>
+            <p style={{ ...body, marginTop: '1.1rem' }}>
+              A private coaching membership for emotionally intelligent leaders who want <strong style={{ color: GOLD }}>nervous-system mastery, spiritual alignment, wealth consciousness, relational stability</strong> and high-level execution.
+            </p>
+          </div>
+
+          {/* 4 pillars */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', marginBottom: '3rem' }}>
+            {[
+              ['01', 'Nervous System Sovereignty', 'Master calm under pressure.'],
+              ['02', 'Spiritual Alignment', 'Decisions from clarity, not fear.'],
+              ['03', 'Wealth Frequency', 'Money without contraction.'],
+              ['04', 'High-Performance Identity', 'Embody the version already succeeding.'],
+            ].map(([n, t, d], i) => (
+              <div key={i} style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(224,96,144,0.22)', borderRadius: 10, padding: '1.5rem' }}>
+                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.8rem', color: ROSE, lineHeight: 1 }}>{n}</div>
+                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.15rem', color: GOLD, margin: '0.5rem 0 0.3rem' }}>{t}</div>
+                <div style={{ fontSize: '0.85rem', color: 'rgba(240,232,216,0.6)', lineHeight: 1.5 }}>{d}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* 3 tiers */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.4rem' }}>
+            {[
+              { name: 'Tier I — The Inner Circle', price: '$111', per: '/month', featured: false, items: ['1 luxury live coaching session (15/30 min)', 'Monthly "Frequency Calibration" ritual', 'Weekly high-performance reflection prompts', 'Private curated community group chat', 'Guided nervous-system practices'] },
+              { name: 'Tier II — The Sovereign Suite', price: '$333', per: '/month', featured: true, items: ['Everything in the Inner Circle, plus 3 extra calls', 'Small-group strategy intensives', 'Monthly high-performance masterclass', 'Abundance & nervous-system integration module', 'Quarterly goal-recalibration ceremony', 'Early access to retreats'] },
+              { name: 'Tier III — The Private Council', price: '$1,111', per: '/month · limited to 8–10', featured: false, items: ['1:1 private session monthly', 'Personalized map for situations you need to navigate', 'Direct voice access for emotional recalibration', 'VIP retreat seating', 'Strategic manifestation — create your reality: love, abundance, wealth, health, happiness'] },
+            ].map((tier, i) => (
+              <div key={i} style={{ background: tier.featured ? 'linear-gradient(180deg, #1a0f16, #0a0509)' : 'rgba(255,255,255,0.02)', border: `1px solid ${tier.featured ? 'rgba(224,96,144,0.5)' : 'rgba(201,150,60,0.2)'}`, borderRadius: 10, padding: '2rem 1.75rem', position: 'relative', boxShadow: tier.featured ? '0 0 50px rgba(224,96,144,0.14)' : 'none' }}>
+                {tier.featured && <div style={{ position: 'absolute', top: '-12px', left: '50%', transform: 'translateX(-50%)', background: '#000', border: '1px solid rgba(224,96,144,0.5)', borderRadius: 30, padding: '0.2rem 0.85rem', whiteSpace: 'nowrap', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: ROSE }}>★ Most Chosen</div>}
+                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.2rem', color: GOLD, marginBottom: '0.5rem' }}>{tier.name}</div>
+                <div style={{ marginBottom: '1.2rem' }}>
+                  <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '2.4rem', color: CREAM }}>{tier.price}</span>
+                  <span style={{ fontSize: '0.78rem', color: 'rgba(240,232,216,0.5)', marginLeft: '0.4rem' }}>{tier.per}</span>
+                </div>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                  {tier.items.map((it, j) => (
+                    <li key={j} style={{ position: 'relative', paddingLeft: '1.3rem', fontSize: '0.86rem', color: 'rgba(240,232,216,0.78)', lineHeight: 1.6, marginBottom: '0.45rem' }}><span style={{ position: 'absolute', left: 0, color: ROSE }}>✦</span>{it}</li>
+                  ))}
+                </ul>
+                <Link href="/booking" style={{ display: 'block', marginTop: '1.6rem', textAlign: 'center', padding: '0.75rem', background: tier.featured ? `linear-gradient(135deg, ${GOLD}, #E4B85A)` : 'transparent', border: `1px solid ${tier.featured ? GOLD : ROSE}`, color: tier.featured ? '#000' : ROSE, borderRadius: 2, textDecoration: 'none', fontSize: '0.74rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase' }}>Join {tier.name.split('—')[1]} →</Link>
+              </div>
+            ))}
+          </div>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: '1.3rem', color: ROSE, textAlign: 'center', marginTop: '2.5rem', lineHeight: 1.5 }}>
+            For those who want to feel peaceful and perform at their highest level.
+          </p>
         </div>
       </section>
 
