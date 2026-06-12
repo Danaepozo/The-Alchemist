@@ -6,9 +6,10 @@ import Link from 'next/link'
 const NAV_LINKS: [string, string][] = [
   ['About', '/about'],
   ['Services', '/services'],
+  ['Events', '/retreats'],
   ['Team', '/team'],
-  ['Shop', '/shop'],
   ['Memberships', '/memberships'],
+  ['Shop', '/shop'],
 ]
 
 export function SiteNav() {
