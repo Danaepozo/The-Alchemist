@@ -51,8 +51,6 @@ const FAQS = [
 
 export default function Home() {
   const revealRefs = useRef<HTMLElement[]>([])
-  // Two hero options to choose from: 'vesica' (new) or 'original' (floating logo)
-  const [heroVariant, setHeroVariant] = useState<'vesica' | 'original'>('vesica')
   const [menuOpen, setMenuOpen] = useState(false)
   const [toast, setToast] = useState('')
 
@@ -61,11 +59,6 @@ export default function Home() {
     setToast(`${name} — checkout coming soon ✨`)
     setTimeout(() => setToast(''), 2600)
   }
-
-  useEffect(() => {
-    const param = new URLSearchParams(window.location.search).get('hero')
-    if (param === 'original' || param === 'vesica') setHeroVariant(param)
-  }, [])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -151,55 +144,13 @@ export default function Home() {
         padding: '120px 2rem 4rem', textAlign: 'center', position: 'relative',
         background: 'radial-gradient(ellipse at center top, rgba(201,150,60,0.08) 0%, transparent 60%)'
       }}>
-        {/* LIVE hero = 'vesica'. The 'original' (large floating logo) is kept as a
-            backup — still viewable at ?hero=original. To switch back, change the
-            useState default below to 'original'. */}
-        {heroVariant === 'original' ? (
-          /* OPTION A — Original: large floating logo */
-          <div className="animate-logo-float" style={{ display: 'inline-block', marginBottom: '2rem' }}>
-            <img src="/logo-alchemized.png" alt="Alchemized BioHealing Institute" style={{
-              width: 'clamp(280px, 58vw, 540px)', maxWidth: '86vw', height: 'auto', display: 'block',
-              filter: 'drop-shadow(0 0 38px rgba(201,150,60,0.40))'
-            }} />
-          </div>
-        ) : (
-          /* OPTION B — Vesica Piscis: small logo above, clean union of circles below */
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '2rem' }}>
-            <img src="/logo-alchemized.png" alt="Alchemized BioHealing Institute" className="animate-logo-float" style={{
-              width: 'clamp(140px, 22vw, 215px)', maxWidth: '60vw', height: 'auto', display: 'block', marginBottom: '1.5rem',
-              filter: 'drop-shadow(0 0 22px rgba(201,150,60,0.42))'
-            }} />
-            <div style={{ position: 'relative', width: 'clamp(300px, 60vw, 520px)', maxWidth: '92vw', aspectRatio: '400 / 320' }}>
-              <svg viewBox="0 0 400 320" fill="none" className="animate-vesica" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', overflow: 'visible' }}>
-                <defs>
-                  <radialGradient id="heroSage" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stopColor="#3DC898" stopOpacity="0.5" />
-                    <stop offset="55%" stopColor="#3DC898" stopOpacity="0.12" />
-                    <stop offset="100%" stopColor="#3DC898" stopOpacity="0" />
-                  </radialGradient>
-                  <radialGradient id="heroRose" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stopColor="#E06090" stopOpacity="0.5" />
-                    <stop offset="55%" stopColor="#E06090" stopOpacity="0.12" />
-                    <stop offset="100%" stopColor="#E06090" stopOpacity="0" />
-                  </radialGradient>
-                  <radialGradient id="heroGold" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stopColor="#FCEBC0" stopOpacity="0.95" />
-                    <stop offset="35%" stopColor="#E4B85A" stopOpacity="0.55" />
-                    <stop offset="70%" stopColor="#C9963C" stopOpacity="0.2" />
-                    <stop offset="100%" stopColor="#C9963C" stopOpacity="0" />
-                  </radialGradient>
-                  <clipPath id="heroLens"><circle cx="150" cy="160" r="120" /></clipPath>
-                </defs>
-                <circle cx="150" cy="160" r="135" fill="url(#heroSage)" />
-                <circle cx="250" cy="160" r="135" fill="url(#heroRose)" />
-                <circle cx="150" cy="160" r="120" stroke="#3DC898" strokeWidth="1" opacity="0.55" />
-                <circle cx="250" cy="160" r="120" stroke="#E06090" strokeWidth="1" opacity="0.55" />
-                <g clipPath="url(#heroLens)"><circle cx="250" cy="160" r="120" fill="url(#heroGold)" /></g>
-                <path d="M200 50 A120 120 0 0 1 200 270 A120 120 0 0 1 200 50 Z" stroke="#E4B85A" strokeWidth="1.4" fill="none" opacity="0.9" />
-              </svg>
-            </div>
-          </div>
-        )}
+        {/* Hero — large floating logo (Vesica circles removed per brand direction) */}
+        <div className="animate-logo-float" style={{ display: 'inline-block', marginBottom: '2.5rem' }}>
+          <img src="/logo-alchemized.png" alt="Alchemized BioHealing Institute" style={{
+            width: 'clamp(340px, 66vw, 660px)', maxWidth: '92vw', height: 'auto', display: 'block',
+            filter: 'drop-shadow(0 0 44px rgba(201,150,60,0.42))'
+          }} />
+        </div>
         <div style={{
           fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(1.6rem, 4.5vw, 3rem)', fontWeight: 300,
           letterSpacing: '0.06em', lineHeight: 1.2, marginBottom: '1.25rem',
@@ -309,12 +260,12 @@ export default function Home() {
                 '✦ Nursing Degree + BS Health Services Admin',
                 '✦ Certified: Neuroscience & Chakra Cleansing',
                 '✦ Herbalist & Natural Medicine Practitioner',
-                '✦ Medicina Ancestral: Guatemala · México · Colombia',
-                '✦ Especialista en pacientes con miedo a las agujas 💉',
+                '✦ Ancestral Medicine: Guatemala · Mexico · Colombia',
+                '✦ Specialist for clients afraid of needles 💉',
               ].map((item, i) => <li key={i}>{item}</li>)}
             </ul>
             <blockquote style={{ marginTop: '2rem', padding: '1.2rem', borderLeft: '2px solid #E06090', background: 'rgba(224,96,144,0.05)', fontFamily: 'Cormorant Garamond, serif', fontSize: '1rem', fontStyle: 'italic', color: 'rgba(240,232,216,0.9)', lineHeight: 1.7 }}>
-              &ldquo;Conocida por hacer que hasta los pacientes más nerviosos terminen riéndose durante el IV.&rdquo; ✨
+              &ldquo;Known for making even the most nervous clients end up laughing during their IV.&rdquo; ✨
             </blockquote>
             <Link href="/about/bella" style={{ display: 'inline-block', marginTop: '1.5rem', color: '#E06090', textDecoration: 'none', fontSize: '0.8rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Read Bella&rsquo;s full story →</Link>
           </div>
@@ -540,37 +491,34 @@ export default function Home() {
       {/* BIO-AGE CALCULATOR — medical hook */}
       <section ref={addReveal as any} className="section-reveal" style={{ padding: '6rem 2rem', textAlign: 'center', background: 'radial-gradient(ellipse at center, rgba(61,200,152,0.08) 0%, transparent 65%)', borderTop: '1px solid rgba(61,200,152,0.12)', borderBottom: '1px solid rgba(61,200,152,0.12)' }}>
         <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>🧬</div>
-        <div style={{ fontSize: '0.75rem', letterSpacing: '0.3em', color: '#3DC898', textTransform: 'uppercase', marginBottom: '1rem' }}>Gratis · Respaldado por la ciencia</div>
-        <h2 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(2rem, 5.5vw, 3.4rem)', fontWeight: 300, marginBottom: '1rem' }}>¿Cuál es tu edad biológica real?</h2>
+        <div style={{ fontSize: '0.75rem', letterSpacing: '0.3em', color: '#3DC898', textTransform: 'uppercase', marginBottom: '1rem' }}>Free · Backed by science</div>
+        <h2 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(2rem, 5.5vw, 3.4rem)', fontWeight: 300, marginBottom: '1rem' }}>What is your real biological age?</h2>
         <p style={{ fontSize: '1.08rem', color: 'rgba(240,232,216,0.7)', maxWidth: 600, margin: '0 auto 2.2rem', lineHeight: 1.8 }}>
-          Tu cuerpo tiene dos edades: la del calendario y la real. Descúbrela en 2 minutos con una evaluación de longevidad basada en marcadores validados, bajo el lente clínico del Dr. Michael J. Meighen, MD — y recibe tu reporte personalizado.
+          Your body has two ages: the one on the calendar and the real one. Discover it in 2 minutes with a longevity assessment based on validated markers, through the clinical lens of Dr. Michael J. Meighen, MD — and receive your personalized report.
         </p>
         <Link href="/bio-age" style={{ background: 'linear-gradient(135deg, #3DC898, #C9963C)', color: '#06201a', padding: '1.1rem 2.8rem', borderRadius: '2px', textDecoration: 'none', fontSize: '0.85rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', display: 'inline-block' }}>
-          Calcular mi edad biológica →
+          Calculate my biological age →
         </Link>
       </section>
 
       {/* DISCSEEL — regenerative spine procedure (bilingual EN/ES) */}
       <section ref={addReveal as any} className="section-reveal" style={{ padding: '5rem 2rem', maxWidth: '1000px', margin: '0 auto' }}>
         <div style={{ background: 'linear-gradient(160deg, rgba(61,200,152,0.08), rgba(13,13,13,0.6))', border: '1px solid rgba(61,200,152,0.28)', borderRadius: '8px', padding: '2.6rem 2.2rem' }}>
-          <div style={{ fontSize: '0.72rem', letterSpacing: '0.26em', textTransform: 'uppercase', color: '#3DC898', marginBottom: '0.9rem' }}>Regenerative Spine Care · Cuidado regenerativo de columna</div>
+          <div style={{ fontSize: '0.72rem', letterSpacing: '0.26em', textTransform: 'uppercase', color: '#3DC898', marginBottom: '0.9rem' }}>Regenerative Spine Care</div>
           <h2 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 'clamp(1.8rem, 4.5vw, 2.8rem)', fontWeight: 300, lineHeight: 1.15, marginBottom: '0.4rem' }}>
             DiscSeel® — A Non-Surgical Alternative for Chronic Back &amp; Neck Pain
           </h2>
           <p style={{ fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic', fontSize: '1.2rem', color: '#E4B85A', marginBottom: '1.6rem' }}>
-            Alternativa NO quirúrgica para el dolor crónico de espalda y cuello
+            A regenerative alternative to back surgery
           </p>
-          <p style={{ fontSize: '0.98rem', color: 'rgba(240,232,216,0.82)', lineHeight: 1.8, marginBottom: '1rem' }}>
-            <strong style={{ color: '#3DC898' }}>EN ·</strong> For chronic back and neck pain caused by damaged or torn spinal discs, the DiscSeel® Procedure uses <strong style={{ color: '#F0E8D8' }}>Fibrin</strong> — a natural biologic sealant — to seal the tears and stimulate the disc&rsquo;s own healing. No surgery, no fusion: a single image-guided injection. Dr. Meighen is one of only <strong style={{ color: '#F0E8D8' }}>~30 DiscSeel®-trained providers in the world.</strong>
-          </p>
-          <p style={{ fontSize: '0.98rem', color: 'rgba(240,232,216,0.7)', lineHeight: 1.8, marginBottom: '1.8rem' }}>
-            <strong style={{ color: '#3DC898' }}>ES ·</strong> Para el dolor crónico de espalda y cuello por discos dañados o con desgarros, el procedimiento DiscSeel® usa <strong style={{ color: '#F0E8D8' }}>Fibrina</strong> —un sellador biológico natural— para sellar los desgarros y estimular la reparación del propio disco. Sin cirugía, sin fusión: una sola inyección guiada por imagen. El Dr. Meighen es uno de los <strong style={{ color: '#F0E8D8' }}>~30 proveedores entrenados en DiscSeel® del mundo.</strong>
+          <p style={{ fontSize: '0.98rem', color: 'rgba(240,232,216,0.82)', lineHeight: 1.8, marginBottom: '1.8rem' }}>
+            For chronic back and neck pain caused by damaged or torn spinal discs, the DiscSeel® Procedure uses <strong style={{ color: '#F0E8D8' }}>Fibrin</strong> — a natural biologic sealant — to seal the tears and stimulate the disc&rsquo;s own healing. No surgery, no fusion: a single image-guided injection. Dr. Meighen is one of only <strong style={{ color: '#F0E8D8' }}>~30 DiscSeel®-trained providers in the world.</strong>
           </p>
           <Link href="/booking" style={{ background: 'linear-gradient(135deg, #3DC898, #C9963C)', color: '#06201a', padding: '1rem 2.4rem', borderRadius: '2px', textDecoration: 'none', fontSize: '0.82rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', display: 'inline-block' }}>
-            Ask about DiscSeel® · Pregunta por DiscSeel® →
+            Ask about DiscSeel® →
           </Link>
           <p style={{ fontSize: '0.72rem', color: 'rgba(240,232,216,0.4)', marginTop: '1.4rem', lineHeight: 1.6 }}>
-            Each case is individually evaluated by Dr. Meighen. · Cada caso lo evalúa el Dr. Meighen de forma individual.
+            Each case is individually evaluated by Dr. Meighen.
           </p>
         </div>
       </section>
