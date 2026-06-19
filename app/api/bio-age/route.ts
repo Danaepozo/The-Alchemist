@@ -81,7 +81,7 @@ Sigue EXACTAMENTE las reglas del DOCTOR BRIEFING. Responde en ${isSpanish ? 'esp
           if (email) {
             try {
               await resend.emails.send({
-                from: 'Alchemized Longevity <onboarding@resend.dev>', to: email,
+                from: 'Alchemized Longevity <hola@alchemizedbiohealing.com>', to: email,
                 subject: isSpanish ? `🧬 Tu Edad Biológica: ${bioAge} años — Alchemized` : `🧬 Your Biological Age: ${bioAge} — Alchemized`,
                 html: `<div style="background:#000;color:#F0E8D8;font-family:Georgia,serif;max-width:620px;margin:0 auto;padding:2.2rem 2rem;">
                   <div style="text-align:center;margin-bottom:1.6rem;padding-bottom:1.2rem;border-bottom:1px solid rgba(61,200,152,0.25);">
@@ -102,7 +102,7 @@ Sigue EXACTAMENTE las reglas del DOCTOR BRIEFING. Responde en ${isSpanish ? 'esp
           if (STORE_MEDICAL && doctorTo) {
             try {
               await resend.emails.send({
-                from: 'Alchemized Longevity <onboarding@resend.dev>', to: doctorTo,
+                from: 'Alchemized Longevity <hola@alchemizedbiohealing.com>', to: doctorTo,
                 subject: `🧬 Nuevo perfil pre-cita — ${name || 'sin nombre'}`,
                 html: `<div style="font-family:Georgia,serif;max-width:560px;margin:0 auto;color:#1a1a1a;">
                   <h2 style="color:#3DC898;margin:0 0 .5rem;">Nuevo perfil de longevidad</h2>

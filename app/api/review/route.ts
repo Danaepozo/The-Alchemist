@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
   try {
     const resend = new Resend(process.env.RESEND_API_KEY)
     await resend.emails.send({
-      from: 'Alchemized BioHealing <onboarding@resend.dev>',
+      from: 'Alchemized BioHealing <hola@alchemizedbiohealing.com>',
       to: email,
       subject: isEs ? `✨ ${first ? first + ', g' : 'G'}racias por tu visita — ¿nos dejas una reseña?` : `✨ ${first ? first + ', t' : 'T'}hank you for visiting — would you leave us a review?`,
       html: `<div style="background:#000;color:#F0E8D8;font-family:Georgia,serif;max-width:600px;margin:0 auto;padding:2.4rem 2rem;text-align:center;">

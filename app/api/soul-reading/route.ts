@@ -175,7 +175,7 @@ Write entirely in English. Length: deep, not long. Every paragraph must earn its
                 .replace(/\*\*(.*?)\*\*/g, '<strong style="color:#C9963C;">$1</strong>')
 
               await resend.emails.send({
-                from: 'The Alchemist <onboarding@resend.dev>',
+                from: 'The Alchemist <hola@alchemizedbiohealing.com>',
                 to: email,
                 subject: isSpanish ? '✨ Tu Lectura del Alma — Alchemized BioHealing Institute' : '✨ Your Soul Reading — Alchemized BioHealing Institute',
                 html: `<div style="background:#000;color:#F0E8D8;font-family:Georgia,serif;max-width:620px;margin:0 auto;padding:2.5rem 2rem;">
@@ -186,11 +186,11 @@ Write entirely in English. Length: deep, not long. Every paragraph must earn its
             </div>
             <div style="background:rgba(201,150,60,0.04);border:1px solid rgba(201,150,60,0.18);padding:2rem;border-radius:4px;line-height:2;font-size:0.9rem;">${formatted}</div>
             <div style="text-align:center;margin-top:2.5rem;">
-              <a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://thealchemist.miami'}/booking" style="background:linear-gradient(135deg,#C9963C,#E4B85A);color:#000;padding:0.9rem 2rem;text-decoration:none;border-radius:2px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;font-size:0.78rem;display:inline-block;">
+              <a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://alchemizedbiohealing.com'}/booking" style="background:linear-gradient(135deg,#C9963C,#E4B85A);color:#000;padding:0.9rem 2rem;text-decoration:none;border-radius:2px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;font-size:0.78rem;display:inline-block;">
                 ${isSpanish ? 'Comienza Tu Viaje' : 'Begin Your Journey'}
               </a>
             </div>
-            <p style="text-align:center;margin-top:2rem;color:rgba(240,232,216,0.2);font-size:0.72rem;letter-spacing:0.08em;">Alchemized BioHealing Institute · thealchemist.miami</p>
+            <p style="text-align:center;margin-top:2rem;color:rgba(240,232,216,0.2);font-size:0.72rem;letter-spacing:0.08em;">Alchemized BioHealing Institute · alchemizedbiohealing.com</p>
           </div>`,
               })
             } catch (e) { console.error('Email error (non-fatal):', e) }

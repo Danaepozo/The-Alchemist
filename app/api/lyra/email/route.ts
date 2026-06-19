@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
           .replace(/\n/g, '<br>')
           .replace(/\*\*(.*?)\*\*/g, '<strong style="color:#C9963C;">$1</strong>')
         await resend.emails.send({
-          from: 'Lyra · Alchemized <onboarding@resend.dev>',
+          from: 'Lyra · Alchemized <hola@alchemizedbiohealing.com>',
           to: email,
           subject: isSpanish ? '🌙 Tu Perfil Profundo del Alma — Lyra' : '🌙 Your Deep Soul Profile — Lyra',
           html: `<div style="background:#000;color:#F0E8D8;font-family:Georgia,serif;max-width:620px;margin:0 auto;padding:2.5rem 2rem;">
@@ -91,7 +91,7 @@ export async function POST(req: NextRequest) {
       try {
         const resend = new Resend(process.env.RESEND_API_KEY)
         await resend.emails.send({
-          from: 'Lyra · Alchemized <onboarding@resend.dev>',
+          from: 'Lyra · Alchemized <hola@alchemizedbiohealing.com>',
           to: process.env.BELLA_NOTIFY_EMAIL,
           subject: `💛 ${name || 'Una persona'} quiere una cita contigo`,
           html: `<div style="font-family:Georgia,serif;max-width:560px;margin:0 auto;color:#1a1a1a;">

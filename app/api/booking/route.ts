@@ -41,11 +41,11 @@ export async function POST(req: NextRequest) {
     // Send confirmation emails
     if (process.env.RESEND_API_KEY) {
       const resend = new Resend(process.env.RESEND_API_KEY)
-      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://thealchemist.miami'
+      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://alchemizedbiohealing.com'
 
       // Client confirmation
       await resend.emails.send({
-        from: 'Alchemized BioHealing Institute <onboarding@resend.dev>',
+        from: 'Alchemized BioHealing Institute <hola@alchemizedbiohealing.com>',
         to: email,
         subject: '✨ Your session is confirmed — Alchemized BioHealing Institute',
         html: `
@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
 
       if (practitionerEmail) {
         await resend.emails.send({
-          from: 'Alchemized BioHealing Bookings <onboarding@resend.dev>',
+          from: 'Alchemized BioHealing Bookings <hola@alchemizedbiohealing.com>',
           to: practitionerEmail,
           subject: `New booking: ${service} — ${name}`,
           html: `
