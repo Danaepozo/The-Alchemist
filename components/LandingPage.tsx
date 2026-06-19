@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { SiteNav, SiteFooter } from '@/components/SiteChrome'
 import LuminaChat from '@/components/LuminaChat'
 
-const SITE_URL = 'https://the-alchemist-danae.netlify.app'
+const SITE_URL = 'https://alchemizedbiohealing.com'
 
 export interface LandingData {
   path: string

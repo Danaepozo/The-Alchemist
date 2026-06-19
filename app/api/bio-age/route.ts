@@ -90,7 +90,7 @@ Sigue EXACTAMENTE las reglas del DOCTOR BRIEFING. Responde en ${isSpanish ? 'esp
                     <p style="color:rgba(240,232,216,0.4);font-size:0.75rem;margin:0.2rem 0 0;">${isSpanish ? 'cronológica' : 'chronological'}: ${chronoAge}${name ? ' · ' + name : ''}</p>
                   </div>
                   <div style="background:rgba(61,200,152,0.05);border:1px solid rgba(201,150,60,0.18);padding:1.8rem;border-radius:4px;line-height:1.9;font-size:0.9rem;">${fmt(clientReport)}</div>
-                  <div style="text-align:center;margin-top:2rem;"><a href="https://the-alchemist-danae.netlify.app/booking" style="background:linear-gradient(135deg,#3DC898,#C9963C);color:#06201a;padding:0.9rem 2rem;text-decoration:none;border-radius:2px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;font-size:0.78rem;">${isSpanish ? 'Agenda con el Dr. Meighen' : 'Book with Dr. Meighen'}</a></div>
+                  <div style="text-align:center;margin-top:2rem;"><a href="https://alchemizedbiohealing.com/booking" style="background:linear-gradient(135deg,#3DC898,#C9963C);color:#06201a;padding:0.9rem 2rem;text-decoration:none;border-radius:2px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;font-size:0.78rem;">${isSpanish ? 'Agenda con el Dr. Meighen' : 'Book with Dr. Meighen'}</a></div>
                   <p style="text-align:center;margin-top:1.6rem;color:rgba(240,232,216,0.3);font-size:0.68rem;line-height:1.6;">${isSpanish ? 'Este reporte es solo tuyo y es una estimación educativa, no un diagnóstico. No guardamos tus respuestas.' : 'This report is yours alone and is an educational estimate, not a diagnosis. We do not store your answers.'}</p>
                 </div>`,
               })
@@ -109,7 +109,7 @@ Sigue EXACTAMENTE las reglas del DOCTOR BRIEFING. Responde en ${isSpanish ? 'esp
                   <p><strong>${name || 'Una persona'}</strong> completó la evaluación de edad biológica${email ? ` (${email})` : ''}.</p>
                   <p style="color:#555;">El perfil completo y el briefing clínico te esperan en tu <strong>espacio privado</strong> (no se envían por correo, por confidencialidad médica).</p>
                   <div style="text-align:center;margin:1.6rem 0;">
-                    <a href="https://the-alchemist-danae.netlify.app/studio" style="background:linear-gradient(135deg,#3DC898,#C9963C);color:#06201a;padding:0.8rem 1.8rem;text-decoration:none;border-radius:3px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;font-size:0.76rem;">Abrir en Studio</a>
+                    <a href="https://alchemizedbiohealing.com/studio" style="background:linear-gradient(135deg,#3DC898,#C9963C);color:#06201a;padding:0.8rem 1.8rem;text-decoration:none;border-radius:3px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;font-size:0.76rem;">Abrir en Studio</a>
                   </div>
                   <p style="color:#999;font-size:11px;">Aviso confidencial · sin datos clínicos · Alchemized BioHealing Institute</p>
                 </div>`,

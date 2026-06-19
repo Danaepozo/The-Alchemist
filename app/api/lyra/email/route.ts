@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
             </div>
             <div style="background:rgba(224,96,144,0.05);border:1px solid rgba(201,150,60,0.18);padding:2rem;border-radius:4px;line-height:2;font-size:0.92rem;">${formatted}</div>
             <div style="text-align:center;margin-top:2.5rem;">
-              <a href="https://the-alchemist-danae.netlify.app/booking" style="background:linear-gradient(135deg,#C9963C,#E4B85A);color:#000;padding:0.9rem 2rem;text-decoration:none;border-radius:2px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;font-size:0.78rem;display:inline-block;">
+              <a href="https://alchemizedbiohealing.com/booking" style="background:linear-gradient(135deg,#C9963C,#E4B85A);color:#000;padding:0.9rem 2rem;text-decoration:none;border-radius:2px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;font-size:0.78rem;display:inline-block;">
                 ${isSpanish ? 'Continúa con Bella' : 'Continue with Bella'}
               </a>
             </div>
@@ -99,7 +99,7 @@ export async function POST(req: NextRequest) {
             <p><strong>${name || 'Una persona'}</strong> completó su Perfil del Alma y <strong>autorizó compartir contigo</strong> para trabajarlo juntas${email ? ` (${email})` : ''}.</p>
             <p style="color:#555;">Tu briefing estratégico y el perfil completo te esperan en tu <strong>espacio privado</strong> (no se envían por correo, por confidencialidad).</p>
             <div style="text-align:center;margin:1.6rem 0;">
-              <a href="https://the-alchemist-danae.netlify.app/studio" style="background:linear-gradient(135deg,#C9963C,#E4B85A);color:#000;padding:0.8rem 1.8rem;text-decoration:none;border-radius:3px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;font-size:0.76rem;">Abrir en Studio</a>
+              <a href="https://alchemizedbiohealing.com/studio" style="background:linear-gradient(135deg,#C9963C,#E4B85A);color:#000;padding:0.8rem 1.8rem;text-decoration:none;border-radius:3px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;font-size:0.76rem;">Abrir en Studio</a>
             </div>
             <p style="color:#999;font-size:11px;">Compartido con el consentimiento de la persona · Alchemized BioHealing Institute</p>
           </div>`,

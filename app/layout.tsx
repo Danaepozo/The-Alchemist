@@ -3,7 +3,7 @@ import './globals.css'
 import { LanguageProvider } from '@/components/LanguageProvider'
 import TranslateWidget from '@/components/TranslateWidget'
 
-const SITE_URL = 'https://the-alchemist-danae.netlify.app'
+const SITE_URL = 'https://alchemizedbiohealing.com'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

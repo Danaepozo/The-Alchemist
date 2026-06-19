@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
-const SITE_URL = 'https://the-alchemist-danae.netlify.app'
+const SITE_URL = 'https://alchemizedbiohealing.com'
 const PATH = '/nad-iv-therapy-miami'
 
 export const metadata: Metadata = {
