@@ -83,6 +83,23 @@ export function SiteFooter() {
             <a href="tel:+13053053820" style={{ display: 'block', fontSize: '0.85rem', color: 'rgba(240,232,216,0.5)', textDecoration: 'none' }}>305-305-3820</a>
           </div>
         </div>
+        <div style={{ borderTop: '1px solid rgba(201,150,60,0.1)', paddingTop: '1.6rem', marginBottom: '1.5rem' }}>
+          <div style={{ fontSize: '0.72rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C9963C', marginBottom: '0.9rem' }}>Popular in Miami</div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+            {([
+              ['Biohacking Miami', '/biohacking-miami'],
+              ['Regenerative Medicine', '/regenerative-medicine-miami'],
+              ['Functional Medicine', '/functional-medicine-miami'],
+              ['Peptide Therapy', '/peptide-therapy-miami'],
+              ['Hormone Optimization', '/hormone-optimization-miami'],
+              ['Mindfulness & Nervous System', '/mindfulness-nervous-system-miami'],
+              ['NAD+ IV Therapy', '/nad-iv-therapy-miami'],
+              ['Longevity Clinic Coral Gables', '/longevity-clinic-coral-gables'],
+            ] as [string, string][]).map(([label, href]) => (
+              <Link key={href} href={href} style={{ fontSize: '0.78rem', color: 'rgba(240,232,216,0.55)', textDecoration: 'none', border: '1px solid rgba(201,150,60,0.2)', borderRadius: 999, padding: '0.35rem 0.85rem' }}>{label}</Link>
+            ))}
+          </div>
+        </div>
         <div style={{ borderTop: '1px solid rgba(201,150,60,0.1)', paddingTop: '2rem', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
           <div style={{ fontSize: '0.75rem', color: 'rgba(240,232,216,0.3)' }}>© 2026 Alchemized BioHealing Institute. All rights reserved.</div>
           <div style={{ fontSize: '0.75rem', color: '#C9963C', opacity: 0.8 }}>Hablamos español · We welcome you in English &amp; Spanish</div>

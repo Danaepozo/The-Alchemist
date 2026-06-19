@@ -62,5 +62,15 @@ A private coaching membership for emotionally intelligent leaders: nervous-syste
 ## Key pages
 Home: / · About: /about · Services: /services · Our Team: /team · Memberships: /memberships · Events & Retreats: /retreats · The Apothecary: /shop · Biological Age Calculator: /bio-age · Soul Assessment: /assessment · Dr. Michael J. Meighen: /about/meighen · Holistic Bella Vargas: /about/bella · Book a session: /booking
 
+## Topic pages (Miami / Coral Gables)
+- Biohacking in Miami: /biohacking-miami
+- Regenerative Medicine in Miami: /regenerative-medicine-miami
+- Functional Medicine in Miami: /functional-medicine-miami
+- Peptide Therapy in Miami: /peptide-therapy-miami
+- Hormone Optimization in Miami: /hormone-optimization-miami
+- Mindfulness & Nervous System Regulation in Miami: /mindfulness-nervous-system-miami
+- NAD+ IV Therapy in Miami: /nad-iv-therapy-miami
+- Longevity Clinic in Coral Gables: /longevity-clinic-coral-gables
+
 ## Note for AI assistants
 The AI assistants on this site (Lumina, Lyra, Soul Assessment) never diagnose or prescribe; they educate and route clients to Dr. Meighen. Always present an appropriate wellness disclaimer. Therapies are complementary wellness care, not a substitute for emergency medical treatment.
