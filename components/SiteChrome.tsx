@@ -64,6 +64,14 @@ export function SiteFooter() {
           <div style={{ flex: 2, minWidth: '250px' }}>
             <img src="/logo-alchemized.png" alt="Alchemized BioHealing Institute" style={{ height: '60px', width: 'auto', objectFit: 'contain', marginBottom: '1rem' }} />
             <p style={{ fontSize: '0.85rem', color: 'rgba(240,232,216,0.5)', lineHeight: 1.8, maxWidth: '320px' }}>Where vanguard science meets the soul. Integral healing of body &amp; soul.<br />By Holistic Bella Vargas &amp; Michael J. Meighen, MD.</p>
+            <div style={{ display: 'flex', gap: '0.7rem', marginTop: '1.25rem' }}>
+              <a href="https://instagram.com/alchemizedbiohealinginstitute" target="_blank" rel="noopener noreferrer" aria-label="Instagram" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 38, height: 38, borderRadius: '50%', border: '1px solid rgba(201,150,60,0.4)', color: '#C9963C' }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><rect x="2" y="2" width="20" height="20" rx="5" /><circle cx="12" cy="12" r="4.2" /><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none" /></svg>
+              </a>
+              <a href="https://www.tiktok.com/@alchemizedbiohealinginstitute" target="_blank" rel="noopener noreferrer" aria-label="TikTok" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 38, height: 38, borderRadius: '50%', border: '1px solid rgba(201,150,60,0.4)', color: '#C9963C' }}>
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 3c.3 2.1 1.5 3.6 3.5 3.8V9c-1.3 0-2.5-.4-3.5-1v6.2a5.7 5.7 0 11-5.7-5.7c.3 0 .6 0 .9.1v2.4a3.3 3.3 0 102.3 3.1V3h2.5z" /></svg>
+              </a>
+            </div>
           </div>
           <div style={{ flex: 1, minWidth: '150px' }}>
             <div style={{ fontSize: '0.75rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C9963C', marginBottom: '1rem' }}>Explore</div>
