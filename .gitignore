@@ -8,3 +8,7 @@ node_modules/
 
 # Local Netlify folder
 .netlify
+
+# local brand fonts (not needed in repo)
+.brandfonts/
+_*_gen.py
