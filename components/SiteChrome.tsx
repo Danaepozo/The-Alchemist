@@ -109,7 +109,11 @@ export function SiteFooter() {
           </div>
         </div>
         <div style={{ borderTop: '1px solid rgba(201,150,60,0.1)', paddingTop: '2rem', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
-          <div style={{ fontSize: '0.75rem', color: 'rgba(240,232,216,0.3)' }}>© 2026 Alchemized BioHealing Institute. All rights reserved.</div>
+          <div style={{ fontSize: '0.75rem', color: 'rgba(240,232,216,0.3)', display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
+            <span>© 2026 Alchemized BioHealing Institute.</span>
+            <Link href="/privacy" style={{ color: 'rgba(240,232,216,0.5)', textDecoration: 'none' }}>Privacy</Link>
+            <Link href="/terms" style={{ color: 'rgba(240,232,216,0.5)', textDecoration: 'none' }}>Terms</Link>
+          </div>
           <div style={{ fontSize: '0.75rem', color: '#C9963C', opacity: 0.8 }}>Hablamos español · We welcome you in English &amp; Spanish</div>
           <div style={{ fontSize: '0.75rem', color: 'rgba(240,232,216,0.3)' }}>Built by <span style={{ color: '#C9963C' }}>Danae Pozo</span> · Blue Ocean AI Systems · Miami</div>
         </div>

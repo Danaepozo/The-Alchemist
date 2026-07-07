@@ -24,6 +24,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/about/meighen', priority: 0.8, freq: 'monthly' as const },
     { path: '/assessment', priority: 0.7, freq: 'monthly' as const },
     { path: '/booking', priority: 0.7, freq: 'monthly' as const },
+    { path: '/privacy', priority: 0.3, freq: 'yearly' as const },
+    { path: '/terms', priority: 0.3, freq: 'yearly' as const },
   ]
   return routes.map(r => ({
     url: `${SITE_URL}${r.path}`,
